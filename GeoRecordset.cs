@@ -69,24 +69,40 @@ namespace ClassLibraryIofly
         /// <returns></returns>
         public GeoRecordset SelectByBox(RectangleD box)
         {
-            for (int i = 0; i < fields.Count(); i++)
+            Records newRecords = new Records();
+            Fields newFeilds = fields;
+            for (int i = 0; i < records.Count(); i++)
             {
-                if(fields.Item(i).valueType==typeof(PointD))
+                for(int j=0; j<fields.Count(); j++)
                 {
-                    ;
-                }
-                else if (fields.Item(i).valueType == typeof(Polygon) 
-                    || fields.Item(i).valueType == typeof(MultiPolygon)
-                    || fields.Item(i).valueType == typeof(Polyline)
-                    || fields.Item(i).valueType == typeof(MultiPolyline))
-                {
-                    ;
+                    if (fields.Item(j).valueType == typeof(PointD))
+                    {
+                        PointD tempPt = (PointD)records.Item(i).Value(j);
+
+                        if (tempPt.isInBox(box))
+                        {
+                            newRecords.Append(records.Item(i));
+                        }
+                    }
+                    else if (fields.Item(j).valueType == typeof(Polygon)
+                        || fields.Item(j).valueType == typeof(MultiPolygon)
+                        || fields.Item(j).valueType == typeof(Polyline)
+                        || fields.Item(j).valueType == typeof(MultiPolyline))
+                    {
+                        object temp = records.Item(i).Value(j);
+                        object[] para = new object[1];
+                        para[0] = box;
+                        object tempIsIn = temp.GetType().GetMethod("isInBox").Invoke(temp, para);
+                        bool isIn = Convert.ToBoolean(tempIsIn);
+                        if (isIn)
+                        {
+                            newRecords.Append(records.Item(i));
+                        }
+                    }
                 }
             }
 
-
-
-            return new GeoRecordset();
+            return new GeoRecordset(newFeilds, newRecords);
         }
 
 
@@ -134,6 +150,11 @@ namespace ClassLibraryIofly
     {
         public Field[] fields;
         private List<Field> _fields = new List<Field>();
+
+        public Fields()
+        {
+
+        }
 
         public Fields(Field[] fds)
         {

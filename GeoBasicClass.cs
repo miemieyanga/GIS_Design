@@ -10,13 +10,21 @@ namespace ClassLibraryIofly
     /// </summary>
     public class PointD
     {
-        public double X;
-        public double Y;
+        public double X { get; set; }
+        public double Y { get; set; }
 
         public PointD(double x, double y)
         {
             X = x;
             Y = y;
+        }
+        
+        public bool isInBox(RectangleD rec)
+        {
+            if (X >= rec.MinX & X <= rec.MaxX & Y >= rec.MinY & Y <= rec.MaxY)
+                return true;
+            else
+                return false;
         }
     }
 
@@ -25,8 +33,8 @@ namespace ClassLibraryIofly
     /// </summary>
     public class Circle
     {
-        public PointD center;
-        public double R;
+        public PointD center { get; set; }
+        public double R { get; set; }
 
         public Circle(PointD ct, double r)
         {
@@ -40,7 +48,10 @@ namespace ClassLibraryIofly
     /// </summary>
     public class RectangleD
     {
-        public double MinX, MinY, MaxX, MaxY;
+        public double MinX { get; set; }
+        public double MinY { get; set; }
+        public double MaxX{ get; set; }
+        public double MaxY{ get; set; }
 
 
         public RectangleD(double minX, double minY, double maxX, double maxY)
@@ -74,7 +85,7 @@ namespace ClassLibraryIofly
     /// </summary>
     public class Polygon
     {
-        public PointD[] points;
+        public PointD[] points { get; set; }
         private List<PointD> _points = new List<PointD>(); //顶点集合
         public double MinX, MinY, MaxX, MaxY;
 
@@ -195,6 +206,18 @@ namespace ClassLibraryIofly
             return sPolygon;
         }
 
+        /// <summary>
+        /// 判断是否在指定矩形内
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public bool isInBox(RectangleD rec)
+        {
+            RectangleD envelope = GetEnvelope();
+            if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
+                return true;
+            else return false;
+        }
 
     }
 
@@ -204,7 +227,7 @@ namespace ClassLibraryIofly
     /// </summary>
     public class MultiPolygon
     {
-        public Polygon[] polygons;
+        public Polygon[] polygons { get; set; }
         private List<Polygon> _polygons = new List<Polygon>(); //多边形集合
         public double MinX, MinY, MaxX, MaxY;
 
@@ -292,6 +315,21 @@ namespace ClassLibraryIofly
             }
             return multiPolygon;
         }
+
+
+        /// <summary>
+        /// 判断是否在指定矩形内
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public bool isInBox(RectangleD rec)
+        {
+            RectangleD envelope = GetEnvelope();
+            if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
+                return true;
+            else return false;
+        }
+
     }
 
 
@@ -300,7 +338,7 @@ namespace ClassLibraryIofly
     /// </summary>
     public class Polyline
     {
-        public PointD[] points;
+        public PointD[] points { get; set; }
         private List<PointD> _points = new List<PointD>(); //顶点集合
         public double MinX, MinY, MaxX, MaxY;
 
@@ -413,6 +451,21 @@ namespace ClassLibraryIofly
 
             return sPolyline;
         }
+
+
+        /// <summary>
+        /// 判断是否在指定矩形内
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public bool isInBox(RectangleD rec)
+        {
+            RectangleD envelope = GetEnvelope();
+            if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
+                return true;
+            else return false;
+        }
+
     }
 
 
@@ -421,7 +474,7 @@ namespace ClassLibraryIofly
     /// </summary>
     public class MultiPolyline
     {
-        public Polyline[] polylines;
+        public Polyline[] polylines { get; set; }
         private List<Polyline> _polylines = new List<Polyline>(); //多边形集合
         public double MinX, MinY, MaxX, MaxY;
 
@@ -509,5 +562,21 @@ namespace ClassLibraryIofly
             }
             return multiPolyline;
         }
+
+
+        /// <summary>
+        /// 判断是否在指定矩形内
+        /// </summary>
+        /// <param name="rec"></param>
+        /// <returns></returns>
+        public bool isInBox(RectangleD rec)
+        {
+            RectangleD envelope = GetEnvelope();
+            if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
+                return true;
+            else return false;
+        }
+
     }
+
 }
