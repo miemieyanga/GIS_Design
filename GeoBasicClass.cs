@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace ClassLibraryTy
+namespace ClassLibraryIofly
 {
     /// <summary>
     /// 点
     /// </summary>
     public class PointD
     {
-        public double X, Y;
+        public double X;
+        public double Y;
 
         public PointD(double x, double y)
         {
@@ -121,19 +124,19 @@ namespace ClassLibraryTy
             double tempMaxy = _points[0].Y, tempMiny = _points[0].Y;
             for (int i = 0; i < _points.Count; i++)
             {
-                if (_points[i].X>=tempMaxx)
+                if (_points[i].X >= tempMaxx)
                 {
                     tempMaxx = _points[i].X;
                 }
-                if(_points[i].X<=tempMinx)
+                if (_points[i].X <= tempMinx)
                 {
                     tempMinx = _points[i].X;
                 }
-                if (_points[i].Y>= tempMaxy)
+                if (_points[i].Y >= tempMaxy)
                 {
                     tempMaxy = _points[i].Y;
                 }
-                if(_points[i].Y<=tempMiny)
+                if (_points[i].Y <= tempMiny)
                 {
                     tempMiny = _points[i].Y;
                 }
@@ -157,7 +160,7 @@ namespace ClassLibraryTy
                 PointD tempPt = new PointD(_points[i].X - _points[0].X, _points[i].Y - _points[0].Y);
                 tempPts.Add(tempPt);
             }
-            for (int i = 1; i < sPointCount-1; i++) //向量叉乘算面积
+            for (int i = 1; i < sPointCount - 1; i++) //向量叉乘算面积
             {
                 tempArea = 0.5 * (tempPts[i].X * tempPts[i + 1].Y - tempPts[i + 1].X * tempPts[i].Y);
                 allArea += tempArea;
@@ -259,7 +262,7 @@ namespace ClassLibraryTy
                 if (tempRec.MinX <= envelope.MinX)
                     envelope.MinX = tempRec.MinX;
                 if (tempRec.MaxY >= envelope.MaxY)
-                    envelope.MaxY= tempRec.MaxY;
+                    envelope.MaxY = tempRec.MaxY;
                 if (tempRec.MinY <= envelope.MinY)
                     envelope.MinY = tempRec.MinY;
             }
@@ -376,7 +379,7 @@ namespace ClassLibraryTy
             int sPointCount = _points.Count;
             double tempLen = 0;
             double allLen = 0;
-            for (int i = 0; i < sPointCount-1; i++)
+            for (int i = 0; i < sPointCount - 1; i++)
             {
                 tempLen = (_points[i].X - points[i + 1].X) * (_points[i].X - points[i + 1].X) + (_points[i].Y - points[i + 1].Y) * (_points[i].Y - points[i + 1].Y);
                 tempLen = Math.Sqrt(tempLen);
@@ -507,5 +510,4 @@ namespace ClassLibraryTy
             return multiPolyline;
         }
     }
-
 }

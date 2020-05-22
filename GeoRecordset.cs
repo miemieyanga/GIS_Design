@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace ClassLibraryTy
+namespace ClassLibraryIofly
 {
-
     /// <summary>
     /// GeoRecordset类
     /// </summary>
@@ -19,6 +19,12 @@ namespace ClassLibraryTy
             ;
         }
 
+        public GeoRecordset(Fields fs, Records rs)
+        {
+            fields = fs;
+            records = rs;
+        }
+
         public bool Open(string filename)
         {
             return true;
@@ -28,6 +34,21 @@ namespace ClassLibraryTy
         public bool Save(string filename)
         {
             return true;
+        }
+
+
+        /// <summary>
+        /// 根据索引号删除Field，同步删除相关联的record.value
+        /// </summary>
+        /// <param name="index"></param>
+        public void DeleteField(int index)
+        {
+            fields.Delete(index);
+            for (int i = 0; i < records.Count(); i++)
+            {
+                records.Item(i).Delete(index);
+            }
+
         }
 
 
@@ -41,17 +62,54 @@ namespace ClassLibraryTy
             return new GeoRecordset();
         }
 
+        /// <summary>
+        /// 完全位于矩形内的图形被选中
+        /// </summary>
+        /// <param name="box"></param>
+        /// <returns></returns>
         public GeoRecordset SelectByBox(RectangleD box)
         {
+            for (int i = 0; i < fields.Count(); i++)
+            {
+                if(fields.Item(i).valueType==typeof(PointD))
+                {
+                    ;
+                }
+                else if (fields.Item(i).valueType == typeof(Polygon) 
+                    || fields.Item(i).valueType == typeof(MultiPolygon)
+                    || fields.Item(i).valueType == typeof(Polyline)
+                    || fields.Item(i).valueType == typeof(MultiPolyline))
+                {
+                    ;
+                }
+            }
+
+
+
             return new GeoRecordset();
         }
 
+
+        /// <summary>
+        /// 根据行索引号数组进行选择
+        /// </summary>
+        /// <param name="indices"></param>
+        /// <returns></returns>
         public GeoRecordset SelectByIndices(int[] indices)
         {
-            return new GeoRecordset();
+            Records newRecords = new Records();
+            for(int i=0; i<indices.Count();i++)
+            {
+                newRecords.Append(records.Item(indices[i]));
+            }
+
+            Fields newFeilds = fields;
+
+            return new GeoRecordset(newFeilds, newRecords);
         }
 
     }
+
 
     /// <summary>
     /// Field类
@@ -59,9 +117,9 @@ namespace ClassLibraryTy
     public class Field
     {
         public string name;
-        public ValueType valueType;
+        public Type valueType;
 
-        public Field(string n, ValueType vt)
+        public Field(string n, Type vt)
         {
             name = n;
             valueType = vt;
@@ -103,9 +161,9 @@ namespace ClassLibraryTy
         public Field Item(string name)
         {
             int count = _fields.Count;
-            for(int i=0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
-                if(_fields[i].name==name)
+                if (_fields[i].name == name)
                 {
                     return _fields[i];
                 }
@@ -133,7 +191,7 @@ namespace ClassLibraryTy
             _fields.Add(field);
         }
 
-
+        ///
         /// <summary>
         /// 根据索引号移除field
         /// </summary>
@@ -141,6 +199,8 @@ namespace ClassLibraryTy
         public void Delete(int index)
         {
             _fields.Remove(_fields[index]);
+            //_fields[index].name = "";
+            //_fields[index].valueType = string;
         }
 
 
@@ -148,7 +208,7 @@ namespace ClassLibraryTy
 
     }
 
-    
+
     /// <summary>
     /// Record类
     /// </summary>
@@ -156,7 +216,7 @@ namespace ClassLibraryTy
     {
         object[] values;
         List<object> _values = new List<object>();
-        
+
 
         public Record(object[] v)
         {
@@ -169,7 +229,7 @@ namespace ClassLibraryTy
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public object  Value(int index)
+        public object Value(int index)
         {
             return _values[index];
         }
@@ -201,6 +261,7 @@ namespace ClassLibraryTy
         public void Delete(int index)
         {
             _values.Remove(_values[index]);
+            //_values[index] = "";
         }
 
 
@@ -216,6 +277,10 @@ namespace ClassLibraryTy
         Record[] records;
         List<Record> _records = new List<Record>();
 
+        public Records()
+        {
+            ;
+        }
         public Records(Record[] rds)
         {
             _records.AddRange(rds);
@@ -266,4 +331,5 @@ namespace ClassLibraryTy
 
 
     }
+
 }
