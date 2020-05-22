@@ -8,7 +8,7 @@ namespace ClassLibraryIofly
     /// <summary>
     /// GeoRecordset类
     /// </summary>
-    class GeoRecordset
+    public class GeoRecordset
     {
         public Fields fields;
         public Records records;
@@ -75,7 +75,7 @@ namespace ClassLibraryIofly
             {
                 for(int j=0; j<fields.Count(); j++)
                 {
-                    if (fields.Item(j).valueType == typeof(PointD))
+                    if (fields.Item(j).valueType == typeof(PointD).Name)
                     {
                         PointD tempPt = (PointD)records.Item(i).Value(j);
 
@@ -84,10 +84,10 @@ namespace ClassLibraryIofly
                             newRecords.Append(records.Item(i));
                         }
                     }
-                    else if (fields.Item(j).valueType == typeof(Polygon)
-                        || fields.Item(j).valueType == typeof(MultiPolygon)
-                        || fields.Item(j).valueType == typeof(Polyline)
-                        || fields.Item(j).valueType == typeof(MultiPolyline))
+                    else if (fields.Item(j).valueType == typeof(Polygon).Name
+                        || fields.Item(j).valueType == typeof(MultiPolygon).Name
+                        || fields.Item(j).valueType == typeof(Polyline).Name
+                        || fields.Item(j).valueType == typeof(MultiPolyline).Name)
                     {
                         object temp = records.Item(i).Value(j);
                         object[] para = new object[1];
@@ -133,9 +133,9 @@ namespace ClassLibraryIofly
     public class Field
     {
         public string name;
-        public Type valueType;
+        public string valueType;
 
-        public Field(string n, Type vt)
+        public Field(string n, string vt)
         {
             name = n;
             valueType = vt;
