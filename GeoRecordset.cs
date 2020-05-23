@@ -37,17 +37,17 @@ namespace ClassLibraryIofly
         }
 
         /// <summary>
-        /// 根据field返回值集合
+        /// 根据field名称返回值集合
         /// </summary>
         /// <returns></returns>
-        public List<object> GetValuesByField(Field field)
+        public List<object> GetValuesByField(string name)
         {
             int index = -1;
             List<object> values = new List<object>();
             //object[] values = new object[0];
             for(int i=0;i<fields.Count();i++)
             {
-                if(field==fields.Item(i))
+                if(name==fields.Item(i).name)
                 {
                     index = i;
                     break;
