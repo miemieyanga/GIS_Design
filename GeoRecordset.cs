@@ -54,12 +54,60 @@ namespace ClassLibraryIofly
 
         public GeoRecordset SelectByText(string text)
         {
+
             return new GeoRecordset();
         }
 
-        public GeoRecordset SelectByPoint(PointD point)
+        public GeoRecordset SelectByPoint(PointD point, double tolerance)
         {
+            Records newRecords = new Records();
+            Fields newFeilds = fields;
+            for (int i = 0; i < records.Count(); i++)
+            {
+                string valuetype = (string)(records.Item(i).Value(0));
 
+                if (valuetype == typeof(PointD).Name)
+                {
+                    PointD tempPt = (PointD)records.Item(i).Value(1);
+
+                    if (tempPt.isNearPoint(point, tolerance))
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if (valuetype == typeof(Polygon).Name)
+                {
+                    Polygon temppolygon = (Polygon)records.Item(i).Value(1);
+                    if(temppolygon.isContainPoint(point))
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if (valuetype == typeof(MultiPolygon).Name)
+                {
+                    MultiPolygon tempmpolygon = (MultiPolygon)records.Item(i).Value(1);
+                    if (tempmpolygon.isContainPoint(point))
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if (valuetype == typeof(Polyline).Name)
+                {
+                    Polyline temppolyline = (Polyline)records.Item(i).Value(1);
+                    if(temppolyline.isNearPoint(point,tolerance))
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if(valuetype == typeof(MultiPolyline).Name)
+                {
+                    MultiPolyline tempmpolyline = (MultiPolyline)records.Item(i).Value(1);
+                    if (tempmpolyline.isNearPoint(point, tolerance))
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+            }
             return new GeoRecordset();
         }
 

@@ -26,6 +26,22 @@ namespace ClassLibraryIofly
             else
                 return false;
         }
+
+        public double Distance(PointD point)
+        {
+            double distance = Math.Sqrt((X - point.X) * (X - point.X) + (Y - point.Y) * (Y - point.Y));
+            return distance;
+        }
+
+        public bool isNearPoint(PointD point, double tolerance)
+        {
+            double distance = Distance(point);
+            if (distance <= tolerance)
+                return true;
+            else return false;
+        }
+
+
     }
 
     /// <summary>
@@ -219,6 +235,48 @@ namespace ClassLibraryIofly
             else return false;
         }
 
+        /// <summary>
+        /// 判断是否包含点
+        /// </summary>
+        /// <param name="polygon"></param>
+        /// <returns></returns>
+        public bool isContainPoint(PointD checkPoint)
+        { 
+            List<PointD> polygonPoints = _points;
+
+            bool inside = false;
+            int pointCount = polygonPoints.Count;
+            PointD p1, p2;
+            for (int i = 0, j = pointCount - 1; i < pointCount; j = i, i++)//第一个点和最后一个点作为第一条线，之后是第一个点和第二个点作为第二条线，之后是第二个点与第三个点，第三个点与第四个点...
+            {
+                p1 = polygonPoints[i];
+                p2 = polygonPoints[j];
+                if (checkPoint.Y < p2.Y)
+                {//p2在射线之上
+                    if (p1.Y <= checkPoint.Y)
+                    {//p1正好在射线中或者射线下方
+                        if ((checkPoint.Y - p1.Y) * (p2.X - p1.X) > (checkPoint.X - p1.X) * (p2.Y - p1.Y))//斜率判断,在P1和P2之间且在P1P2右侧
+                        {
+                            //射线与多边形交点为奇数时则在多边形之内，若为偶数个交点时则在多边形之外。
+                            //由于inside初始值为false，即交点数为零。所以当有第一个交点时，则必为奇数，则在内部，此时为inside=(!inside)
+                            //所以当有第二个交点时，则必为偶数，则在外部，此时为inside=(!inside)
+                            inside = (!inside);
+                        }
+                    }
+                }
+                else if (checkPoint.Y < p1.Y)
+                {
+                    //p2正好在射线中或者在射线下方，p1在射线上
+                    if ((checkPoint.Y - p1.Y) * (p2.X - p1.X) < (checkPoint.X - p1.X) * (p2.Y - p1.Y))//斜率判断,在P1和P2之间且在P1P2右侧
+                    {
+                        inside = (!inside);
+                    }
+                }
+            }
+            return inside;
+
+        }
+
     }
 
 
@@ -328,6 +386,26 @@ namespace ClassLibraryIofly
             if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
                 return true;
             else return false;
+        }
+
+
+        /// <summary>
+        /// 判断是否包含点
+        /// </summary>
+        /// <param name="checkPoint"></param>
+        /// <returns></returns>
+        public bool isContainPoint(PointD checkPoint)
+        {
+            bool isContain = false;
+            for(int i=0;i<_polygons.Count;i++)
+            {
+                if(_polygons[i].isContainPoint(checkPoint)==true)
+                {
+                    isContain = true;
+                    return isContain;
+                }
+            }
+            return isContain;
         }
 
     }
@@ -466,6 +544,38 @@ namespace ClassLibraryIofly
             else return false;
         }
 
+        /// <summary>
+        /// 判断是否邻近点
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
+        public bool isNearPoint(PointD point, double tolerance)
+        {
+            
+            for(int i=0;i<_points.Count-1;i++)
+            {
+                double dis = 0;
+                PointD p1 = _points[i];
+                PointD p2 = _points[i + 1];
+                //PointD ac = new PointD(point.X - p1.X, point.Y - p1.Y);
+                //PointD ab = new PointD(p2.X - p1.X, p2.Y - p1.Y);
+                double ab2 = p1.Distance(p2) * p1.Distance(p2);
+                double f = (point.X - p1.X) * (p2.X - p1.X) + (point.Y - p1.Y) * (p2.Y - p1.Y);
+                if(f<0)
+                    dis = point.Distance(p1);
+                else if(f>ab2)
+                    dis = point.Distance(p2);
+                else
+                    dis = f / ab2;
+                if(dis<=tolerance)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 
 
@@ -575,6 +685,23 @@ namespace ClassLibraryIofly
             if (envelope.MinX >= rec.MinX & envelope.MaxX <= rec.MaxX & envelope.MinY >= rec.MinY & envelope.MaxY <= rec.MaxY)
                 return true;
             else return false;
+        }
+
+
+        /// <summary>
+        /// 判断是否邻近点
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
+        public bool isNearPoint(PointD point, double tolerance)
+        {
+            for(int i=0;i<_polylines.Count;i++)
+            {
+                if (_polylines[i].isNearPoint(point, tolerance) == true)
+                    return true;
+            }
+            return false;
         }
 
     }
