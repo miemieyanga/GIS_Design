@@ -5,11 +5,12 @@ using System.Text;
 
 namespace ClassLibraryIofly
 {
+
     /// <summary>
     /// GeoRecordset类
     /// </summary>
     public class GeoRecordset
-    {
+    {//todo: 判断record里面的值的类型是否和字段匹配
         public Fields fields;
         public Records records;
 
@@ -25,6 +26,7 @@ namespace ClassLibraryIofly
             records = rs;
         }
 
+
         public bool Open(string filename)
         {
             return true;
@@ -33,6 +35,23 @@ namespace ClassLibraryIofly
 
         public bool Save(string filename)
         {
+            return true;
+        }
+
+        /// <summary>
+        /// 检查是否所有记录值类型与对应字段相符
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckValueType()
+        {
+            for(int i=0;i<records.Count();i++)
+            {
+                for (int j = 0; j < fields.Count(); j++)
+                {
+                    if (records.Item(i).Value(j).GetType().Name != fields.Item(j).valueType)
+                        return false;
+                }
+            }
             return true;
         }
 
@@ -418,6 +437,7 @@ namespace ClassLibraryIofly
         /// <param name="record"></param>
         public void Append(Record record)
         {
+
             _records.Add(record);
         }
 
