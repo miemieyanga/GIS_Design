@@ -59,6 +59,7 @@ namespace ClassLibraryIofly
 
         public GeoRecordset SelectByPoint(PointD point)
         {
+
             return new GeoRecordset();
         }
 
@@ -73,31 +74,29 @@ namespace ClassLibraryIofly
             Fields newFeilds = fields;
             for (int i = 0; i < records.Count(); i++)
             {
-                for(int j=0; j<fields.Count(); j++)
+                string valuetype = (string)(records.Item(i).Value(0));
+                if (valuetype == typeof(PointD).Name)
                 {
-                    if (fields.Item(j).valueType == typeof(PointD).Name)
-                    {
-                        PointD tempPt = (PointD)records.Item(i).Value(j);
+                    PointD tempPt = (PointD)records.Item(i).Value(1);
 
-                        if (tempPt.isInBox(box))
-                        {
-                            newRecords.Append(records.Item(i));
-                        }
-                    }
-                    else if (fields.Item(j).valueType == typeof(Polygon).Name
-                        || fields.Item(j).valueType == typeof(MultiPolygon).Name
-                        || fields.Item(j).valueType == typeof(Polyline).Name
-                        || fields.Item(j).valueType == typeof(MultiPolyline).Name)
+                    if (tempPt.isInBox(box))
                     {
-                        object temp = records.Item(i).Value(j);
-                        object[] para = new object[1];
-                        para[0] = box;
-                        object tempIsIn = temp.GetType().GetMethod("isInBox").Invoke(temp, para);
-                        bool isIn = Convert.ToBoolean(tempIsIn);
-                        if (isIn)
-                        {
-                            newRecords.Append(records.Item(i));
-                        }
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if (valuetype == typeof(Polygon).Name
+                    || valuetype == typeof(MultiPolygon).Name
+                    || valuetype == typeof(Polyline).Name
+                    || valuetype == typeof(MultiPolyline).Name)
+                {
+                    object temp = records.Item(i).Value(0);
+                    object[] para = new object[1];
+                    para[0] = box;
+                    object tempIsIn = temp.GetType().GetMethod("isInBox").Invoke(temp, para);
+                    bool isIn = Convert.ToBoolean(tempIsIn);
+                    if (isIn)
+                    {
+                        newRecords.Append(records.Item(i));
                     }
                 }
             }
