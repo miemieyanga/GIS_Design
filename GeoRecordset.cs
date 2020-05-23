@@ -36,6 +36,36 @@ namespace ClassLibraryIofly
             return true;
         }
 
+        /// <summary>
+        /// 根据field返回值集合
+        /// </summary>
+        /// <returns></returns>
+        public List<object> GetValuesByField(Field field)
+        {
+            int index = -1;
+            List<object> values = new List<object>();
+            //object[] values = new object[0];
+            for(int i=0;i<fields.Count();i++)
+            {
+                if(field==fields.Item(i))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1)
+                return values;
+            else
+            {
+                for(int j=0;j<records.Count();j++)
+                {
+                    values.Add(records.Item(j).Value(index));
+                }
+                values = values.Distinct().ToList();
+            }
+
+            return values;
+        }
 
         /// <summary>
         /// 根据索引号删除Field，同步删除相关联的record.value
@@ -58,6 +88,12 @@ namespace ClassLibraryIofly
             return new GeoRecordset();
         }
 
+        /// <summary>
+        /// 点选要素
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="tolerance"></param>
+        /// <returns></returns>
         public GeoRecordset SelectByPoint(PointD point, double tolerance)
         {
             Records newRecords = new Records();
