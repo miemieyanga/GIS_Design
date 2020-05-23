@@ -42,6 +42,6 @@ namespace GISDesign_ZY
 
     enum FeatureTypeConstant
     {
-        Point, Polyline, Polygon
+        PointD, Polyline, Polygon, MultiPolygon, MultiPolyline
     }
 }
