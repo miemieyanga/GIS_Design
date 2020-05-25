@@ -12,6 +12,7 @@ namespace ClassLibraryIofly
     public class GeoDataIO
     {
         //private GeoRecordset geoRecordset = new GeoRecordset();
+        public string myEncoding = "UTF-8";
         public GeoDataIO()
         {
 
@@ -61,11 +62,11 @@ namespace ClassLibraryIofly
                     //提前读取11个为列名称
 
                     Byte[] fieldNameAscii = br.ReadBytes(11);    // 字段名称（Ascii）
-                    tempColumnName = Encoding.GetEncoding("UTF-8").GetString(fieldNameAscii).Trim();  // 将字段名称（Ascii）转为字符串
+                    tempColumnName = Encoding.GetEncoding(myEncoding).GetString(fieldNameAscii).Trim();  // 将字段名称（Ascii）转为字符串
                     tempColumnName = tempColumnName.Replace("\0", "");
                     //获取字段的类型
                     tempBytes = br.ReadBytes(1);
-                    fieldType = Encoding.GetEncoding("UTF-8").GetString(tempBytes).Trim();
+                    fieldType = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                     fieldType = fieldType.Replace("\0", "");
                     //fieldType = DataConstant.ConvertBytesToString(tempBytes);
                     switch (fieldType)
@@ -124,21 +125,21 @@ namespace ClassLibraryIofly
                             switch (sFieldType[j])
                             {
                                 case "int":
-                                    string tempStr1 = Encoding.GetEncoding("UTF-8").GetString(tempBytes).Trim();
+                                    string tempStr1 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     int tempNum = Convert.ToInt32(tempStr1);
                                     geoRecordset.records.Item(i).Append(tempNum);
                                     //Property.RecordList.Set_Value(i, tempNum);
                                     //temp.Add(tempNum);
                                     break;
                                 case "double":
-                                    string tempStr2 = Encoding.GetEncoding("UTF-8").GetString(tempBytes).Trim();
+                                    string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     double tempDouble =Convert.ToDouble(tempStr2);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);
                                     break;
                                 case "string":
-                                    string tempStr3 = Encoding.GetEncoding("UTF-8").GetString(tempBytes).Trim();
+                                    string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     geoRecordset.records.Item(i).Append(tempStr3);
                                     //temp.Add(tempStr);
                                     break;

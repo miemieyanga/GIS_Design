@@ -56,6 +56,7 @@ namespace ClassLibraryIofly
             return true;
         }
 
+
         /// <summary>
         /// 根据field名称返回值集合
         /// </summary>
@@ -86,6 +87,7 @@ namespace ClassLibraryIofly
 
             return values;
         }
+
 
         /// <summary>
         /// 根据索引号删除Field，同步删除相关联的record.value
