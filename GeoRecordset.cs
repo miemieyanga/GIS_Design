@@ -24,7 +24,7 @@ namespace ClassLibraryIofly
         {
             fields = fs;
             records = rs;
-            valueType = fields.Item(0).valueType;
+            valueType = records.Item(0).Value(0).ToString();
         }
 
 

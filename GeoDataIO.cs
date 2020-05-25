@@ -180,8 +180,9 @@ namespace ClassLibraryIofly
             Records records = new Records();
             Field type = new Field("类型", "string");
             Field value = new Field("值", "value");
-            fields.Append(value);
             fields.Append(type);
+            fields.Append(value);
+            
             if(pts!=null)
             {
                 PointD[] points = new PointD[pts.Count];
