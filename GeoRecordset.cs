@@ -13,7 +13,7 @@ namespace ClassLibraryIofly
     {//todo: 判断record里面的值的类型是否和字段匹配
         public Fields fields;
         public Records records;
-
+        public string valueType;
 
         public GeoRecordset()
         {
@@ -24,6 +24,7 @@ namespace ClassLibraryIofly
         {
             fields = fs;
             records = rs;
+            valueType = fields.Item(0).valueType;
         }
 
 
@@ -292,25 +293,6 @@ namespace ClassLibraryIofly
                 }
             }
             return null;
-        }
-        
-        /// <summary>
-        /// 根据字段名称返回字段索引,找不到返回-1
-        /// </summary>
-        /// <param name="name">字段名</param>
-        /// <returns></returns>
-        public int GetIndexOfField(string name)
-        {
-            int index = -1;
-            for (int i = 0; i < _fields.Count(); i++)
-            {
-                if (name == _fields[i].name)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
         }
 
 
