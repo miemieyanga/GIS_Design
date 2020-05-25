@@ -62,9 +62,11 @@ namespace ClassLibraryIofly
 
                     Byte[] fieldNameAscii = br.ReadBytes(11);    // 字段名称（Ascii）
                     tempColumnName = Encoding.GetEncoding("UTF-8").GetString(fieldNameAscii).Trim();  // 将字段名称（Ascii）转为字符串
+                    tempColumnName = tempColumnName.Replace("\0", "");
                     //获取字段的类型
                     tempBytes = br.ReadBytes(1);
                     fieldType = Encoding.GetEncoding("UTF-8").GetString(tempBytes).Trim();
+                    fieldType = fieldType.Replace("\0", "");
                     //fieldType = DataConstant.ConvertBytesToString(tempBytes);
                     switch (fieldType)
                     {
@@ -157,10 +159,7 @@ namespace ClassLibraryIofly
             return geoRecordset;
         }
 
-        public bool SaveToBitMap(string filename, GeoRecordset geoset)
-        {
-            return true;
-        }
+
 
         /// <summary>
         /// 读取SHP文件中的要素数据
@@ -241,7 +240,24 @@ namespace ClassLibraryIofly
             return new GeoRecordset(fields,records);
         }
 
+        /// <summary>
+        /// 读取SHP文件和DBF文件，参数为SHP文件完整路径
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public GeoRecordset OpenShapeFile(string filename)
+        {
+            string shpFilename = filename;
+            string dbfFilename = filename.Substring(0, filename.Length - 3) + "dbf";
+            GeoRecordset geoRecordset = ReadShp(shpFilename);
+            geoRecordset = ReadDbf(dbfFilename, geoRecordset);
+            return geoRecordset;
+        }
 
+        public bool SaveToBitMap(string filename, GeoRecordset geoset)
+        {
+            return true;
+        }
 
     }
 }
