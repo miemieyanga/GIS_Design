@@ -277,6 +277,25 @@ namespace ClassLibraryIofly
         {
             return _fields[index];
         }
+        
+        /// <summary>
+        /// 根据字段名称返回字段索引,找不到返回-1
+        /// </summary>
+        /// <param name="name">字段名</param>
+        /// <returns></returns>
+        public int GetIndexOfField(string name)
+        {
+            int index = -1;
+            for (int i = 0; i < _fields.Count(); i++)
+            {
+                if (name == _fields[i].name)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
 
 
         /// <summary>
