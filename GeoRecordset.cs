@@ -39,6 +39,7 @@ namespace ClassLibraryIofly
             return true;
         }
 
+
         /// <summary>
         /// 检查是否所有记录值类型与对应字段相符
         /// </summary>
@@ -267,17 +268,6 @@ namespace ClassLibraryIofly
             fields = fds;
         }
 
-
-        /// <summary>
-        /// 根据索引号返回Field
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public Field Item(int index)
-        {
-            return _fields[index];
-        }
-        
         /// <summary>
         /// 根据字段名称返回字段索引,找不到返回-1
         /// </summary>
@@ -295,6 +285,17 @@ namespace ClassLibraryIofly
                 }
             }
             return index;
+        }
+
+
+        /// <summary>
+        /// 根据索引号返回Field
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Field Item(int index)
+        {
+            return _fields[index];
         }
 
 
