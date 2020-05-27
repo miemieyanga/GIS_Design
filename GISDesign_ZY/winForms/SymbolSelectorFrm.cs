@@ -55,6 +55,10 @@ namespace GIS_Design
                     break;
                 case SymbolType.SimpleFillSymbol:
                     SimpleFillSymbol curSymbol3 = (SimpleFillSymbol)curSymbol;
+                    btnHLColor.Visible = false;
+                    btnHLColor.Enabled = false;
+                    lblHLColor.Visible = false;
+                    lblHLColor.Enabled = false;
                     lblWidth.Visible = true;
                     nudWidth.Visible = true;
                     lblOColor.Visible = true;

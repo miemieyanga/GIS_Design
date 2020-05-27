@@ -17,8 +17,8 @@ namespace GISFinal
 
         private MapManager map;
 
-        #endregion
 
+        #endregion
 
 
         public mainForm()

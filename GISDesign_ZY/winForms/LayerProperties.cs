@@ -125,6 +125,11 @@ namespace GISDesign_ZY
             //分级设色/大小
             for (int i = 0; i < curLayer.MRecords.fields.Count(); i++)
             {
+                if (curLayer.MRecords.fields.Item(i).valueType != "double" &&
+                    curLayer.MRecords.fields.Item(i).valueType != "float" &&
+                    curLayer.MRecords.fields.Item(i).valueType != "int")
+                    continue;
+
                 classBreakRendererValueCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
                 classBreakRendererSizeCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
             }
@@ -134,9 +139,11 @@ namespace GISDesign_ZY
             }
             classBreakRendererColorCmb.DrawItem += ClassBreakRendererColorCmb_DrawItem;
             classBreakRendererColorCmb.SelectedIndex = 0;
-            classBreakRendererValueCmb.SelectedIndex = 0;
 
-            classBreakRendererSizeCmb.SelectedIndex = 0;
+            if(classBreakRendererValueCmb.Items.Count>0)
+                classBreakRendererValueCmb.SelectedIndex = 0;
+            if(classBreakRendererSizeCmb.Items.Count>0)
+                classBreakRendererSizeCmb.SelectedIndex = 0;
         }
 
         //绘制唯一值随机色带
@@ -473,7 +480,7 @@ namespace GISDesign_ZY
         {
             symbolToReset = symbol.Clone();
             uniqueDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
-                symbolToReset, new RectangleF(5, 1, 50, 18));
+                symbolToReset, new RectangleF(20, 1, 80, 18));
             symbols[rowToSet] = symbolToReset;
         }
 
@@ -482,7 +489,7 @@ namespace GISDesign_ZY
         {
             symbolToReset = symbol.Clone();
             breakDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
-                symbolToReset, new RectangleF(5, 1, 50, 18));
+                symbolToReset, new RectangleF(20, 1, 80, 18));
             symbols[rowToSet] = symbolToReset;
         }
 
@@ -491,7 +498,7 @@ namespace GISDesign_ZY
         {
             symbolToReset = symbol.Clone();
             sizeDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
-                symbolToReset, new RectangleF(5, 1, 50, 18));
+                symbolToReset, new RectangleF(20, 1, 80, 18));
             symbols[rowToSet] = symbolToReset;
         }
 
