@@ -17,6 +17,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,6 +74,18 @@
     <Compile Include="GeoRecordset.cs" />
     <Compile Include="LabelRenderer\LabelRenderer.cs" />
     <Compile Include="Layer.cs" />
+    <Compile Include="winForms\addField.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\addField.designer.cs">
+      <DependentUpon>addField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="winForms\attributeList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\attributeList.designer.cs">
+      <DependentUpon>attributeList.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,12 +113,24 @@
     <Compile Include="winForms\LayerProperties.Designer.cs">
       <DependentUpon>LayerProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="winForms\selectByAttribute.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\selectByAttribute.designer.cs">
+      <DependentUpon>selectByAttribute.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\SymbolSelectorFrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="winForms\SymbolSelectorFrm.designer.cs">
       <DependentUpon>SymbolSelectorFrm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="winForms\addField.resx">
+      <DependentUpon>addField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="winForms\attributeList.resx">
+      <DependentUpon>attributeList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="winForms\mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +145,9 @@
     </Compile>
     <EmbeddedResource Include="winForms\LayerProperties.resx">
       <DependentUpon>LayerProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="winForms\selectByAttribute.resx">
+      <DependentUpon>selectByAttribute.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\SymbolSelectorFrm.resx">
       <DependentUpon>SymbolSelectorFrm.cs</DependentUpon>
@@ -141,6 +183,18 @@
     <Content Include="icon\MSolidRectengle.png" />
     <Content Include="icon\MSolidTriangle.png" />
     <Content Include="icon\MTriangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

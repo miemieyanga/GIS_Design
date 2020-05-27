@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
+using System.Windows.Forms;
 
 namespace ClassLibraryIofly
 {
@@ -24,19 +26,32 @@ namespace ClassLibraryIofly
         {
             fields = fs;
             records = rs;
-            valueType = records.Item(0).Value(0).ToString();
+            if (records.Count() > 0)
+                valueType = records.Item(0).Value(0).ToString();
+            else
+                valueType = null;
         }
 
-
-        public bool Open(string filename)
+        public DataTable GetDataTable()
         {
-            return true;
-        }
+            DataTable Data = new DataTable();
+            Data.Columns.Add("FID");
+            for (int i = 2; i < fields.Count(); i++)
+            {
+                Data.Columns.Add(fields.Item(i).name);
+                
+            }
 
-
-        public bool Save(string filename)
-        {
-            return true;
+            for (int i = 0; i < records.Count(); i++)
+            {
+                Data.Rows.Add();
+                Data.Rows[i][0] = i;
+                for (int j = 1; j < records.Item(i).Count() - 1; j++)
+                {
+                    Data.Rows[i][j] = records.Item(i).Value(j + 1).ToString();
+                }
+            }
+            return Data;
         }
 
 
