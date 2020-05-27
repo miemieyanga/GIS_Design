@@ -39,13 +39,14 @@ namespace ClassLibraryIofly
             return true;
         }
 
+
         /// <summary>
         /// 检查是否所有记录值类型与对应字段相符
         /// </summary>
         /// <returns></returns>
         public bool CheckValueType()
         {
-            for (int i = 0; i < records.Count(); i++)
+            for(int i=0;i<records.Count();i++)
             {
                 for (int j = 0; j < fields.Count(); j++)
                 {
@@ -57,6 +58,7 @@ namespace ClassLibraryIofly
         }
 
 
+
         /// <summary>
         /// 根据field名称返回值集合
         /// </summary>
@@ -66,9 +68,9 @@ namespace ClassLibraryIofly
             int index = -1;
             List<object> values = new List<object>();
             //object[] values = new object[0];
-            for (int i = 0; i < fields.Count(); i++)
+            for(int i=0;i<fields.Count();i++)
             {
-                if (name == fields.Item(i).name)
+                if(name==fields.Item(i).name)
                 {
                     index = i;
                     break;
@@ -78,7 +80,7 @@ namespace ClassLibraryIofly
                 return values;
             else
             {
-                for (int j = 0; j < records.Count(); j++)
+                for(int j=0;j<records.Count();j++)
                 {
                     values.Add(records.Item(j).Value(index));
                 }
@@ -87,6 +89,7 @@ namespace ClassLibraryIofly
 
             return values;
         }
+
 
 
         /// <summary>
@@ -103,11 +106,54 @@ namespace ClassLibraryIofly
 
         }
 
-
-        public GeoRecordset SelectByText(string text)
+        /// <summary>
+        /// 按属性选择，支持>、<、=三个简单条件
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="condition"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public GeoRecordset SelectByField(string name, string condition, string value)
         {
+            int index = fields.GetIndexOfField(name);
+            Records newRecords = new Records();
+            Fields newFields = fields;
+            for(int i=0; i<records.Count();i++)
+            {
+                object tempValue = records.Item(i).Value(index);
+                if (condition=="=")
+                {
+                    if (tempValue.ToString() == value && tempValue.GetType().Name == "string" )
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                    else if (Convert.ToDouble(tempValue) == Convert.ToDouble(value) && tempValue.GetType().Name != "string")
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+                else if(condition==">")
+                {
+                    if (Convert.ToDouble(tempValue) > Convert.ToDouble(value) && tempValue.GetType().Name != "string")
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
 
-            return new GeoRecordset();
+                }
+                else if(condition=="<")
+                {
+                    if (Convert.ToDouble(tempValue) < Convert.ToDouble(value) && tempValue.GetType().Name != "string")
+                    {
+                        newRecords.Append(records.Item(i));
+                    }
+                }
+
+                else
+                {
+                    return new GeoRecordset();
+                }
+            }
+            return new GeoRecordset(newFields, newRecords);
         }
 
         /// <summary>
@@ -136,7 +182,7 @@ namespace ClassLibraryIofly
                 else if (valuetype == typeof(Polygon).Name)
                 {
                     Polygon temppolygon = (Polygon)records.Item(i).Value(1);
-                    if (temppolygon.isContainPoint(point))
+                    if(temppolygon.isContainPoint(point))
                     {
                         newRecords.Append(records.Item(i));
                     }
@@ -152,12 +198,12 @@ namespace ClassLibraryIofly
                 else if (valuetype == typeof(Polyline).Name)
                 {
                     Polyline temppolyline = (Polyline)records.Item(i).Value(1);
-                    if (temppolyline.isNearPoint(point, tolerance))
+                    if(temppolyline.isNearPoint(point,tolerance))
                     {
                         newRecords.Append(records.Item(i));
                     }
                 }
-                else if (valuetype == typeof(MultiPolyline).Name)
+                else if(valuetype == typeof(MultiPolyline).Name)
                 {
                     MultiPolyline tempmpolyline = (MultiPolyline)records.Item(i).Value(1);
                     if (tempmpolyline.isNearPoint(point, tolerance))
@@ -168,6 +214,7 @@ namespace ClassLibraryIofly
             }
             return new GeoRecordset();
         }
+
 
         /// <summary>
         /// 完全位于矩形内的图形被选中
@@ -211,6 +258,7 @@ namespace ClassLibraryIofly
         }
 
 
+
         /// <summary>
         /// 根据行索引号数组进行选择
         /// </summary>
@@ -219,7 +267,7 @@ namespace ClassLibraryIofly
         public GeoRecordset SelectByIndices(int[] indices)
         {
             Records newRecords = new Records();
-            for (int i = 0; i < indices.Count(); i++)
+            for(int i=0; i<indices.Count();i++)
             {
                 newRecords.Append(records.Item(indices[i]));
             }
