@@ -53,7 +53,7 @@ namespace ClassLibraryIofly
             // 添加表格的列
             if (ColumnCount > 0)
             {
-
+                
                 fieldLength = new int[ColumnCount];
                 sFieldType = new string[ColumnCount];
                 for (i = 0; i < ColumnCount; i++)
@@ -133,7 +133,7 @@ namespace ClassLibraryIofly
                                     break;
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
-                                    double tempDouble = Convert.ToDouble(tempStr2);
+                                    double tempDouble =Convert.ToDouble(tempStr2);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);
@@ -169,21 +169,21 @@ namespace ClassLibraryIofly
         /// <returns></returns>
         public GeoRecordset ReadShp(string filename)
         {
-
+           
             shp读取.Shapefile shp = new shp读取.Shapefile(filename);
             shp读取.FeatureClass fc = shp.GetFeature();
             List<shp读取.PointFeature> pts = fc.points;
             List<shp读取.PolylineFeature> pls = fc.polylines;
             List<shp读取.PolygonFeature> pgs = fc.polygons;
-
+ 
             Fields fields = new Fields();
             Records records = new Records();
             Field type = new Field("类型", "string");
             Field value = new Field("值", "value");
             fields.Append(type);
             fields.Append(value);
-
-            if (pts != null)
+            
+            if(pts!=null)
             {
                 PointD[] points = new PointD[pts.Count];
                 for (int i = 0; i < pts.Count; i++)
@@ -196,7 +196,7 @@ namespace ClassLibraryIofly
                     records.Append(record);
                 }
             }
-            if (pls != null)
+            if(pls!=null)
             {
                 Polyline[] polylines = new Polyline[pls.Count];
                 for (int i = 0; i < pls.Count; i++)
@@ -215,7 +215,7 @@ namespace ClassLibraryIofly
                 }
             }
 
-            if (pgs != null)
+            if(pgs!=null)
             {
                 Polygon[] polygons = new Polygon[pgs.Count];
                 for (int i = 0; i < pgs.Count; i++)
@@ -237,9 +237,9 @@ namespace ClassLibraryIofly
             //geoRecordset.fields = fields;
             //geoRecordset.records = records;
 
+            
 
-
-            return new GeoRecordset(fields, records);
+            return new GeoRecordset(fields,records);
         }
 
         /// <summary>
