@@ -12,6 +12,7 @@ namespace GISDesign_ZY
         SimpleFillSymbol, HatchFillSymbol
     }
 
+
     public enum MarkerStyleConstant
     {
         MCircle, MSolidCircle, MRectengle,

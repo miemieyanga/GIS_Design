@@ -136,7 +136,7 @@ namespace GISFinal
             {
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = layerTreeView.GetNodeAt(ClickPoint);
-                if (CurrentNode.Parent == null || CurrentNode == null)
+                if (CurrentNode == null|| CurrentNode.Parent == null)
                     return;
                 layerTreeView.SelectedNode = CurrentNode;
                 layerContextMenuStrip.Show(layerTreeView, ClickPoint);

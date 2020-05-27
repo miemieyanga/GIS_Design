@@ -9,6 +9,29 @@ namespace GISDesign_ZY
 {
     public static class SymbolFactory
     {
+        public static MarkerStyleConstant[] MarkerStyles =
+        {
+         MarkerStyleConstant.MCircle, MarkerStyleConstant.MSolidCircle, MarkerStyleConstant.MRectengle,
+        MarkerStyleConstant.MSolidRectengle, MarkerStyleConstant.MTriangle, MarkerStyleConstant.MSolidTriangle,
+        MarkerStyleConstant.MDotCircle, MarkerStyleConstant.MDoubleCircle
+        };
+
+        public static LineStyleConstant[] LineStyles =
+        {
+            LineStyleConstant.LSolid, LineStyleConstant.LDash,
+            LineStyleConstant.LDot, LineStyleConstant.LDashDot,
+            LineStyleConstant.LDashDotDash
+        };
+
+        public static Color[] FillStyles =
+        {
+            Color.Black,Color.Red,Color.Blue,Color.Gray,Color.Green
+        };
+
+        public static HatchStyleConstant[] HatchStyles =
+        {
+            HatchStyleConstant.HCrossLine,HatchStyleConstant.HDot,HatchStyleConstant.HLine
+        };
 
         //通过符号类型产生符号
         static public Symbol CreateSymbol(SymbolType mSymbolType)
@@ -32,6 +55,50 @@ namespace GISDesign_ZY
                     throw new Exception("未实现的类型");
             }
             return cSymbol;
+        }
+
+        //通过符号类型产生所有样式的符号
+        static public Symbol[] CreateAllSymbols(SymbolType mSymbolType)
+        {
+            List<Symbol> cSymbols = new List<Symbol>();
+            switch (mSymbolType)
+            {
+                case SymbolType.SimpleMarkerSymbol:
+                    foreach(MarkerStyleConstant s in MarkerStyles)
+                    {
+                        SimpleMarkerSymbol cSymbol1 = new SimpleMarkerSymbol();
+                        cSymbol1.Size = 30;
+                        cSymbol1.Style = s;
+                        cSymbols.Add(cSymbol1);
+                    }
+                    break;
+                case SymbolType.SimpleLineSymbol:
+                    foreach (LineStyleConstant s in LineStyles)
+                    {
+                        SimpleLineSymbol cSymbol2 = new SimpleLineSymbol();
+                        cSymbol2.Width = 3;
+                        cSymbol2.Style = s;
+                        cSymbols.Add(cSymbol2);
+                    }
+                    break;
+                case SymbolType.SimpleFillSymbol:
+                    for (int i=0;i<5;i++)
+                    {
+                        SimpleFillSymbol cSymbol3 = new SimpleFillSymbol();
+                        cSymbol3.FillColor = FillStyles[i];
+                        cSymbols.Add(cSymbol3);
+                    }
+                    break;
+                case SymbolType.HatchFillSymbol:
+                    foreach (HatchStyleConstant s in HatchStyles)
+                    {
+                        HatchFillSymbol cSymbol4 = new HatchFillSymbol();
+                        cSymbol4.HatchStyle = s;
+                        cSymbols.Add(cSymbol4);
+                    }
+                    break;
+            }
+            return cSymbols.ToArray();
         }
 
         //通过集合要素类型产生符号
@@ -126,13 +193,13 @@ namespace GISDesign_ZY
                     cSymbol = tempSymbol3;
                     break;
                 case FeatureTypeConstant.Polygon:
-                    SimpleMarkerSymbol tempSymbol4 = new SimpleMarkerSymbol();
-                    tempSymbol4.Size = size;
+                    SimpleFillSymbol tempSymbol4 = new SimpleFillSymbol();
+                    tempSymbol4.OutlineWidth = size;
                     cSymbol = tempSymbol4;
                     break;
                 case FeatureTypeConstant.MultiPolygon:
-                    SimpleMarkerSymbol tempSymbol5 = new SimpleMarkerSymbol();
-                    tempSymbol5.Size = size;
+                    SimpleFillSymbol tempSymbol5 = new SimpleFillSymbol();
+                    tempSymbol5.OutlineWidth = size;
                     cSymbol = tempSymbol5;
                     break;
                 default:

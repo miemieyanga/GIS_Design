@@ -44,7 +44,7 @@ namespace GISDesign_ZY
             Type = SymbolType.SimpleMarkerSymbol;
             Visible = true;
             Style = MarkerStyleConstant.MCircle;
-            Size = 5;  //5个像素大小
+            Size = 10;  //5个像素大小
             OffsetX = OffsetY = 0;
             Angle = 0;
             MColor = Color.Black;
@@ -82,7 +82,7 @@ namespace GISDesign_ZY
         {
             Type = SymbolType.SimpleLineSymbol;
             Visible = true;
-            Width = 1;
+            Width = 2;
             Style = LineStyleConstant.LSolid;
             MColor = Color.Black;
         }
@@ -125,7 +125,7 @@ namespace GISDesign_ZY
             OutlineStyle = LineStyleConstant.LSolid;
             OutlineColor = Color.Red;
             FillStyle = FillStyleConstant.FColor;
-            FillColor = Color.Black;
+            FillColor = Color.LightGreen;
             OutlineWidth = 1;
         }
 

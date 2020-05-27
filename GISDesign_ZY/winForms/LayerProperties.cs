@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GIS_Design;
 
 namespace GISDesign_ZY
 {
@@ -24,6 +25,8 @@ namespace GISDesign_ZY
         private List<Symbol> symbols;
         private List<string> fieldLabels;
         private TextSymbol textSymbol;
+        private Symbol symbolToReset;
+        private int rowToSet, columnToSet;
 
         //随即色带类集合
         private RandomColorRampClass[] randomRampColors
@@ -99,7 +102,11 @@ namespace GISDesign_ZY
             fontNameCmb.Text = textSymbol.FontName;
 
             //TODO:简单渲染按钮设计
-
+            Bitmap symbolBitmap = new Bitmap(symbolBtn.Width, symbolBtn.Height);
+            Graphics g = Graphics.FromImage(symbolBitmap);
+            DrawSymbol.DrawAnySymbol(g, simpleRendererSymbol, g.VisibleClipBounds);
+            symbolBtn.Image = symbolBitmap;
+            symbolBtn.Refresh();
 
             //初始化值字段、色带
             //唯一值
@@ -169,20 +176,23 @@ namespace GISDesign_ZY
             //绘制gridview
             uniqueRendererValues.Clear();
             fieldLabels.Clear();
-            foreach (var value in values)
+            for(int i=0;i<values.Count;i++)
             {
+                object value = values[i];
+                Symbol curSymbol = symbols[i];
                 string cValue = value.ToString();
 
                 uniqueRendererValues.Add(cValue);
                 fieldLabels.Add(cValue);
 
                 DataGridViewRow curRow = new DataGridViewRow();
-                DataGridViewTextBoxCell symbolCell = new DataGridViewTextBoxCell();
-                symbolCell.Value = "符号样式设置窗体";
+                //DataGridViewTextBoxCell symbolCell = new DataGridViewTextBoxCell();
+                //symbolCell.Value = "符号样式设置窗体";
 
                 //TODO:
-                //DataGridViewImageCell symbolCell = new DataGridViewImageCell();
-                //symbolCell.Value = ;  绘制样例
+                DataGridViewImageCell symbolCell = new DataGridViewImageCell();
+                symbolCell.Value = DrawSymbol.GetBitmapOfSymbol(curSymbol,
+                    new RectangleF(5,1,50,18));
 
                 curRow.Cells.Add(symbolCell);
                 DataGridViewTextBoxCell uniqueCell = new DataGridViewTextBoxCell();
@@ -220,29 +230,35 @@ namespace GISDesign_ZY
             int breakCount = Convert.ToInt32(classBreakRendererSizeCountTbx.Text);
             int maxSize = Convert.ToInt32(classBreakRendererSizeToTbx.Text);
             int minSize = Convert.ToInt32(classBreakRendererSizeFromTbx.Text);
+            int cnt = 0;
             for(double i = min; i < max; i += (max - min) / breakCount)
             {
                 symbols.Add(SymbolFactory.CreateSymbol(curLayer.FeatureType,
-                    minSize+(int)i*(maxSize-minSize)/breakCount));
+                    minSize+(int)cnt*(maxSize-minSize)/breakCount));
                 classbreakRendererBreaks.Add(i);
+                cnt += 1;
             }
             classbreakRendererBreaks.Add(max);
 
             //TODO:
             //绘制gridview
-            foreach (var value in values)
+            for (int i = 0; i < breakCount; i++)
             {
+                string frm = Math.Round(classbreakRendererBreaks[i], 3).ToString();
+                string to = Math.Round(classbreakRendererBreaks[i + 1], 3).ToString();
+                Symbol curSymbol = symbols[i];
+
                 DataGridViewRow curRow = new DataGridViewRow();
-                DataGridViewTextBoxCell symbolCell = new DataGridViewTextBoxCell();
-                symbolCell.Value = "符号样式设置窗体";
-                //DataGridViewImageCell symbolCell = new DataGridViewImageCell();
-                //symbolCell.Value = ;  绘制样例
+                DataGridViewImageCell symbolCell = new DataGridViewImageCell();
+                symbolCell.Value = DrawSymbol.GetBitmapOfSymbol(curSymbol,
+                    new RectangleF(20, 1, 80, 18));
                 curRow.Cells.Add(symbolCell);
+
                 DataGridViewTextBoxCell uniqueCell = new DataGridViewTextBoxCell();
-                uniqueCell.Value = value.ToString();
+                uniqueCell.Value = frm + "-" + to;
                 curRow.Cells.Add(uniqueCell);
                 DataGridViewTextBoxCell labelCell = new DataGridViewTextBoxCell();
-                labelCell.Value = value.ToString();
+                labelCell.Value = frm + "-" + to;
                 curRow.Cells.Add(labelCell);
                 sizeDgv.Rows.Add(curRow);
             }
@@ -273,6 +289,10 @@ namespace GISDesign_ZY
             double min = values.Min();
             double max = values.Max();
             int breakCount = Convert.ToInt32(classBreakRendererCountTbx.Text);
+
+            if(breakCount>=1)
+                curRamp.Pace = curRamp.Size / breakCount-1;
+
             for (double i = min; i < max; i += (max - min) / breakCount)
             {
                 Color curColor = curRamp.Next();
@@ -283,19 +303,23 @@ namespace GISDesign_ZY
 
             //TODO:
             //绘制gridview
-            foreach (var value in values)
+            for (int i = 0; i < breakCount; i++)
             {
+                string frm = Math.Round(classbreakRendererBreaks[i],3).ToString();
+                string to = Math.Round(classbreakRendererBreaks[i+1], 3).ToString();
+                Symbol curSymbol = symbols[i];
+
                 DataGridViewRow curRow = new DataGridViewRow();
-                DataGridViewTextBoxCell symbolCell = new DataGridViewTextBoxCell();
-                symbolCell.Value = "符号样式设置窗体";
-                //DataGridViewImageCell symbolCell = new DataGridViewImageCell();
-                //symbolCell.Value = ;  绘制样例
+                DataGridViewImageCell symbolCell = new DataGridViewImageCell();
+                symbolCell.Value = DrawSymbol.GetBitmapOfSymbol(curSymbol,
+                    new RectangleF(20, 1, 80, 18));
                 curRow.Cells.Add(symbolCell);
+
                 DataGridViewTextBoxCell uniqueCell = new DataGridViewTextBoxCell();
-                uniqueCell.Value = value.ToString();
+                uniqueCell.Value = frm + "-" +to;
                 curRow.Cells.Add(uniqueCell);
                 DataGridViewTextBoxCell labelCell = new DataGridViewTextBoxCell();
-                labelCell.Value = value.ToString();
+                labelCell.Value = frm + "-" + to;
                 curRow.Cells.Add(labelCell);
                 breakDgv.Rows.Add(curRow);
             }
@@ -325,15 +349,49 @@ namespace GISDesign_ZY
         //在gridView中点击符号事件
         private void UniqueDgv_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            GenerateSymbolSelecterInGdv(e.ColumnIndex, e.RowIndex);
+            int column = e.ColumnIndex;
+            int row = e.RowIndex;
+            //TODO:弹出符号选择器，并设置事件相应函数
+            if (column == 0 && row >= 0 && row < symbols.Count)
+            {
+                Symbol curSymbol = symbols[row];
+                SymbolSelectorFrm s = new SymbolSelectorFrm(curSymbol);
+                s.FinishSettingSymbol += SetUniqueRenderer;
+                s.Show();
+                rowToSet = row;
+                columnToSet = column;
+            }
         }
+
         private void BreakDgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            GenerateSymbolSelecterInGdv(e.ColumnIndex, e.RowIndex);
+            int column = e.ColumnIndex;
+            int row = e.RowIndex;
+            //TODO:弹出符号选择器，并设置事件相应函数
+            if (column == 0 && row >= 0 && row < symbols.Count)
+            {
+                Symbol curSymbol = symbols[row];
+                SymbolSelectorFrm s = new SymbolSelectorFrm(curSymbol);
+                s.FinishSettingSymbol += SetClassBreakRenderer;
+                s.Show();
+                rowToSet = row;
+                columnToSet = column;
+            }
         }
         private void SizeDgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            GenerateSymbolSelecterInGdv(e.ColumnIndex, e.RowIndex);
+            int column = e.ColumnIndex;
+            int row = e.RowIndex;
+            //TODO:弹出符号选择器，并设置事件相应函数
+            if (column == 0 && row >= 0 && row < symbols.Count)
+            {
+                Symbol curSymbol = symbols[row];
+                SymbolSelectorFrm s = new SymbolSelectorFrm(curSymbol);
+                s.FinishSettingSymbol += SetClassBreakSizeRenderer;
+                s.Show();
+                rowToSet = row;
+                columnToSet = column;
+            }
         }
 
         //简单符号渲染 符号按钮点击事件
@@ -341,7 +399,6 @@ namespace GISDesign_ZY
         {
             GenerateSymbolSelecter(simpleRendererSymbol);
         }
-
 
         #endregion
 
@@ -389,21 +446,53 @@ namespace GISDesign_ZY
             }
         }
 
-        //在gridview中生成符号选择器并绑定事件响应函数
-        private void GenerateSymbolSelecterInGdv(int column, int row)
-        {
-            //TODO:弹出符号选择器，并设置事件相应函数
-            if (column == 0 && row >= 0 && row < symbols.Count)
-            {
-                Symbol curSymbol = symbols[row];
-                GenerateSymbolSelecter(curSymbol);
-            }
-        }
 
         //生成符号选择器并绑定事件响应函数
         private void GenerateSymbolSelecter(Symbol symbol)
         {
             //TODO
+            SymbolSelectorFrm s = new SymbolSelectorFrm(symbol);
+            s.FinishSettingSymbol += SetSimpleRenderer;
+            s.Show();
+        }
+
+        //符号生成响应函数
+        private void SetSimpleRenderer(object sender, Symbol symbol)
+        {
+            simpleRendererSymbol = symbol.Clone();
+            symbolToReset = symbol.Clone();
+            Bitmap symbolBitmap = new Bitmap(symbolBtn.Width, symbolBtn.Height);
+            Graphics g = Graphics.FromImage(symbolBitmap);
+            DrawSymbol.DrawAnySymbol(g, symbol, g.VisibleClipBounds);
+            symbolBtn.Image = symbolBitmap;
+            symbolBtn.Refresh();
+        }
+
+        //唯一值渲染器相应函数
+        private void SetUniqueRenderer(object sender, Symbol symbol)
+        {
+            symbolToReset = symbol.Clone();
+            uniqueDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
+                symbolToReset, new RectangleF(5, 1, 50, 18));
+            symbols[rowToSet] = symbolToReset;
+        }
+
+        //
+        private void SetClassBreakRenderer(object sender, Symbol symbol)
+        {
+            symbolToReset = symbol.Clone();
+            breakDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
+                symbolToReset, new RectangleF(5, 1, 50, 18));
+            symbols[rowToSet] = symbolToReset;
+        }
+
+        //
+        private void SetClassBreakSizeRenderer(object sender, Symbol symbol)
+        {
+            symbolToReset = symbol.Clone();
+            sizeDgv.Rows[rowToSet].Cells[columnToSet].Value = DrawSymbol.GetBitmapOfSymbol(
+                symbolToReset, new RectangleF(5, 1, 50, 18));
+            symbols[rowToSet] = symbolToReset;
         }
 
         private void Button10_Click(object sender, EventArgs e)

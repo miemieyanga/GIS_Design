@@ -122,6 +122,8 @@ namespace GISDesign_ZY
         private int curPos;
         public int Size;
         public Color beginColor, endColor;
+        public int Pace;
+
         #endregion
 
         #region 构造函数
@@ -133,6 +135,7 @@ namespace GISDesign_ZY
         {
             curPos = 0;
             Size = size;
+            Pace = size;
             colors = new Color[size];
         }
         /// <summary>
@@ -143,6 +146,8 @@ namespace GISDesign_ZY
         /// <param name="e">结束颜色</param>
         public ColorRampClass(int size, Color b, Color e)
         {
+            Size = size;
+            Pace = size;
             curPos = 0;
             colors = new Color[size];
             beginColor = b;
@@ -171,6 +176,22 @@ namespace GISDesign_ZY
                     Size + Math.Min(endColor.ToArgb(), beginColor.ToArgb()));
                 colors[i] = curColor;
             }
+
+            decimal diffR = 1m;
+            decimal diffG = 1m;
+            decimal diffB = 1m;
+            //三原色改变步长
+            diffR = Math.Round(Convert.ToDecimal(Convert.ToDecimal(endColor.R - beginColor.R) / Size), 2);
+            diffG = Math.Round(Convert.ToDecimal(Convert.ToDecimal(endColor.G - beginColor.G) / Size), 2);
+            diffB = Math.Round(Convert.ToDecimal(Convert.ToDecimal(endColor.B - beginColor.B) / Size), 2);
+            for (int i = 0; i < Size; i++)
+            {
+                int cR = beginColor.R + Convert.ToInt32(diffR * i);
+                int cG = beginColor.G + Convert.ToInt32(diffG * i);
+                int cB = beginColor.B + Convert.ToInt32(diffB * i);
+                Color curColor = Color.FromArgb(cR, cG, cB);
+                colors[i] = curColor;
+            }
         }
 
         /// <summary>
@@ -197,7 +218,7 @@ namespace GISDesign_ZY
             int i = curPos;
             if (i >= colors.Length)
                 i = i % colors.Length;
-            curPos = curPos + 1;
+            curPos = curPos + Pace;
             return colors[i];
         }
 
