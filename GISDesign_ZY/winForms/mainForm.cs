@@ -105,7 +105,7 @@ namespace GISFinal
             if (openShapefileDialog.ShowDialog() == DialogResult.OK)
             {
                 string path = openShapefileDialog.FileName;
-                map.OpenLayerFile(path);
+                map.Layers.Add(map.OpenLayerFile(path));
                 //更新treeview视图
                 if (layerTreeView.Nodes.Count == 0)
                 {

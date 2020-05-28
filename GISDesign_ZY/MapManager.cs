@@ -66,7 +66,7 @@ namespace GISDesign_ZY
         /// 打开一个图层文件
         /// </summary>
         /// <param name="path">文件路径</param>
-        public void OpenLayerFile(string path)
+        public Layer OpenLayerFile(string path)
         {
             char[] separator = {'\\'};
             string[] strs = path.Split(separator);
@@ -118,7 +118,7 @@ namespace GISDesign_ZY
             RectangleD mbr = GetMBR(points.ToArray());
             tempLayer.SetExtent(mbr.MinX, mbr.MinY, mbr.MaxX, mbr.MaxY);
             tempLayer.MRenderer = RendererFactory.CreateSimpleRenderer(SymbolFactory.CreateSymbol(tempLayer.FeatureType));
-            Layers.Add(tempLayer);
+            return tempLayer;
         }
 
         /// <summary>
@@ -174,8 +174,9 @@ namespace GISDesign_ZY
                     string nameOfLayer = sr.ReadLine();
                     string descript = sr.ReadLine();
                     string curDatasource = sr.ReadLine();
-                    Layer curLayer = new Layer(nameOfLayer,descript,curDatasource);
-                    curLayer.MRecords = curLayer.MGeoDataIO.OpenShapeFile(curDatasource);
+                    Layer curLayer = OpenLayerFile(curDatasource);
+                    curLayer.Name = nameOfLayer;
+                    curLayer.Descript = descript;
                     Layers.Add(curLayer);
                 }
             }
