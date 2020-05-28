@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using GISDesign_ZY;
+using ClassLibraryIofly;
 
 namespace GISDesign_ZY
 {
@@ -183,8 +184,9 @@ namespace GISDesign_ZY
                     break;
             }
             //绘制边框
-            sScreenPoints[sPointCount].X = sScreenPoints[0].X;
-            sScreenPoints[sPointCount].Y = sScreenPoints[0].Y;
+            List<PointF> temp = sScreenPoints.ToList();
+            temp.Add(new PointF(sScreenPoints[0].X, sScreenPoints[0].Y));
+            sScreenPoints = temp.ToArray();
             sPointCount++;
             SimpleLineSymbol outline = new SimpleLineSymbol();
             outline.Style = curSymbol.OutlineStyle;
@@ -210,8 +212,9 @@ namespace GISDesign_ZY
                     break;
             }
             //绘制边框
-            sScreenPoints[sPointCount].X = sScreenPoints[0].X;
-            sScreenPoints[sPointCount].Y = sScreenPoints[0].Y;
+            List<PointF> temp = sScreenPoints.ToList();
+            temp.Add(new PointF(sScreenPoints[0].X, sScreenPoints[0].Y));
+            sScreenPoints = temp.ToArray();
             sPointCount++;
             SimpleLineSymbol outline = new SimpleLineSymbol();
             outline.Style = curSymbol.OutlineStyle;

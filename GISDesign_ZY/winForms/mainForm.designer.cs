@@ -343,7 +343,6 @@
             // 
             this.toolStrip.AutoSize = false;
             this.toolStrip.CanOverflow = false;
-            this.toolStrip.Enabled = false;
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新建,
@@ -413,6 +412,7 @@
             this.放大.Name = "放大";
             this.放大.Size = new System.Drawing.Size(36, 27);
             this.放大.Text = "放大";
+            this.放大.Click += new System.EventHandler(this.放大_Click);
             // 
             // 缩小
             // 
@@ -422,6 +422,7 @@
             this.缩小.Name = "缩小";
             this.缩小.Size = new System.Drawing.Size(36, 27);
             this.缩小.Text = "缩小";
+            this.缩小.Click += new System.EventHandler(this.缩小_Click);
             // 
             // 平移
             // 
@@ -431,6 +432,7 @@
             this.平移.Name = "平移";
             this.平移.Size = new System.Drawing.Size(36, 27);
             this.平移.Text = "平移";
+            this.平移.Click += new System.EventHandler(this.平移_Click);
             // 
             // 固定比例放大
             // 

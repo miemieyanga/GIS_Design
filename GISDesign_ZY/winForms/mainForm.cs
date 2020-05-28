@@ -114,7 +114,7 @@ namespace GISFinal
                 }
                 layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
                 layerTreeView.ExpandAll();
-                mcMap.AddFeature(map.Layers[map.Layers.Count - 1]);
+                mcMap._Layers.Add(map.Layers[map.Layers.Count - 1]);
                 mcMap.Refresh();
             }
         }
@@ -198,6 +198,21 @@ namespace GISFinal
             PointD sPointOnMap = mcMap.ToMapPoint(sMouseLocation);
             statusPosition.Text = "X:" + sPointOnMap.X.ToString("0.00") + " Y:" +
                 sPointOnMap.Y.ToString("0.00");
+        }
+
+        private void 平移_Click(object sender, EventArgs e)
+        {
+            mcMap.Pan();
+        }
+
+        private void 放大_Click(object sender, EventArgs e)
+        {
+            mcMap.ZoomIn();
+        }
+
+        private void 缩小_Click(object sender, EventArgs e)
+        {
+            mcMap.ZoomOut();
         }
     }
 }
