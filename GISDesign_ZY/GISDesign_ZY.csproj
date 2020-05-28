@@ -113,6 +113,12 @@
     <Compile Include="winForms\LayerProperties.Designer.cs">
       <DependentUpon>LayerProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MapControl.designer.cs">
+      <DependentUpon>MapControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\selectByAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,9 +148,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="winForms\LayerProperties.resx">
       <DependentUpon>LayerProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapControl.resx">
+      <DependentUpon>MapControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\selectByAttribute.resx">
       <DependentUpon>selectByAttribute.cs</DependentUpon>
@@ -165,6 +175,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon\Cross.ico" />
     <Content Include="icon\cross.png" />
     <Content Include="icon\Dot.png" />
     <Content Include="icon\FColor.png" />
@@ -183,6 +194,13 @@
     <Content Include="icon\MSolidRectengle.png" />
     <Content Include="icon\MSolidTriangle.png" />
     <Content Include="icon\MTriangle.png" />
+    <Content Include="icon\PanUp.ico" />
+    <Content Include="icon\ZoomIn.ico" />
+    <Content Include="icon\ZoomOut.ico" />
+    <EmbeddedResource Include="Resources\ZoomOut.ico" />
+    <EmbeddedResource Include="Resources\ZoomIn.ico" />
+    <EmbeddedResource Include="Resources\PanUp.ico" />
+    <EmbeddedResource Include="Resources\Cross.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

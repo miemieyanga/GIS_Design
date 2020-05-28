@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GISDesign_ZY;
+using ClassLibraryIofly;
 
 namespace GISFinal
 {
@@ -113,12 +114,29 @@ namespace GISFinal
                 }
                 layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
                 layerTreeView.ExpandAll();
+                mcMap.AddFeature(map.Layers[map.Layers.Count - 1]);
+                mcMap.Refresh();
             }
         }
 
         private void AntMap文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (openProjectFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                map = new MapManager();
+                map.OpenProjectFile(openProjectFileDialog.FileName);
+                //TODO:打开后刷新地图控件
+                if (layerTreeView.Nodes.Count == 0)
+                {
+                    TreeNode root = new TreeNode(map.name);
+                    layerTreeView.Nodes.Add(root);
+                }
+                foreach (Layer layer in map.Layers)
+                {
+                    layerTreeView.Nodes[0].Nodes.Add(layer.Name);
+                }
+                layerTreeView.ExpandAll();
+            }
         }
         #endregion
 
@@ -163,6 +181,23 @@ namespace GISFinal
             Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
             attributeList attribute = new attributeList(curLayer.MRecords);
             attribute.Show();
+        }
+
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveProjectFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                map.SaveProject(saveProjectFileDialog.FileName);
+            }
+        }
+
+        //显示鼠标位置
+        private void McMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            PointD sMouseLocation = new PointD(e.Location.X, e.Location.Y);
+            PointD sPointOnMap = mcMap.ToMapPoint(sMouseLocation);
+            statusPosition.Text = "X:" + sPointOnMap.X.ToString("0.00") + " Y:" +
+                sPointOnMap.Y.ToString("0.00");
         }
     }
 }

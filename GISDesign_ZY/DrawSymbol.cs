@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GISDesign_ZY;
 
-namespace GIS_Design
+namespace GISDesign_ZY
 {
     public static class DrawSymbol
     {
@@ -93,6 +93,62 @@ namespace GIS_Design
             g.DrawLine(pen, new PointF(rectangle.X, rectangle.Y+rectangle.Height/2), new PointF(rectangle.X+ rectangle.Width, rectangle.Y + rectangle.Height / 2));
         }
 
+        //绘制简单线符号
+        public static void DrawLineSymbol(Graphics g, SimpleLineSymbol curSymbol,PointF frm, PointF to)
+        {
+            Pen pen = new Pen(curSymbol.MColor, (float)curSymbol.Width);
+            //判断线要素符号确定线类型
+            switch (curSymbol.Style)
+            {
+                case LineStyleConstant.LSolid:
+                    pen.DashStyle = DashStyle.Solid;
+                    break;
+                case LineStyleConstant.LDash:
+                    pen.DashStyle = DashStyle.Dash;
+                    break;
+                case LineStyleConstant.LDot:
+                    pen.DashStyle = DashStyle.Dot;
+                    break;
+                case LineStyleConstant.LDashDot:
+                    pen.DashStyle = DashStyle.DashDot;
+                    break;
+                case LineStyleConstant.LDashDotDash:
+                    pen.DashStyle = DashStyle.DashDotDot;
+                    break;
+            }
+            //绘制
+            g.DrawLine(pen, frm,to);
+        }
+
+        public static void DrawLineSymbol(Graphics g, SimpleLineSymbol curSymbol, PointF[] sScreenPoints, int sPointCount)
+        {
+            Pen pen = new Pen(curSymbol.MColor, (float)curSymbol.Width);
+            //判断线要素符号确定线类型
+            switch (curSymbol.Style)
+            {
+                case LineStyleConstant.LSolid:
+                    pen.DashStyle = DashStyle.Solid;
+                    break;
+                case LineStyleConstant.LDash:
+                    pen.DashStyle = DashStyle.Dash;
+                    break;
+                case LineStyleConstant.LDot:
+                    pen.DashStyle = DashStyle.Dot;
+                    break;
+                case LineStyleConstant.LDashDot:
+                    pen.DashStyle = DashStyle.DashDot;
+                    break;
+                case LineStyleConstant.LDashDotDash:
+                    pen.DashStyle = DashStyle.DashDotDot;
+                    break;
+            }
+            //绘制
+            for (int k = 0; k < sPointCount - 1; k++)
+            {
+                g.DrawLine(pen, sScreenPoints[k], sScreenPoints[k + 1]);
+            }
+        }
+
         //绘制简单面符号
         public static void DrawFillSymbol(Graphics g, SimpleFillSymbol curSymbol, RectangleF rectangle)
         {
@@ -112,6 +168,56 @@ namespace GIS_Design
             outline.MColor = curSymbol.OutlineColor;
             //TODO
             DrawBoundary(g, outline, rectangle);
+        }
+
+        //绘制简单面符号
+        public static void DrawFillSymbol(Graphics g, SimpleFillSymbol curSymbol, PointF[] sScreenPoints, int sPointCount)
+        {
+            //判断填充样式并填充
+            switch (curSymbol.FillStyle)
+            {
+                case FillStyleConstant.FColor:
+                    g.FillPolygon(new SolidBrush(curSymbol.FillColor), sScreenPoints);
+                    break;
+                case FillStyleConstant.FTransparent:
+                    break;
+            }
+            //绘制边框
+            sScreenPoints[sPointCount].X = sScreenPoints[0].X;
+            sScreenPoints[sPointCount].Y = sScreenPoints[0].Y;
+            sPointCount++;
+            SimpleLineSymbol outline = new SimpleLineSymbol();
+            outline.Style = curSymbol.OutlineStyle;
+            outline.Width = curSymbol.OutlineWidth;
+            outline.MColor = curSymbol.OutlineColor;
+            DrawLineSymbol(g, outline, sScreenPoints, sPointCount);
+        }
+
+        //绘制阴影符号
+        public static void DrawHatchSymbol(Graphics g, HatchFillSymbol curSymbol, PointF[] sScreenPoints, int sPointCount)
+        {
+            //判断阴影类型并填充
+            switch (curSymbol.HatchStyle)
+            {
+                case HatchStyleConstant.HLine:
+                    g.FillPolygon(new HatchBrush(HatchStyle.Vertical, curSymbol.HatchColor, curSymbol.BackColor), sScreenPoints);
+                    break;
+                case HatchStyleConstant.HDot:
+                    g.FillPolygon(new HatchBrush(HatchStyle.Percent10, curSymbol.HatchColor, curSymbol.BackColor), sScreenPoints);
+                    break;
+                case HatchStyleConstant.HCrossLine:
+                    g.FillPolygon(new HatchBrush(HatchStyle.Cross, curSymbol.HatchColor, curSymbol.BackColor), sScreenPoints);
+                    break;
+            }
+            //绘制边框
+            sScreenPoints[sPointCount].X = sScreenPoints[0].X;
+            sScreenPoints[sPointCount].Y = sScreenPoints[0].Y;
+            sPointCount++;
+            SimpleLineSymbol outline = new SimpleLineSymbol();
+            outline.Style = curSymbol.OutlineStyle;
+            outline.Width = curSymbol.OutlineWidth;
+            outline.MColor = curSymbol.OutlineColor;
+            DrawLineSymbol(g, outline, sScreenPoints, sPointCount);
         }
 
         //绘制边框

@@ -10,6 +10,7 @@ namespace GISDesign_ZY
     public abstract class Renderer
     {
         public RendererType Type;
+        public abstract string GetString();
     }
 
     /// <summary>
@@ -22,6 +23,11 @@ namespace GISDesign_ZY
         public SimpleRenderer()
         {
             Type = RendererType.SimpleRenderer;
+        }
+
+        public override string GetString()
+        {
+            return "S";
         }
     }
 
@@ -54,6 +60,16 @@ namespace GISDesign_ZY
             values = new List<string>();
             symbols = new List<Symbol>();
             FieldLabel = new List<string>();
+        }
+
+        public UniqueValueRenderer(string s)
+        {
+
+        }
+
+        public override string GetString()
+        {
+            return "U$"+Field;
         }
 
         public string Value(int index)
@@ -152,6 +168,11 @@ namespace GISDesign_ZY
             symbols = new List<Symbol>();
             breaks = new List<double>();
             FieldLabel = new List<string>();
+        }
+
+        public override string GetString()
+        {
+            return "C$"+ Field +"$"+ BreakCount.ToString();
         }
 
         public double Break(int index)
