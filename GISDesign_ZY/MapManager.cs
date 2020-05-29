@@ -39,10 +39,31 @@ namespace GISDesign_ZY
                     break;
                 case ProjectionType.ETC:
                     projection = new ProjectionETC();
+                    projection.LngLatToXY(this);
                     break;
                 default:
                     throw new Exception("未实现的投影");
             }
+        }
+
+        public RectangleD GetExtent()
+        {
+            double minX = double.MaxValue, minY = double.MaxValue, 
+                maxX = double.MinValue,maxY = double.MinValue;
+
+            foreach(Layer layer in Layers)
+            {
+                RectangleD rectangleD = layer.GetExtent();
+                if (rectangleD.MinX < minX)
+                    minX = layer.MinX;
+                if (rectangleD.MaxX > maxX)
+                    maxX = layer.MaxX;
+                if (rectangleD.MinY < minY)
+                    minY = layer.MinY;
+                if (rectangleD.MaxY > maxY)
+                    maxY = layer.MaxY;
+            }
+            return new RectangleD(minX, minY, maxX, maxY);
         }
 
         /// <summary>
@@ -179,6 +200,7 @@ namespace GISDesign_ZY
                     curLayer.Descript = descript;
                     Layers.Add(curLayer);
                 }
+                projection.LngLatToXY(this);
             }
         }
 

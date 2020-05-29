@@ -68,6 +68,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.symbolBtn = new System.Windows.Forms.Button();
             this.uniqueValueRendererTag = new System.Windows.Forms.TabPage();
+            this.defaulySymbolBtn = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.getUniqueValuesBtn = new System.Windows.Forms.Button();
             this.uniqueDgv = new System.Windows.Forms.DataGridView();
             this.symbolImage = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -106,8 +108,6 @@
             this.classBreakRendererSizeCmb = new System.Windows.Forms.ComboBox();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.label4 = new System.Windows.Forms.Label();
-            this.defaulySymbolBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.layerInfoTag.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -321,6 +321,7 @@
             this.button9.TabIndex = 5;
             this.button9.Text = "确定";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
             // 
             // button8
             // 
@@ -556,6 +557,25 @@
             this.uniqueValueRendererTag.Size = new System.Drawing.Size(419, 365);
             this.uniqueValueRendererTag.TabIndex = 1;
             this.uniqueValueRendererTag.Text = "唯一值渲染";
+            // 
+            // defaulySymbolBtn
+            // 
+            this.defaulySymbolBtn.Location = new System.Drawing.Point(97, 86);
+            this.defaulySymbolBtn.Name = "defaulySymbolBtn";
+            this.defaulySymbolBtn.Size = new System.Drawing.Size(83, 32);
+            this.defaulySymbolBtn.TabIndex = 5;
+            this.defaulySymbolBtn.UseVisualStyleBackColor = true;
+            this.defaulySymbolBtn.Click += new System.EventHandler(this.DefaulySymbolBtn_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 100);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 12);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "默认符号:";
+            this.label4.Click += new System.EventHandler(this.Label4_Click);
             // 
             // getUniqueValuesBtn
             // 
@@ -891,25 +911,6 @@
             this.classBreakRendererSizeCmb.Name = "classBreakRendererSizeCmb";
             this.classBreakRendererSizeCmb.Size = new System.Drawing.Size(177, 20);
             this.classBreakRendererSizeCmb.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 100);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 12);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "默认符号:";
-            this.label4.Click += new System.EventHandler(this.Label4_Click);
-            // 
-            // defaulySymbolBtn
-            // 
-            this.defaulySymbolBtn.Location = new System.Drawing.Point(97, 86);
-            this.defaulySymbolBtn.Name = "defaulySymbolBtn";
-            this.defaulySymbolBtn.Size = new System.Drawing.Size(83, 32);
-            this.defaulySymbolBtn.TabIndex = 5;
-            this.defaulySymbolBtn.UseVisualStyleBackColor = true;
-            this.defaulySymbolBtn.Click += new System.EventHandler(this.DefaulySymbolBtn_Click);
             // 
             // LayerProperties
             // 

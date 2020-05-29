@@ -26,12 +26,13 @@ namespace GISDesign_ZY
         private Color _TrackingColor = Color.DarkGreen;  //描绘要素的颜色
 
         //运行时属性变量
+        private bool PointSelect = true;  //记录是否点选
         public List<Layer> _Layers = new List<Layer>(); //图层集合
         private double _DisplayScale = 1D; //显示比例尺倒数
         public List<Layer> _SelectedLayers = new List<Layer>(); //选中图层集合
 
         //内部变量
-        private double mOffsetX = 0D, mOffsetY = 0D; //窗口左上点地图坐标
+        private double mOffsetX = 0D, mOffsetY = 0; //窗口左上点地图坐标
         private int mMapOpStyle = 0; //地图操作类型,0无1放大2缩小3漫游4编辑5选择6新建要素
         private Layer mTrackingLayer; //用户正在描绘的图层
         private Layer mEditingLayer; //用户正在编辑的图层
@@ -54,7 +55,7 @@ namespace GISDesign_ZY
         //常量
         private const float mcTrackingWidth = 1F; //描绘要素的边界宽度
         private const float mcVertexHandleSize = 7F; //描绘要素顶点手柄大小
-        private const float mcZoomRatio = 1.2F; //缩放系数
+        private const float mcZoomRatio = 3F; //缩放系数
         private Color mcSelectingBoxColor = Color.DarkGreen; //选择盒颜色
         private const float mcSelectingBoxWidth = 2F; //选择盒边界宽度
         private Color mcSelectionColor = Color.Cyan; //选中要素颜色
@@ -119,8 +120,9 @@ namespace GISDesign_ZY
         /// <returns></returns>
         public PointD FromMapPoint(PointD point)
         {
-            PointD sPoint = new PointD((point.X - mOffsetX) / _DisplayScale, (point.Y - mOffsetY) / _DisplayScale);
-            return sPoint;
+            double sPointX = (point.X - mOffsetX) / _DisplayScale;
+            double sPointY = (mOffsetY - point.Y) / _DisplayScale;
+            return new PointD(sPointX, sPointY);
         }
 
         /// <summary>
@@ -131,7 +133,7 @@ namespace GISDesign_ZY
         public PointD ToMapPoint(PointD point)
         {
             double x = point.X * _DisplayScale + mOffsetX;
-            double y = point.Y * _DisplayScale + mOffsetY;
+            double y = mOffsetY - point.Y * _DisplayScale;
             PointD sPoint = new PointD(x, y);
             return sPoint;
         }
@@ -190,7 +192,7 @@ namespace GISDesign_ZY
         /// 将地图操作设置为编辑状态
         /// </summary>
         public void TrackPolygon(Layer editingLayer)
-        {            
+        {
             mMapOpStyle = 4; //记录操作状态
             this.Cursor = mCur_Cross; //更改光标
             mEditingLayer = editingLayer;
@@ -299,6 +301,7 @@ namespace GISDesign_ZY
         /// <returns></returns>
         public Layer[] SelectByBox(RectangleD box)
         {
+            PointSelect = true;
             List<Layer> sSels = new List<Layer>();  //记录给定矩形盒选中要素的图层集合
             //逐个图层判断是否有要素选入
             for (int i = 0; i < _Layers.Count; i++)
@@ -308,8 +311,8 @@ namespace GISDesign_ZY
                     //创建记录该图层被选要素的图层
                     string name = _Layers[i].Name + "_SelectedFeatures";
                     Layer layer = new Layer(name, _Layers[i].Descript);
-                    layer.FeatureType = _Layers[i].FeatureType;                   
-                    //存入选中要素坐标信息
+                    layer.FeatureType = _Layers[i].FeatureType;
+                    //存入选中要素属性信息
                     layer.MRecords = _Layers[i].MRecords.SelectByBox(box);
                     sSels.Add(layer);
                 }
@@ -334,38 +337,66 @@ namespace GISDesign_ZY
                     string name = _Layers[i].Name + "_SelectedFeatures";
                     Layer layer = new Layer(name, _Layers[i].Descript);
                     layer.FeatureType = _Layers[i].FeatureType;
-                    //设置选中要素的符号样式
-                    SimpleRenderer simpleRenderer = new SimpleRenderer();
-                    switch (layer.FeatureType)
-                    {
-                        case FeatureTypeConstant.PointD:
-                            SimpleMarkerSymbol simpleMarkerSymbol = new SimpleMarkerSymbol();
-                            simpleMarkerSymbol.MColor = _TrackingColor;
-                            simpleRenderer.MSymbol = simpleMarkerSymbol;
-                            break;
-                        case FeatureTypeConstant.Polyline:
-                        case FeatureTypeConstant.MultiPolyline:
-                            SimpleLineSymbol simpleLineSymbol = new SimpleLineSymbol();
-                            simpleLineSymbol.MColor = _TrackingColor;
-                            simpleLineSymbol.Width = 2;
-                            simpleRenderer.MSymbol = simpleLineSymbol;
-                            break;
-                        case FeatureTypeConstant.Polygon:
-                        case FeatureTypeConstant.MultiPolygon:
-                            SimpleFillSymbol simpleFillSymbol = new SimpleFillSymbol();
-                            simpleFillSymbol.OutlineColor = _TrackingColor;
-                            simpleFillSymbol.OutlineWidth = 2;
-                            simpleFillSymbol.FillStyle = FillStyleConstant.FTransparent;
-                            simpleRenderer.MSymbol = simpleFillSymbol;
-                            break;
-                    }
-                    layer.MRenderer = simpleRenderer;
                     //存入选中要素坐标信息
                     layer.MRecords = _Layers[i].MRecords.SelectByPoint(point, 8);
                     sSels.Add(layer);
                 }
             }
             return sSels.ToArray();
+        }
+
+        /// <summary>
+        /// 缩放至图层
+        /// </summary>
+        /// <param name="layer">选中图层</param>
+        /// <returns></returns>
+        public void Extent(Layer layer)
+        {
+            RectangleD temp = layer.GetExtent();
+            double minX = temp.MinX;
+            double minY = temp.MinY;
+            double maxX = temp.MaxX;
+            double maxY = temp.MaxY;
+            mOffsetX = minX;
+            mOffsetY = maxY;
+            if (maxX - minX == 0 && maxY - minY == 0)
+                return;
+            else if (maxY - minY == 0)
+            {
+                _DisplayScale = (maxX - minX) / 780;
+                mOffsetY = minY - _DisplayScale * 445;
+            }
+            else if ((maxX - minX) / (maxY - minY) > 1.7528)
+            {
+                _DisplayScale = (maxX - minX) / 780;
+            }
+            else
+                _DisplayScale = (maxY - minY) / 445;
+            Refresh();
+        }
+
+        public void Extent(RectangleD rectangle)
+        {
+            double minX = rectangle.MinX;
+            double minY = rectangle.MinY;
+            double maxX = rectangle.MaxX;
+            double maxY = rectangle.MaxY;
+            mOffsetX = minX;
+            mOffsetY = maxY;
+            if (maxX - minX == 0 && maxY - minY == 0)
+                return;
+            else if (maxY - minY == 0)
+            {
+                _DisplayScale = (maxX - minX) / 780;
+                mOffsetY = minY - _DisplayScale * 445;
+            }
+            else if ((maxX - minX) / (maxY - minY) > 1.7528)
+            {
+                _DisplayScale = (maxX - minX) / 780;
+            }
+            else
+                _DisplayScale = (maxY - minY) / 445;
+            Refresh();
         }
 
         #endregion
@@ -421,7 +452,8 @@ namespace GISDesign_ZY
                         //获取符号
                         curSymbol = (SimpleMarkerSymbol)simpleRenderer.MSymbol;
                         //绘制
-                        DrawSymbol.DrawMarkerSymbol(g, curSymbol, new PointF((float)ScreenPoint.X, (float)ScreenPoint.Y));
+                        PointF point = new PointF((float)ScreenPoint.X, (float)ScreenPoint.Y);
+                        DrawSymbol.DrawMarkerSymbol(g, curSymbol, point);
                     }
                     break;
                 case RendererType.UniqueValueRenderer:
@@ -489,7 +521,7 @@ namespace GISDesign_ZY
                         index = curLayer.MRecords.fields.GetIndexOfField(field);  //绑定字段的索引                   
                         //找出当前值对应的符号
                         double CBvalue = Convert.ToDouble(r.Value(index));
-                         curSymbol = (SimpleLineSymbol)classBreaksRenderer.FindSymbol(CBvalue);
+                        curSymbol = (SimpleLineSymbol)classBreaksRenderer.FindSymbol(CBvalue);
                         break;
                 }
                 //判断图层类型并绘制
@@ -533,7 +565,7 @@ namespace GISDesign_ZY
                         break;
                     default:
                         break;
-                }               
+                }
             }
         }
 
@@ -541,17 +573,30 @@ namespace GISDesign_ZY
         private void DrawPolygonLayer(Graphics g, Layer curLayer)
         {
             Renderer curRenderer = curLayer.MRenderer;
-            SimpleFillSymbol curSymbol = new SimpleFillSymbol();
+
+            bool DrawHatch = false;
 
             for (int i = 0; i < curLayer.MRecords.records.Count(); i++)
             {
+                SimpleFillSymbol curSymbol = new SimpleFillSymbol();
+                HatchFillSymbol hatchFillSymbol = new HatchFillSymbol();
                 Record r = curLayer.MRecords.records.Item(i);
                 //判断渲染器类型
                 switch (curRenderer.Type)
                 {
                     case RendererType.SimpleRenderer:
                         SimpleRenderer simpleRenderer = (SimpleRenderer)curRenderer;
-                        curSymbol = (SimpleFillSymbol)simpleRenderer.MSymbol;
+                        switch (simpleRenderer.MSymbol.Type)
+                        {
+                            case SymbolType.SimpleFillSymbol:
+                                curSymbol = (SimpleFillSymbol)simpleRenderer.MSymbol;
+                                DrawHatch = false;
+                                break;
+                            case SymbolType.HatchFillSymbol:
+                                DrawHatch = true;
+                                hatchFillSymbol = (HatchFillSymbol)simpleRenderer.MSymbol;
+                                break;
+                        }
                         break;
                     case RendererType.UniqueValueRenderer:
                         {
@@ -560,7 +605,17 @@ namespace GISDesign_ZY
                             int index = curLayer.MRecords.fields.GetIndexOfField(field);  //绑定字段的索引
                             //找出当前值对应的符号
                             string value = r.Value(index).ToString();
-                            curSymbol = (SimpleFillSymbol)uniqueValueRenderer.FindSymbol(value);
+                            switch (uniqueValueRenderer.FindSymbol(value).Type)
+                            {
+                                case SymbolType.SimpleFillSymbol:
+                                    curSymbol = (SimpleFillSymbol)uniqueValueRenderer.FindSymbol(value);
+                                    DrawHatch = false;
+                                    break;
+                                case SymbolType.HatchFillSymbol:
+                                    DrawHatch = true;
+                                    hatchFillSymbol = (HatchFillSymbol)uniqueValueRenderer.FindSymbol(value);
+                                    break;
+                            }
                             break;
                         }
                     case RendererType.ClassBreaksRenderer:
@@ -570,7 +625,17 @@ namespace GISDesign_ZY
                             int index = curLayer.MRecords.fields.GetIndexOfField(field);  //绑定字段的索引                   
                             //找出当前值对应的符号
                             double CBvalue = Convert.ToDouble(r.Value(index));
-                            curSymbol = (SimpleFillSymbol)classBreaksRenderer.FindSymbol(CBvalue);
+                            switch (classBreaksRenderer.FindSymbol(CBvalue).Type)
+                            {
+                                case SymbolType.SimpleFillSymbol:
+                                    curSymbol = (SimpleFillSymbol)classBreaksRenderer.FindSymbol(CBvalue);
+                                    DrawHatch = false;
+                                    break;
+                                case SymbolType.HatchFillSymbol:
+                                    DrawHatch = true;
+                                    hatchFillSymbol = (HatchFillSymbol)classBreaksRenderer.FindSymbol(CBvalue);
+                                    break;
+                            }
                             break;
                         }
                 }
@@ -593,7 +658,10 @@ namespace GISDesign_ZY
                             sScreenPoints[k].Y = (float)sScreenPoint.Y;
                         }
                         //绘制
-                        DrawSymbol.DrawFillSymbol(g, curSymbol, sScreenPoints, sPointCount);
+                        if (DrawHatch)
+                            DrawSymbol.DrawHatchSymbol(g, hatchFillSymbol, sScreenPoints, sPointCount);
+                        else
+                            DrawSymbol.DrawFillSymbol(g, curSymbol, sScreenPoints, sPointCount);
                         break;
                     case FeatureTypeConstant.MultiPolygon:
                         MultiPolygon multiPolygon = (MultiPolygon)r.Value(1);
@@ -609,8 +677,10 @@ namespace GISDesign_ZY
                                 sScreenPoints[k].X = (float)sScreenPoint.X;
                                 sScreenPoints[k].Y = (float)sScreenPoint.Y;
                             }
-                            //绘制
-                            DrawSymbol.DrawFillSymbol(g, curSymbol, sScreenPoints, sPointCount);
+                            if (DrawHatch)
+                                DrawSymbol.DrawHatchSymbol(g, hatchFillSymbol, sScreenPoints, sPointCount);
+                            else
+                                DrawSymbol.DrawFillSymbol(g, curSymbol, sScreenPoints, sPointCount);
                         }
                         break;
                     default:
@@ -624,7 +694,7 @@ namespace GISDesign_ZY
         private void DrawSelectedFeatures(Graphics g)
         {
             //设置图层样式符号
-            for(int i=0;i<_SelectedLayers.Count;i++)
+            for (int i = 0; i < _SelectedLayers.Count; i++)
             {
                 SimpleRenderer simpleRenderer = new SimpleRenderer();
                 switch (_SelectedLayers[i].FeatureType)
@@ -656,6 +726,22 @@ namespace GISDesign_ZY
             DrawLayers(g, _SelectedLayers);
         }
 
+        private void DrawTextSymbol(Graphics g)
+        {
+            for(int i = 0; i < _Layers.Count(); i++)
+            {
+                if (_Layers[i].MLabelRender.Used)
+                {
+                    string bindField = _Layers[i].MLabelRender.Field;
+                    for(int j=0;j< _Layers[i].MRecords.records.Count(); j++)
+                    {
+                        Record r = _Layers[i].MRecords.records.Item(j);
+
+                    }
+                }
+            }
+        }
+
         //绘制跟踪图层
         private void DrawTrackingLayers(Graphics g)
         {
@@ -664,8 +750,8 @@ namespace GISDesign_ZY
                 return;
             Pen sTrackingpen = new Pen(_TrackingColor, mcTrackingWidth);
             for (int i = 0; i < sPointCount - 1; i++)
-            { 
-                g.DrawLine(sTrackingpen, TrackingFeature[i], TrackingFeature[i + 1]); 
+            {
+                g.DrawLine(sTrackingpen, TrackingFeature[i], TrackingFeature[i + 1]);
             }
             //绘制跟踪要素顶点手柄
             SolidBrush sVertexBrush = new SolidBrush(_TrackingColor);
@@ -709,7 +795,7 @@ namespace GISDesign_ZY
         {
             for (int i = 0; i < layers.Count; i++)
             {
-                if (layers[i].Visible == true)
+                if (layers[i].Visible == true && layers[i].MRecords != null)
                 {
                     switch (layers[i].FeatureType)
                     {
@@ -1076,16 +1162,15 @@ namespace GISDesign_ZY
                 case 5: //选择
                     if (e.Button == MouseButtons.Left)
                     {
+                        mStartPoint = e.Location;
+                        //MessageBox.Show(text: "Mouseclick: " + e.Clicks.ToString());
+                        /**
                         if (e.Clicks == 1)  //点选
                         {
                             PointD SelPoint = ToMapPoint(new PointD(e.Location.X, e.Location.Y));
                             if (SelectingByPointFinished != null)
                                 SelectingByPointFinished(this, SelPoint);//触发事件，并传递选择的点
-                        }
-                        else
-                        {
-                            mStartPoint = e.Location;  //框选
-                        }                            
+                        }    ***/
                     }
                     break;
                 case 6: //新建要素
@@ -1143,22 +1228,22 @@ namespace GISDesign_ZY
                     break;
                 case 4: //编辑
                     if (e.Button == MouseButtons.Left)
-                    { 
-                        Editing = false;                       
+                    {
+                        Editing = false;
                     }
                     break;
                 case 5: //选择
-                    if (e.Button == MouseButtons.Left)
+                    if (e.Button == MouseButtons.Left && PointSelect == false)
                     {
                         double sMinX = Math.Min(mStartPoint.X, e.Location.X);
                         double sMaxX = Math.Max(mStartPoint.X, e.Location.X);
                         double sMinY = Math.Min(mStartPoint.Y, e.Location.Y);
                         double sMaxY = Math.Max(mStartPoint.Y, e.Location.Y);
-                        PointD sTopLeft = new PointD(sMinX, sMinY);
-                        PointD sBottomRight = new PointD(sMaxX, sMaxY);
-                        PointD sTopLeftOnMap = ToMapPoint(sTopLeft);
-                        PointD sBottomRightOnMap = ToMapPoint(sBottomRight);
-                        RectangleD sSelBox = new RectangleD(sTopLeftOnMap.X, sBottomRightOnMap.X, sTopLeftOnMap.Y, sBottomRightOnMap.Y);
+                        PointD sBottomLeft = new PointD(sMinX, sMaxY);
+                        PointD sTopRight = new PointD(sMaxX, sMinY);
+                        PointD sBottomLeftOnMap = ToMapPoint(sBottomLeft);
+                        PointD sTopRightOnMap = ToMapPoint(sTopRight);
+                        RectangleD sSelBox = new RectangleD(sBottomLeftOnMap.X, sBottomLeftOnMap.Y, sTopRightOnMap.X, sTopRightOnMap.Y);
                         Refresh();
                         if (SelectingByBoxFinished != null)
                             SelectingByBoxFinished(this, sSelBox);//触发事件，并传递选择盒
@@ -1199,13 +1284,14 @@ namespace GISDesign_ZY
                     {
                         //鼠标位置在地图上的坐标
                         PointD MouseMapPosition = new PointD(e.Location.X, e.Location.Y);
-                        EditPoint(MouseMapPosition);                       
+                        EditPoint(MouseMapPosition);
                         Refresh();
                     }
                     break;
                 case 5: //选择
                     if (e.Button == MouseButtons.Left)
                     {
+                        PointSelect = false;
                         Refresh();
                         Graphics g = Graphics.FromHwnd(this.Handle);
                         Pen sBoxPen = new Pen(mcSelectingBoxColor, mcSelectingBoxWidth);
@@ -1246,15 +1332,44 @@ namespace GISDesign_ZY
             }
         }
 
+        private void MapControl_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (mMapOpStyle)
+            {
+                case 0:
+                    break;
+                case 1: //放大
+                    break;
+                case 2: //缩小
+                    break;
+                case 3: //漫游
+                    break;
+                case 4: //编辑
+                    break;
+                case 5: //选择
+                    if (e.Button == MouseButtons.Left && PointSelect == true)
+                    {
+                        PointD SelPoint = ToMapPoint(new PointD(e.Location.X, e.Location.Y));
+                        if (SelectingByPointFinished != null)
+                            SelectingByPointFinished(this, SelPoint);//触发事件，并传递选择的点
+                    }
+                    break;
+                case 6: //新建要素 
+                    break;
+            }
+        }
+
         //母版重绘
         private void MapControl_Paint(object sender, PaintEventArgs e)
         {
             //绘制所有图层集
             DrawLayers(e.Graphics, _Layers);
             //绘制选中要素图层集
-            DrawSelectedFeatures(e.Graphics);            
+            DrawSelectedFeatures(e.Graphics);
             //绘制跟踪要素           
             DrawTrackingLayers(e.Graphics);
+            //绘制标注
+            DrawTextSymbol(e.Graphics);
         }
 
         #endregion

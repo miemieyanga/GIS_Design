@@ -94,11 +94,47 @@ namespace GISDesign_ZY
         /// <summary>
         /// 获取外包矩形
         /// </summary>
-        public RectangleF GetExtent()
+        public RectangleD GetExtent()
         {
-            
-            return new RectangleF((float)_MinX, (float)_MinY,
-                (float)(_MaxX-_MinX), (float)(_MaxY-MinY));
+            List<PointD> pointDs = new List<PointD>();
+            for (int i = 0; i < MRecords.records.Count(); i++)
+            {
+                
+                object feature = MRecords.records.Item(i).Value(1);
+                switch (FeatureType)
+                {
+                    case FeatureTypeConstant.PointD:
+                        pointDs.Add((PointD)feature);
+                        break;
+                    case FeatureTypeConstant.Polyline:
+                        Polyline polyline = (Polyline)feature;
+                        pointDs.AddRange(polyline.points);
+                        break;
+                    case FeatureTypeConstant.Polygon:
+                        Polygon polygon = (Polygon)feature;
+                        pointDs.AddRange(polygon.points);
+                        break;
+                }
+            }
+            return GetMBR(pointDs.ToArray());
+        }
+
+        private RectangleD GetMBR(PointD[] polygon)
+        {
+            double minX = polygon[0].X, minY = polygon[0].Y,
+                maxX = polygon[0].X, maxY = polygon[0].Y;
+            foreach (PointD point in polygon)
+            {
+                if (point.X < minX)
+                    minX = point.X;
+                if (point.X > maxX)
+                    maxX = point.X;
+                if (point.Y < minY)
+                    minY = point.Y;
+                if (point.Y > maxY)
+                    maxY = point.Y;
+            }
+            return new RectangleD(minX, minY, maxX, maxY);
         }
 
         /// <summary>

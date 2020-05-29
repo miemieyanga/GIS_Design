@@ -72,6 +72,7 @@ namespace shp读取
                         break;
                     }
             }
+            fs.Close();
         }
 
         /// <summary>

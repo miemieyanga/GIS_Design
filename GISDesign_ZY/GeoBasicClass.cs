@@ -101,7 +101,17 @@ namespace ClassLibraryIofly
     /// </summary>
     public class Polygon
     {
-        public PointD[] points { get; set; }
+        public PointD[] points
+        {
+            get
+            {
+                return _points.ToArray();
+            }
+            set
+            {
+                _points = value.ToList();
+            }
+        }
         private List<PointD> _points = new List<PointD>(); //顶点集合
         public double MinX, MinY, MaxX, MaxY;
 
@@ -416,7 +426,16 @@ namespace ClassLibraryIofly
     /// </summary>
     public class Polyline
     {
-        public PointD[] points { get; set; }
+        public PointD[] points {
+            get
+            {
+                return _points.ToArray();
+            }
+            set
+            {
+                _points = value.ToList();
+            }
+        }
         private List<PointD> _points = new List<PointD>(); //顶点集合
         public double MinX, MinY, MaxX, MaxY;
 

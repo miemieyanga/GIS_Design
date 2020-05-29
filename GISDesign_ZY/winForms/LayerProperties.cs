@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GIS_Design;
+using ClassLibraryIofly;
 
 namespace GISDesign_ZY
 {
@@ -73,6 +74,10 @@ namespace GISDesign_ZY
 
         public event FinishSettingLayerHandler FinishSettingLayer;
 
+        public delegate void FinishSettingLabelHandler(object sender);
+
+        public event FinishSettingLabelHandler FinishSettingLabel;
+
         #endregion
 
         #region 事件处理
@@ -84,10 +89,11 @@ namespace GISDesign_ZY
             layerVisibleChb.Checked = curLayer.Visible;
             layerDescriptTbx.Text = curLayer.Descript;
 
-            upLbl.Text = curLayer.MaxY.ToString();
-            downLbl.Text = curLayer.MinY.ToString();
-            leftLbl.Text = curLayer.MinX.ToString();
-            rightLbl.Text = curLayer.MaxX.ToString();
+            RectangleD rectangleD = curLayer.GetExtent();
+            upLbl.Text = rectangleD.MaxY.ToString();
+            downLbl.Text = rectangleD.MinY.ToString();
+            leftLbl.Text = rectangleD.MinX.ToString();
+            rightLbl.Text = rectangleD.MaxX.ToString();
 
             datasourceTbx.Text += "数据源：" + curLayer.DataSource + "\r\n";
             datasourceTbx.Text += "几何数据类型：" + curLayer.FeatureTypeString + "\r\n";
@@ -601,6 +607,15 @@ namespace GISDesign_ZY
             defaulySymbolBtn.Image = DrawSymbol.GetBitmapOfSymbol(defaultSymbol,
     new RectangleF(0, 0, defaulySymbolBtn.Bounds.Width, defaulySymbolBtn.Bounds.Y));
             defaulySymbolBtn.Refresh();
+        }
+
+        //生成注记
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            curLayer.MLabelRender.Used = true;
+            curLayer.MLabelRender.MTextSymbol = textSymbol;
+            curLayer.MLabelRender.Field = labelRendererValueCmb.Text;
+            FinishSettingLabel(this);
         }
 
         private void Button8_Click(object sender, EventArgs e)

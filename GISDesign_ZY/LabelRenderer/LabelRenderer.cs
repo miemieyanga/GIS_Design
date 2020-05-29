@@ -38,7 +38,7 @@ namespace GISDesign_ZY
             MTextSymbol = new TextSymbol();  //默认符号
         }
 
-         
+    
     }
 
     /// <summary>

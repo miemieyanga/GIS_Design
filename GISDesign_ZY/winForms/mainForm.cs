@@ -32,6 +32,7 @@ namespace GISFinal
         private void Form1_Load(object sender, EventArgs e)
         {
             map = new MapManager();
+            mcMap._Layers = map.Layers;
         }
 
         private void 视图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,8 +115,9 @@ namespace GISFinal
                 }
                 layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
                 layerTreeView.ExpandAll();
-                mcMap._Layers = map.Layers;
-                mcMap.Refresh();
+                map.SetProjection(ProjectionType.ETC);
+
+                mcMap.Extent(map.Layers[map.Layers.Count - 1]);
             }
         }
 
@@ -136,6 +138,7 @@ namespace GISFinal
                     layerTreeView.Nodes[0].Nodes.Add(layer.Name);
                 }
                 layerTreeView.ExpandAll();
+                mcMap.Extent(map.GetExtent());
             }
         }
         #endregion
@@ -166,15 +169,19 @@ namespace GISFinal
         {
             Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
             LayerProperties layerProperties = new LayerProperties(curLayer);
-            //TODO：MAP绘制事件
-            mcMap.Refresh();
             layerProperties.FinishSettingLayer += drawForTest;
+            layerProperties.FinishSettingLabel += DrawText;
             layerProperties.Show();
+        }
+
+        private void DrawText(object sender)
+        {
+            mcMap.Refresh();
         }
 
         private void drawForTest(object s)
         {
-            mcMap.Refresh();
+            mcMap.Extent(map.GetLayerByName(layerTreeView.SelectedNode.Text));
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)

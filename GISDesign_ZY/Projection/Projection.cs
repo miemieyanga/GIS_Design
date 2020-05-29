@@ -14,6 +14,7 @@ namespace GISDesign_ZY
         abstract public PointF LngLatToXY(PointF coordinate);
         abstract public PointD XYToLngLat(PointD coordinate);
         abstract public PointF XYToLngLat(PointF coordinate);
+        abstract public void LngLatToXY(MapManager map);
     }
 
     /// <summary>
@@ -26,6 +27,47 @@ namespace GISDesign_ZY
         const double e2 = (a * a - b * b) / (a * a);
         const double center = 110;
         static double e = Math.Sqrt(e2);
+
+        public override void LngLatToXY(MapManager map)
+        {
+
+            for(int k=0;k<map.Layers.Count();k++)
+            {
+                Layer layer = map.Layers[k];
+                for(int i=0; i< layer.MRecords.records.Count();i++)
+                {
+                    object feature = layer.MRecords.records.Item(i).Value(1);
+                    
+                    switch (layer.FeatureType)
+                    {
+                        case FeatureTypeConstant.PointD:
+                            PointD cp = LngLatToXY((PointD)feature);
+                            feature = cp;
+                            break;
+                        case FeatureTypeConstant.Polyline:
+                            Polyline polyline = (Polyline)feature;
+                            PointD[] points = new PointD[polyline.points.Length];
+                            for(int j=0;j<points.Length;j++)
+                            {
+                                points[j] = LngLatToXY(polyline.points[j]);
+                            }
+                            polyline.points = points;
+                            feature = polyline;
+                            break;
+                        case FeatureTypeConstant.Polygon:
+                            Polygon polygon = (Polygon)feature;
+                            PointD[] points1 = new PointD[polygon.points.Length];
+                            for (int j = 0; j < points1.Length; j++)
+                            {
+                                points1[j] = LngLatToXY(polygon.points[j]);
+                            }
+                            polygon.points = points1;
+                            feature = polygon;
+                            break;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 经纬度坐标转XY坐标
