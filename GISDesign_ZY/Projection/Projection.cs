@@ -15,6 +15,7 @@ namespace GISDesign_ZY
         abstract public PointD XYToLngLat(PointD coordinate);
         abstract public PointF XYToLngLat(PointF coordinate);
         abstract public void LngLatToXY(MapManager map);
+        abstract public void LngLatToXY(Layer layer);
     }
 
     /// <summary>
@@ -65,6 +66,42 @@ namespace GISDesign_ZY
                             feature = polygon;
                             break;
                     }
+                }
+            }
+        }
+
+        public override void LngLatToXY(Layer layer)
+        {
+            for (int i = 0; i < layer.MRecords.records.Count(); i++)
+            {
+                object feature = layer.MRecords.records.Item(i).Value(1);
+
+                switch (layer.FeatureType)
+                {
+                    case FeatureTypeConstant.PointD:
+                        PointD cp = LngLatToXY((PointD)feature);
+                        feature = cp;
+                        break;
+                    case FeatureTypeConstant.Polyline:
+                        Polyline polyline = (Polyline)feature;
+                        PointD[] points = new PointD[polyline.points.Length];
+                        for (int j = 0; j < points.Length; j++)
+                        {
+                            points[j] = LngLatToXY(polyline.points[j]);
+                        }
+                        polyline.points = points;
+                        feature = polyline;
+                        break;
+                    case FeatureTypeConstant.Polygon:
+                        Polygon polygon = (Polygon)feature;
+                        PointD[] points1 = new PointD[polygon.points.Length];
+                        for (int j = 0; j < points1.Length; j++)
+                        {
+                            points1[j] = LngLatToXY(polygon.points[j]);
+                        }
+                        polygon.points = points1;
+                        feature = polygon;
+                        break;
                 }
             }
         }

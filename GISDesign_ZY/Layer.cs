@@ -140,10 +140,10 @@ namespace GISDesign_ZY
         /// <summary>
         /// 获取点要素的注记位置,接收的是屏幕坐标
         /// </summary>
-        private PointF GetLabelPositionOfPointD(PointF pointOfScreen, string labelString)
+        public PointF GetLabelPositionOfPointD(PointF pointOfScreen, string labelString)
         {
             double xBias = - labelString.Length * MLabelRender.MTextSymbol.FontSize / 2;
-            double yBisa = - MLabelRender.MTextSymbol.FontSize / 2;
+            double yBisa =  MLabelRender.MTextSymbol.FontSize/2;
             return new PointF((float)(pointOfScreen.X + MLabelRender.MTextSymbol.OffsetX +xBias), 
                 (float)(pointOfScreen.Y + MLabelRender.MTextSymbol.OffsetY + yBisa));
         }
@@ -151,8 +151,9 @@ namespace GISDesign_ZY
         /// <summary>
         /// 获取线要素的注记位置数组，每个点定位一个字符
         /// </summary>
-        private PointF[] GetLabelPositionOfPolyline(PointF[] pointsOfScreen, string labelString)
+        public PointF[] GetLabelPositionOfPolyline(PointF[] linepoint, string labelString)
         {
+            /*
             int lenOfString = labelString.Length;
             List<double> totalDis = new List<double>();  //累计距离
             double sum = 0;
@@ -167,7 +168,7 @@ namespace GISDesign_ZY
                 totalDis.Add(sum);
             }
             //掐头去尾，剩下的区域均匀分布
-            double wordDis = totalDis[totalDis.Count - 1] / lenOfString + 2;  //每个字之间的距离
+            double wordDis = totalDis[totalDis.Count - 1] / (lenOfString + 2);  //每个字之间的距离
 
             List<PointF> res = new List<PointF>();  //结果
             //计算每个字的位置
@@ -186,7 +187,7 @@ namespace GISDesign_ZY
                 while (curTotalDis < wordDis)
                 {
                     tempIndex += 1;
-                    curTotalDis = totalDis[tempIndex] - wordDis * (i + 1);
+                    curTotalDis = totalDis[tempIndex] - wordDis * (i);
                 }
 
                 //计算位置
@@ -197,12 +198,60 @@ namespace GISDesign_ZY
                 curTotalDis = 0;
             }
             return res.ToArray();
+            */
+            //起始点到以后每点的累计距离
+            List<double> adddis = new List<double>();
+            //结果数组
+            List<PointF> result = new List<PointF>();
+            int count = linepoint.Length;
+            int wordcount = labelString.Length;
+            adddis.Add(TwoPointDis(linepoint[0], linepoint[1]));
+            for (int i = 1; i < count - 1; i++)
+            {
+                adddis.Add(adddis[i - 1] + TwoPointDis(linepoint[i], linepoint[i + 1]));
+            }
+            double k = adddis[count - 2] / (wordcount + 1);
+            double labelnow = k;
+
+            for (int i = 0; i < wordcount; i++)
+            {
+                while (labelnow < adddis[0])
+                {
+                    result.Add(GetSinglePoint(linepoint[0], linepoint[1], labelnow));
+                    labelnow += k;
+                    i++;
+                }
+                for (int j = 1; j < adddis.Count; j++)
+                {
+                    while (adddis[j - 1] <= labelnow && adddis[j] > labelnow)
+                    {
+                        result.Add(GetSinglePoint(linepoint[j], linepoint[j + 1], labelnow - adddis[j - 1]));
+                        labelnow += k;
+                        i++;
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
+        private double TwoPointDis(PointF a, PointF b)
+        {
+            double dis = Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y));
+            return dis;
+        }
+
+        private PointF GetSinglePoint(PointF a, PointF b, double dis)
+        {
+            float dx = b.X - a.X;
+            float dy = b.Y - a.Y;
+            float k = (float)(dis / TwoPointDis(a, b));
+            return (new PointF(a.X + k * dx, a.Y + k * dy));
         }
 
         /// <summary>
         /// 获取多边形要素的注记位置数组
         /// </summary>
-        private PointF GetLabelPositionOfPolygon(PointF[] polygonOfScreen, string labelString)
+        public PointF GetLabelPositionOfPolygon(PointF[] polygonOfScreen, string labelString)
         {
             /*
             //先判断几何中心是不是在多边形内，如果不在就旋转多边形，直到找到位置
@@ -225,7 +274,7 @@ namespace GISDesign_ZY
             aph -= 5;
             MLabelRender.MTextSymbol.Angle = -aph;
             */
-            PointF point = GetGeoCenter(polygonOfScreen);
+            PointF point = GetCenterOfMBR(polygonOfScreen);
             point.X -= labelString.Length * MLabelRender.MTextSymbol.FontSize / 2;
             point.Y += MLabelRender.MTextSymbol.FontSize / 2;
             return point;
@@ -247,7 +296,7 @@ namespace GISDesign_ZY
                 if (point.Y > maxY)
                     maxY = point.Y;
             }
-            return new PointF((maxX - minX) / 2, (maxY - minY) / 2);
+            return new PointF((maxX + minX) / 2, (maxY + minY) / 2);
         }
 
         //顺时针旋转多边形

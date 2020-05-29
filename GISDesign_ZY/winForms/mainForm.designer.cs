@@ -320,6 +320,7 @@
             // 
             // layerTreeView
             // 
+            this.layerTreeView.AllowDrop = true;
             this.layerTreeView.ImageIndex = 0;
             this.layerTreeView.ImageList = this.layerImageList;
             this.layerTreeView.Location = new System.Drawing.Point(0, 58);
@@ -328,6 +329,9 @@
             this.layerTreeView.Size = new System.Drawing.Size(172, 510);
             this.layerTreeView.TabIndex = 3;
             this.layerTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
+            this.layerTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.LayerTreeView_ItemDrag);
+            this.layerTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.LayerTreeView_DragDrop);
+            this.layerTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.LayerTreeView_DragEnter);
             this.layerTreeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LayerTreeView_MouseUp);
             // 
             // layerImageList

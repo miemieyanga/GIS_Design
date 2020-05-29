@@ -733,10 +733,52 @@ namespace GISDesign_ZY
                 if (_Layers[i].MLabelRender.Used)
                 {
                     string bindField = _Layers[i].MLabelRender.Field;
-                    for(int j=0;j< _Layers[i].MRecords.records.Count(); j++)
+                    int index = _Layers[i].MRecords.fields.GetIndexOfField(bindField);
+                    for (int j=0;j< _Layers[i].MRecords.records.Count(); j++)
                     {
                         Record r = _Layers[i].MRecords.records.Item(j);
-
+                        string labelstring = r.Value(index).ToString();
+                        switch (_Layers[i].FeatureType)
+                        {
+                            case FeatureTypeConstant.PointD:
+                                PointD p = FromMapPoint((PointD)r.Value(1));
+                                PointF pos = _Layers[i].GetLabelPositionOfPointD(
+                                    new PointF((float)p.X, (float)p.Y), labelstring);
+                                Font f = _Layers[i].MLabelRender.MTextSymbol.ToFont();
+                                g.DrawString(labelstring, f,
+                                    new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), pos);
+                                break;
+                            case FeatureTypeConstant.Polyline:
+                                Polyline polyline = (Polyline)r.Value(1);
+                                PointF[] pointFs = new PointF[polyline.points.Length];
+                                for(int k = 0; k < polyline.points.Length; k++)
+                                {
+                                    PointD p1 = FromMapPoint(polyline.points[k]);
+                                    pointFs[k] = new PointF((float)p1.X, (float)p1.Y);
+                                }
+                                PointF[] points = _Layers[i].GetLabelPositionOfPolyline(pointFs,labelstring);
+                                for(int k = 0; k < labelstring.Length; k++)
+                                {
+                                    Font f1 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
+                                    g.DrawString(labelstring[k].ToString(), f1,
+                                        new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), points[i]);
+                                }
+                                break;
+                            case FeatureTypeConstant.Polygon:
+                                Polygon polygon = (Polygon)r.Value(1);
+                                PointF[] pointFs1 = new PointF[polygon.points.Length];
+                                for (int k = 0; k < polygon.points.Length; k++)
+                                {
+                                    PointD p1 = FromMapPoint(polygon.points[k]);
+                                    pointFs1[k] = new PointF((float)p1.X, (float)p1.Y);
+                                }
+                                PointF points1 = _Layers[i].GetLabelPositionOfPolygon(pointFs1, labelstring);
+                                Font f2 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
+                                g.DrawString(labelstring, f2,
+                                    new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), points1);
+  
+                                break;
+                        }
                     }
                 }
             }
@@ -793,7 +835,7 @@ namespace GISDesign_ZY
         //绘制给定图层集
         private void DrawLayers(Graphics g, List<Layer> layers)
         {
-            for (int i = 0; i < layers.Count; i++)
+            for (int i = layers.Count-1;i>=0 ; i--)
             {
                 if (layers[i].Visible == true && layers[i].MRecords != null)
                 {

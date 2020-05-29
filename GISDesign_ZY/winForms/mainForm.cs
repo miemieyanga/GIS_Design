@@ -115,8 +115,12 @@ namespace GISFinal
                 }
                 layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
                 layerTreeView.ExpandAll();
-                map.SetProjection(ProjectionType.ETC);
-
+                if (map.projection == null)
+                {
+                    map.projection = new ProjectionETC();
+                }
+                Layer cl = map.Layers[map.Layers.Count - 1];
+                map.projection.LngLatToXY(cl);
                 mcMap.Extent(map.Layers[map.Layers.Count - 1]);
             }
         }
@@ -221,6 +225,66 @@ namespace GISFinal
         private void 缩小_Click(object sender, EventArgs e)
         {
             mcMap.ZoomOut();
+        }
+
+        private void LayerTreeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            DoDragDrop(e.Item, DragDropEffects.Move);
+        }
+
+        private void LayerTreeView_DragDrop(object sender, DragEventArgs e)
+        {
+            Point Position = new Point();
+            TreeNode myNode = null;
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+            {
+                myNode = (TreeNode)(e.Data.GetData(typeof(TreeNode)));
+            }
+            else
+            {
+                MessageBox.Show("error");
+            }
+            Position.X = e.X;
+            Position.Y = e.Y;
+            Position = layerTreeView.PointToClient(Position);
+            TreeNode DropNode = this.layerTreeView.GetNodeAt(Position);
+            // 1.目标节点不是空。2.目标节点不是被拖拽接点的字节点。3.目标节点不是被拖拽节点本身
+            if (DropNode != null && DropNode.Parent != myNode && DropNode != myNode)
+            {
+                TreeNode DragNode = (TreeNode)myNode.Clone();
+                // 将被拖拽节点从原来位置删除。
+                myNode.Remove();
+                // 在目标节点下增加被拖拽节点
+                int index = layerTreeView.Nodes[0].Nodes.IndexOf(DropNode);
+                layerTreeView.Nodes[0].Nodes.Insert(index,myNode);
+            }
+            // 如果目标节点不存在，即拖拽的位置不存在节点，那么就将被拖拽节点放在根节点之下
+            if (DropNode == null)
+            {
+                TreeNode DragNode = (TreeNode)myNode.Clone();
+                myNode.Remove();
+                layerTreeView.Nodes[0].Nodes.Add(DragNode);
+            }
+
+            //跟新图层顺序
+            List<Layer> res = new List<Layer>();
+            for(int i=0;i< layerTreeView.Nodes[0].Nodes.Count; i++)
+            {
+                string n = layerTreeView.Nodes[0].Nodes[i].Text;
+                Layer layer = map.GetLayerByName(n);
+                res.Add(layer);
+            }
+            map.Layers = res;
+            mcMap._Layers = res;
+            mcMap.Refresh();
+        }
+
+        private void LayerTreeView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(TreeNode)))
+                e.Effect = DragDropEffects.Move;
+            else
+                e.Effect = DragDropEffects.None;
         }
     }
 }
