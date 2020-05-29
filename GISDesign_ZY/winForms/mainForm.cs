@@ -114,7 +114,7 @@ namespace GISFinal
                 }
                 layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
                 layerTreeView.ExpandAll();
-                mcMap._Layers.Add(map.Layers[map.Layers.Count - 1]);
+                mcMap._Layers = map.Layers;
                 mcMap.Refresh();
             }
         }
@@ -167,13 +167,14 @@ namespace GISFinal
             Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
             LayerProperties layerProperties = new LayerProperties(curLayer);
             //TODO：MAP绘制事件
+            mcMap.Refresh();
             layerProperties.FinishSettingLayer += drawForTest;
             layerProperties.Show();
         }
 
         private void drawForTest(object s)
         {
-
+            mcMap.Refresh();
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)

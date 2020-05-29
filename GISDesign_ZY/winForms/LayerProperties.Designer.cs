@@ -48,6 +48,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.emampleStringPbx = new System.Windows.Forms.PictureBox();
             this.colorBtn = new System.Windows.Forms.Button();
             this.fontSizeTbx = new System.Windows.Forms.TextBox();
             this.fontNameCmb = new System.Windows.Forms.ComboBox();
@@ -105,13 +106,15 @@
             this.classBreakRendererSizeCmb = new System.Windows.Forms.ComboBox();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.emampleStringPbx = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.defaulySymbolBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.layerInfoTag.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.labelRendererTag.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.emampleStringPbx)).BeginInit();
             this.groupBox11.SuspendLayout();
             this.rendererTag.SuspendLayout();
             this.classBreakRendererTab.SuspendLayout();
@@ -132,7 +135,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.sizeDgv)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.emampleStringPbx)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -344,6 +346,16 @@
             this.panel1.Size = new System.Drawing.Size(421, 117);
             this.panel1.TabIndex = 3;
             // 
+            // emampleStringPbx
+            // 
+            this.emampleStringPbx.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.emampleStringPbx.Location = new System.Drawing.Point(15, 22);
+            this.emampleStringPbx.Name = "emampleStringPbx";
+            this.emampleStringPbx.Size = new System.Drawing.Size(136, 70);
+            this.emampleStringPbx.TabIndex = 11;
+            this.emampleStringPbx.TabStop = false;
+            this.emampleStringPbx.Paint += new System.Windows.Forms.PaintEventHandler(this.EmampleStringPbx_Paint);
+            // 
             // colorBtn
             // 
             this.colorBtn.Location = new System.Drawing.Point(343, 31);
@@ -532,6 +544,8 @@
             // uniqueValueRendererTag
             // 
             this.uniqueValueRendererTag.BackColor = System.Drawing.SystemColors.Control;
+            this.uniqueValueRendererTag.Controls.Add(this.defaulySymbolBtn);
+            this.uniqueValueRendererTag.Controls.Add(this.label4);
             this.uniqueValueRendererTag.Controls.Add(this.getUniqueValuesBtn);
             this.uniqueValueRendererTag.Controls.Add(this.uniqueDgv);
             this.uniqueValueRendererTag.Controls.Add(this.groupBox4);
@@ -562,10 +576,10 @@
             this.symbolImage,
             this.uniqueValue,
             this.fieldLabel});
-            this.uniqueDgv.Location = new System.Drawing.Point(13, 86);
+            this.uniqueDgv.Location = new System.Drawing.Point(13, 127);
             this.uniqueDgv.Name = "uniqueDgv";
             this.uniqueDgv.RowTemplate.Height = 23;
-            this.uniqueDgv.Size = new System.Drawing.Size(395, 229);
+            this.uniqueDgv.Size = new System.Drawing.Size(389, 188);
             this.uniqueDgv.TabIndex = 2;
             this.uniqueDgv.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.UniqueDgv_CellMouseClick);
             // 
@@ -878,15 +892,24 @@
             this.classBreakRendererSizeCmb.Size = new System.Drawing.Size(177, 20);
             this.classBreakRendererSizeCmb.TabIndex = 0;
             // 
-            // emampleStringPbx
+            // label4
             // 
-            this.emampleStringPbx.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.emampleStringPbx.Location = new System.Drawing.Point(15, 22);
-            this.emampleStringPbx.Name = "emampleStringPbx";
-            this.emampleStringPbx.Size = new System.Drawing.Size(136, 70);
-            this.emampleStringPbx.TabIndex = 11;
-            this.emampleStringPbx.TabStop = false;
-            this.emampleStringPbx.Paint += new System.Windows.Forms.PaintEventHandler(this.EmampleStringPbx_Paint);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 100);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 12);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "默认符号:";
+            this.label4.Click += new System.EventHandler(this.Label4_Click);
+            // 
+            // defaulySymbolBtn
+            // 
+            this.defaulySymbolBtn.Location = new System.Drawing.Point(97, 86);
+            this.defaulySymbolBtn.Name = "defaulySymbolBtn";
+            this.defaulySymbolBtn.Size = new System.Drawing.Size(83, 32);
+            this.defaulySymbolBtn.TabIndex = 5;
+            this.defaulySymbolBtn.UseVisualStyleBackColor = true;
+            this.defaulySymbolBtn.Click += new System.EventHandler(this.DefaulySymbolBtn_Click);
             // 
             // LayerProperties
             // 
@@ -910,6 +933,7 @@
             this.labelRendererTag.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.emampleStringPbx)).EndInit();
             this.groupBox11.ResumeLayout(false);
             this.rendererTag.ResumeLayout(false);
             this.classBreakRendererTab.ResumeLayout(false);
@@ -918,6 +942,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.uniqueValueRendererTag.ResumeLayout(false);
+            this.uniqueValueRendererTag.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uniqueDgv)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -934,7 +959,6 @@
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.emampleStringPbx)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1019,5 +1043,7 @@
         private System.Windows.Forms.ComboBox fontNameCmb;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.PictureBox emampleStringPbx;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button defaulySymbolBtn;
     }
 }

@@ -27,6 +27,7 @@ namespace GISDesign_ZY
         private TextSymbol textSymbol;
         private Symbol symbolToReset;
         private int rowToSet, columnToSet;
+        private Symbol defaultSymbol;
 
         //随即色带类集合
         private RandomColorRampClass[] randomRampColors
@@ -61,6 +62,7 @@ namespace GISDesign_ZY
                 simpleRendererSymbol = SymbolFactory.CreateSymbol(curLayer.FeatureType);
             }
             textSymbol = curLayer.MLabelRender.MTextSymbol;
+            defaultSymbol = SymbolFactory.CreateSymbol(curLayer.FeatureType);
         }
         #endregion
 
@@ -110,6 +112,8 @@ namespace GISDesign_ZY
 
             //初始化值字段、色带
             //唯一值
+            defaulySymbolBtn.Image = DrawSymbol.GetBitmapOfSymbol(defaultSymbol,
+                new RectangleF(0,0, defaulySymbolBtn.Bounds.Width, defaulySymbolBtn.Bounds.Y));
             for (int i = 0; i < curLayer.MRecords.fields.Count(); i++)
             {
                 uniqueValueCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
@@ -422,18 +426,28 @@ namespace GISDesign_ZY
                     break;
                 case 1:  //唯一值
                     UniqueValueRenderer uniqueValueRenderer = new UniqueValueRenderer();
+                    uniqueValueRenderer.Field = uniqueValueCmb.Text;
                     uniqueValueRenderer.symbols = symbols;
                     uniqueValueRenderer.values = uniqueRendererValues;
                     uniqueValueRenderer.FieldLabel = fieldLabels;
+                    uniqueValueRenderer.DefaultSymbol = defaultSymbol;
                     curLayer.MRenderer = uniqueValueRenderer;
                     break;
                 case 2:  //分级设色
-                case 3:  //分级大小
                     ClassBreaksRenderer classBreaksRenderer = new ClassBreaksRenderer();
+                    classBreaksRenderer.Field = classBreakRendererValueCmb.Text;
                     classBreaksRenderer.symbols = symbols;
                     classBreaksRenderer.breaks = classbreakRendererBreaks;
                     classBreaksRenderer.FieldLabel = fieldLabels;
                     curLayer.MRenderer = classBreaksRenderer;
+                    break;
+                case 3:  //分级大小
+                    ClassBreaksRenderer classBreaksRenderer1 = new ClassBreaksRenderer();
+                    classBreaksRenderer1.Field = classBreakRendererSizeCmb.Text;
+                    classBreaksRenderer1.symbols = symbols;
+                    classBreaksRenderer1.breaks = classbreakRendererBreaks;
+                    classBreaksRenderer1.FieldLabel = fieldLabels;
+                    curLayer.MRenderer = classBreaksRenderer1;
                     break;
             }
         }
@@ -567,6 +581,26 @@ namespace GISDesign_ZY
         {
             textSymbol.FontSize = Convert.ToInt16(fontSizeTbx.Text);
             emampleStringPbx.Refresh();
+        }
+
+        private void Label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DefaulySymbolBtn_Click(object sender, EventArgs e)
+        {
+            SymbolSelectorFrm s = new SymbolSelectorFrm(defaultSymbol);
+            s.FinishSettingSymbol += SetDefaultSymbol;
+            s.Show();
+        }
+
+        private void SetDefaultSymbol(object sender, Symbol symbol)
+        {
+            defaultSymbol = symbol;
+            defaulySymbolBtn.Image = DrawSymbol.GetBitmapOfSymbol(defaultSymbol,
+    new RectangleF(0, 0, defaulySymbolBtn.Bounds.Width, defaulySymbolBtn.Bounds.Y));
+            defaulySymbolBtn.Refresh();
         }
 
         private void Button8_Click(object sender, EventArgs e)

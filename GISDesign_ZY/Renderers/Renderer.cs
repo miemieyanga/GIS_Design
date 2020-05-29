@@ -98,8 +98,8 @@ namespace GISDesign_ZY
         public Symbol FindSymbol(string value)
         {
             int index = values.IndexOf(value);
-            if(index==-1)
-                throw new Exception("未设置指定的值");
+            if (index == -1)
+                return DefaultSymbol;
 
             return symbols[index];
         }
@@ -156,7 +156,13 @@ namespace GISDesign_ZY
         public string Field;
         public List<string> FieldLabel;
         public bool ShowFieldLabel;
-        public int BreakCount;
+        public int BreakCount
+        {
+            get
+            {
+                return breaks.Count - 1;
+            }
+        }
         public List<Symbol> symbols;
         public List<double> breaks;
 
@@ -164,7 +170,6 @@ namespace GISDesign_ZY
         {
             Type = RendererType.ClassBreaksRenderer;
             ShowFieldLabel = true;
-            BreakCount = 0;
             symbols = new List<Symbol>();
             breaks = new List<double>();
             FieldLabel = new List<string>();
@@ -201,7 +206,6 @@ namespace GISDesign_ZY
                 breaks.Add(mBreak);
                 Symbol curSymbol = symbol.Clone();
                 symbols.Add(curSymbol);
-                BreakCount = 0;
             }
             else
             {
@@ -213,7 +217,6 @@ namespace GISDesign_ZY
                 breaks.Add(mBreak);
                 Symbol curSymbol = symbol.Clone();
                 symbols.Add(curSymbol);
-                BreakCount += 1;
             }
         }
 
@@ -287,7 +290,7 @@ namespace GISDesign_ZY
                 return symbols[0];
             if (value >= breaks[BreakCount])
             {
-                return symbols[BreakCount];
+                return symbols[symbols.Count()-1];
             }
             if (value < breaks[1])
             {
