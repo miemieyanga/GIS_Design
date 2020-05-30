@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibraryIofly;
+using GISDesign_ZY.winForms;
 
 namespace GISDesign_ZY
 {
@@ -43,6 +44,8 @@ namespace GISDesign_ZY
         private PointF mStartPoint = new PointF(); //鼠标按下位置，用于拉框
         private Point MapElementOffset; //地图要素位置偏移量
         private bool MapElementMove = false;   //地图要素是否可移动
+        private List<Label> lblStaticNotes = new List<Label>();   //存储静态注记
+        private Label ChosenLabel; //右击选中的注记
 
         //鼠标光标
         private Cursor mCur_Cross = new Cursor(System.Reflection.Assembly.GetExecutingAssembly().
@@ -449,6 +452,24 @@ namespace GISDesign_ZY
             lblScale.Text = value;
         }
 
+        /// <summary>
+        /// 添加静态注记
+        /// </summary>
+        public void AddStaticNotes()
+        {
+            Label label = new Label();
+            label.Text = "文字";
+            label.AutoSize = true;
+            label.ContextMenuStrip = cMSStaticNote;
+            label.MouseDown += new MouseEventHandler(l_Down);
+            label.MouseMove += new MouseEventHandler(l_Move);
+            label.MouseUp += new MouseEventHandler(l_Up);
+            this.Controls.Add(label);
+            SetStaticNotes(label);
+            label.Show();
+            lblStaticNotes.Add(label);
+        }
+
         #endregion
 
         #region 事件
@@ -778,13 +799,13 @@ namespace GISDesign_ZY
 
         private void DrawTextSymbol(Graphics g)
         {
-            for(int i = 0; i < _Layers.Count(); i++)
+            for (int i = 0; i < _Layers.Count(); i++)
             {
                 if (_Layers[i].MLabelRender.Used)
                 {
                     string bindField = _Layers[i].MLabelRender.Field;
                     int index = _Layers[i].MRecords.fields.GetIndexOfField(bindField);
-                    for (int j=0;j< _Layers[i].MRecords.records.Count(); j++)
+                    for (int j = 0; j < _Layers[i].MRecords.records.Count(); j++)
                     {
                         Record r = _Layers[i].MRecords.records.Item(j);
                         string labelstring = r.Value(index).ToString();
@@ -801,13 +822,13 @@ namespace GISDesign_ZY
                             case FeatureTypeConstant.Polyline:
                                 Polyline polyline = (Polyline)r.Value(1);
                                 PointF[] pointFs = new PointF[polyline.points.Length];
-                                for(int k = 0; k < polyline.points.Length; k++)
+                                for (int k = 0; k < polyline.points.Length; k++)
                                 {
                                     PointD p1 = FromMapPoint(polyline.points[k]);
                                     pointFs[k] = new PointF((float)p1.X, (float)p1.Y);
                                 }
-                                PointF[] points = _Layers[i].GetLabelPositionOfPolyline(pointFs,labelstring);
-                                for(int k = 0; k < labelstring.Length; k++)
+                                PointF[] points = _Layers[i].GetLabelPositionOfPolyline(pointFs, labelstring);
+                                for (int k = 0; k < labelstring.Length; k++)
                                 {
                                     Font f1 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
                                     g.DrawString(labelstring[k].ToString(), f1,
@@ -826,7 +847,7 @@ namespace GISDesign_ZY
                                 Font f2 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
                                 g.DrawString(labelstring, f2,
                                     new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), points1);
-  
+
                                 break;
                         }
                     }
@@ -885,7 +906,7 @@ namespace GISDesign_ZY
         //绘制给定图层集
         private void DrawLayers(Graphics g, List<Layer> layers)
         {
-            for (int i = layers.Count-1;i>=0 ; i--)
+            for (int i = layers.Count - 1; i >= 0; i--)
             {
                 if (layers[i].Visible == true && layers[i].MRecords != null)
                 {
@@ -1156,6 +1177,24 @@ namespace GISDesign_ZY
             }
         }
 
+        //设置静态注记
+        private void SetStaticNotes(Label label)
+        {
+            StaticNoteFrm staticNoteFrm = new StaticNoteFrm();
+            staticNoteFrm.color = label.ForeColor;
+            staticNoteFrm.font = label.Font;
+            staticNoteFrm.GetText = label.Text;
+            staticNoteFrm.BackColor = label.BackColor;
+            if (staticNoteFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                label.ForeColor = staticNoteFrm.color;
+                label.Font = staticNoteFrm.font;
+                label.Text = staticNoteFrm.GetText;
+                label.BackColor = staticNoteFrm.BackColor;
+            }
+            staticNoteFrm.Dispose();
+        }
+
         #endregion
 
         #region 母版事件处理
@@ -1340,7 +1379,7 @@ namespace GISDesign_ZY
 
         //鼠标移动
         private void MapControl_MouseMove(object sender, MouseEventArgs e)
-        {
+        {            
             switch (mMapOpStyle)
             {
                 case 0:
@@ -1555,5 +1594,52 @@ namespace GISDesign_ZY
 
         #endregion
 
+        #region 静态注记事件处理
+
+        //静态注记鼠标按下事件
+        private void l_Down(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                MapElementOffset = new Point(-e.X, -e.Y);
+                MapElementMove = true;
+            }
+        }
+
+        //静态注记鼠标移动事件
+        private void l_Move(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && MapElementMove)
+            {
+                Point mousePos = Control.MousePosition;
+                mousePos.Offset(MapElementOffset.X, MapElementOffset.Y);
+                ((Control)sender).Location = ((Control)sender).Parent.PointToClient(mousePos);
+            }
+        }
+
+        //静态注记鼠标抬起事件
+        private void l_Up(object sender, MouseEventArgs e)
+        {
+            MapElementMove = false;
+        }
+
+        private void 设置注记ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetStaticNotes(ChosenLabel);
+        }
+
+        private void cMSStaticNote_Opening(object sender, CancelEventArgs e)
+        {
+            ChosenLabel = (Label)(sender as ContextMenuStrip).SourceControl;
+        }
+
+        private void 删除注记ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChosenLabel.Visible = false;
+            this.Controls.Remove(ChosenLabel);
+            lblStaticNotes.Remove(ChosenLabel);
+        }
+
+        #endregion
     }
 }

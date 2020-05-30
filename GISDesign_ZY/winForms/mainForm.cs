@@ -342,5 +342,16 @@ namespace GISFinal
         {
             mcMap.GetScale();
         }
+
+        private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
+            mcMap.Extent(curLayer);
+        }
+
+        private void 添加静态注记ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.AddStaticNotes();
+        }
     }
 }

@@ -30,18 +30,22 @@
         {
             this.components = new System.ComponentModel.Container();
             this.picBCompass = new System.Windows.Forms.PictureBox();
-            this.lblScale = new System.Windows.Forms.Label();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.cMSCompass = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除指北针ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblScale = new System.Windows.Forms.Label();
             this.cMSScale = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.删除比例尺ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置字体样式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置字体颜色ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.cMSStaticNote = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.设置注记ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除注记ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picBCompass)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.cMSCompass.SuspendLayout();
             this.cMSScale.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.cMSStaticNote.SuspendLayout();
             this.SuspendLayout();
             // 
             // picBCompass
@@ -59,6 +63,21 @@
             this.picBCompass.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picBCompass_MouseMove);
             this.picBCompass.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picBCompass_MouseUp);
             // 
+            // cMSCompass
+            // 
+            this.cMSCompass.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.cMSCompass.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除指北针ToolStripMenuItem});
+            this.cMSCompass.Name = "cMSCompass";
+            this.cMSCompass.Size = new System.Drawing.Size(209, 42);
+            // 
+            // 删除指北针ToolStripMenuItem
+            // 
+            this.删除指北针ToolStripMenuItem.Name = "删除指北针ToolStripMenuItem";
+            this.删除指北针ToolStripMenuItem.Size = new System.Drawing.Size(208, 38);
+            this.删除指北针ToolStripMenuItem.Text = "删除指北针";
+            this.删除指北针ToolStripMenuItem.Click += new System.EventHandler(this.删除指北针ToolStripMenuItem_Click);
+            // 
             // lblScale
             // 
             this.lblScale.AutoSize = true;
@@ -73,21 +92,6 @@
             this.lblScale.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblScale_MouseMove);
             this.lblScale.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblScale_MouseUp);
             // 
-            // cMSCompass
-            // 
-            this.cMSCompass.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.cMSCompass.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除指北针ToolStripMenuItem});
-            this.cMSCompass.Name = "cMSCompass";
-            this.cMSCompass.Size = new System.Drawing.Size(209, 42);
-            // 
-            // 删除指北针ToolStripMenuItem
-            // 
-            this.删除指北针ToolStripMenuItem.Name = "删除指北针ToolStripMenuItem";
-            this.删除指北针ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
-            this.删除指北针ToolStripMenuItem.Text = "删除指北针";
-            this.删除指北针ToolStripMenuItem.Click += new System.EventHandler(this.删除指北针ToolStripMenuItem_Click);
-            // 
             // cMSScale
             // 
             this.cMSScale.ImageScalingSize = new System.Drawing.Size(32, 32);
@@ -101,23 +105,47 @@
             // 删除比例尺ToolStripMenuItem
             // 
             this.删除比例尺ToolStripMenuItem.Name = "删除比例尺ToolStripMenuItem";
-            this.删除比例尺ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
+            this.删除比例尺ToolStripMenuItem.Size = new System.Drawing.Size(232, 38);
             this.删除比例尺ToolStripMenuItem.Text = "删除比例尺";
             this.删除比例尺ToolStripMenuItem.Click += new System.EventHandler(this.删除比例尺ToolStripMenuItem_Click);
             // 
             // 设置字体样式ToolStripMenuItem
             // 
             this.设置字体样式ToolStripMenuItem.Name = "设置字体样式ToolStripMenuItem";
-            this.设置字体样式ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
+            this.设置字体样式ToolStripMenuItem.Size = new System.Drawing.Size(232, 38);
             this.设置字体样式ToolStripMenuItem.Text = "设置字体样式";
             this.设置字体样式ToolStripMenuItem.Click += new System.EventHandler(this.设置字体样式ToolStripMenuItem_Click);
             // 
             // 设置字体颜色ToolStripMenuItem
             // 
             this.设置字体颜色ToolStripMenuItem.Name = "设置字体颜色ToolStripMenuItem";
-            this.设置字体颜色ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
+            this.设置字体颜色ToolStripMenuItem.Size = new System.Drawing.Size(232, 38);
             this.设置字体颜色ToolStripMenuItem.Text = "设置字体颜色";
             this.设置字体颜色ToolStripMenuItem.Click += new System.EventHandler(this.设置字体颜色ToolStripMenuItem_Click);
+            // 
+            // cMSStaticNote
+            // 
+            this.cMSStaticNote.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.cMSStaticNote.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.设置注记ToolStripMenuItem,
+            this.删除注记ToolStripMenuItem});
+            this.cMSStaticNote.Name = "cMSStaticNote";
+            this.cMSStaticNote.Size = new System.Drawing.Size(301, 124);
+            this.cMSStaticNote.Opening += new System.ComponentModel.CancelEventHandler(this.cMSStaticNote_Opening);
+            // 
+            // 设置注记ToolStripMenuItem
+            // 
+            this.设置注记ToolStripMenuItem.Name = "设置注记ToolStripMenuItem";
+            this.设置注记ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
+            this.设置注记ToolStripMenuItem.Text = "设置注记";
+            this.设置注记ToolStripMenuItem.Click += new System.EventHandler(this.设置注记ToolStripMenuItem_Click);
+            // 
+            // 删除注记ToolStripMenuItem
+            // 
+            this.删除注记ToolStripMenuItem.Name = "删除注记ToolStripMenuItem";
+            this.删除注记ToolStripMenuItem.Size = new System.Drawing.Size(300, 38);
+            this.删除注记ToolStripMenuItem.Text = "删除注记";
+            this.删除注记ToolStripMenuItem.Click += new System.EventHandler(this.删除注记ToolStripMenuItem_Click);
             // 
             // MapControl
             // 
@@ -138,9 +166,10 @@
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.picBCompass)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.cMSCompass.ResumeLayout(false);
             this.cMSScale.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.cMSStaticNote.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,5 +186,9 @@
         private System.Windows.Forms.ToolStripMenuItem 删除比例尺ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 设置字体样式ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 设置字体颜色ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip cMSStaticNote;
+        private System.Windows.Forms.ToolStripMenuItem 设置注记ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除注记ToolStripMenuItem;
     }
 }

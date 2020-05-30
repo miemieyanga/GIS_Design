@@ -131,6 +131,12 @@
     <Compile Include="winForms\selectByAttribute.designer.cs">
       <DependentUpon>selectByAttribute.cs</DependentUpon>
     </Compile>
+    <Compile Include="winForms\StaticNoteFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\StaticNoteFrm.Designer.cs">
+      <DependentUpon>StaticNoteFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\SymbolSelectorFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\selectByAttribute.resx">
       <DependentUpon>selectByAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="winForms\StaticNoteFrm.resx">
+      <DependentUpon>StaticNoteFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\SymbolSelectorFrm.resx">
       <DependentUpon>SymbolSelectorFrm.cs</DependentUpon>
