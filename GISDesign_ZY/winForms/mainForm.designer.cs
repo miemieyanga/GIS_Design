@@ -225,14 +225,15 @@
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             // 
             // 选择要素ToolStripMenuItem
             // 
             this.选择要素ToolStripMenuItem.Name = "选择要素ToolStripMenuItem";
-            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.选择要素ToolStripMenuItem.Text = "选择要素";
+            this.选择要素ToolStripMenuItem.Click += new System.EventHandler(this.选择要素ToolStripMenuItem_Click);
             // 
             // 插入ToolStripMenuItem
             // 
@@ -464,6 +465,7 @@
             this.选择要素.Name = "选择要素";
             this.选择要素.Size = new System.Drawing.Size(36, 27);
             this.选择要素.Text = "选择要素";
+            this.选择要素.Click += new System.EventHandler(this.选择要素_Click);
             // 
             // 识别
             // 
@@ -531,6 +533,9 @@
             this.mcMap.SelfMouseWheel = true;
             this.mcMap.Size = new System.Drawing.Size(785, 450);
             this.mcMap.TabIndex = 5;
+            this.mcMap.DisplayScaleChanged += new GISDesign_ZY.MapControl.DisplayScaleChangedHandle(this.McMap_DisplayScaleChanged);
+            this.mcMap.SelectingByBoxFinished += new GISDesign_ZY.MapControl.SelectingByBoxFinishedHandle(this.McMap_SelectingByBoxFinished);
+            this.mcMap.SelectingByPointFinished += new GISDesign_ZY.MapControl.SelectingByPointFinishedHandle(this.McMap_SelectingByPointFinished);
             this.mcMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.McMap_MouseMove);
             // 
             // mainForm

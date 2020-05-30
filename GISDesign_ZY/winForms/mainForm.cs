@@ -33,6 +33,7 @@ namespace GISFinal
         {
             map = new MapManager();
             mcMap._Layers = map.Layers;
+            ShowScale();
         }
 
         private void 视图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,6 +147,13 @@ namespace GISFinal
             }
         }
         #endregion
+
+        //显示比例尺
+        private void ShowScale()
+        {
+            statusScale.Text = "1:" + mcMap.DisplayScale.ToString("0.00");
+        }
+
 
         //treeView节点绘制
         private void TreeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -285,6 +293,38 @@ namespace GISFinal
                 e.Effect = DragDropEffects.Move;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        //框选完成
+        private void McMap_SelectingByBoxFinished(object sender, RectangleD box)
+        {
+            Layer[] sLayers = mcMap.SelectByBox(box);   //选中要素图层集合
+            mcMap.SelectedLayers = sLayers;
+            mcMap.Refresh();
+        }
+
+        //点选完成
+        private void McMap_SelectingByPointFinished(object sender, PointD point)
+        {
+            Layer[] sLayers = mcMap.SelectByPoint(point);   //选中要素图层集合
+            mcMap.SelectedLayers = sLayers;
+            mcMap.Refresh();
+        }
+
+        //地图比例尺发生了变化
+        private void McMap_DisplayScaleChanged(object sender)
+        {
+            ShowScale();
+        }
+
+        private void 选择要素_Click(object sender, EventArgs e)
+        {
+            mcMap.SelectFeature();
+        }
+
+        private void 选择要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.SelectFeature();
         }
     }
 }
