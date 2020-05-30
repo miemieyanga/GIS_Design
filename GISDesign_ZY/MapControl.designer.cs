@@ -32,15 +32,16 @@
             // 
             // MapControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MapControl";
-            this.Size = new System.Drawing.Size(73, 73);
+            this.Size = new System.Drawing.Size(146, 146);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MapControl_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MapControl_MouseMove);
