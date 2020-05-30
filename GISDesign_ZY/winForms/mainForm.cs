@@ -326,5 +326,11 @@ namespace GISFinal
         {
             mcMap.SelectFeature();
         }
+
+        private void 按属性选择ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selByAttriInMainForm selByAttri = new selByAttriInMainForm(mcMap, map);
+            selByAttri.Show();
+        }
     }
 }

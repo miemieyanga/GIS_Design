@@ -34,10 +34,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.添加字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.完成修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.取消修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.撤销修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刷新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.完成修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -49,7 +49,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.Location = new System.Drawing.Point(24, 60);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 23;
@@ -72,7 +72,7 @@
             // 
             this.selectNum.AutoSize = false;
             this.selectNum.Name = "selectNum";
-            this.selectNum.Size = new System.Drawing.Size(100, 12);
+            this.selectNum.Size = new System.Drawing.Size(100, 28);
             this.selectNum.Text = "已选择：0";
             // 
             // menuStrip1
@@ -88,7 +88,7 @@
             this.刷新ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1600, 46);
+            this.menuStrip1.Size = new System.Drawing.Size(1600, 42);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -105,12 +105,6 @@
             this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
             this.属性查询ToolStripMenuItem.Text = "属性查询";
             this.属性查询ToolStripMenuItem.Click += new System.EventHandler(this.属性查询ToolStripMenuItem_Click);
-            // 
-            // 完成修改ToolStripMenuItem
-            // 
-            this.完成修改ToolStripMenuItem.Name = "完成修改ToolStripMenuItem";
-            this.完成修改ToolStripMenuItem.Size = new System.Drawing.Size(178, 38);
-            this.完成修改ToolStripMenuItem.Text = "显示所有记录";
             // 
             // 取消修改ToolStripMenuItem
             // 
@@ -131,6 +125,12 @@
             this.刷新ToolStripMenuItem.Text = "刷新";
             this.刷新ToolStripMenuItem.Click += new System.EventHandler(this.刷新ToolStripMenuItem_Click);
             // 
+            // 完成修改ToolStripMenuItem
+            // 
+            this.完成修改ToolStripMenuItem.Name = "完成修改ToolStripMenuItem";
+            this.完成修改ToolStripMenuItem.Size = new System.Drawing.Size(178, 38);
+            this.完成修改ToolStripMenuItem.Text = "显示所有记录";
+            // 
             // attributeList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -140,7 +140,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.dataGridView1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "attributeList";
             this.Text = "属性表";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -159,10 +159,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 添加字段ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 属性查询ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 完成修改ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 取消修改ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 撤销修改ToolStripMenuItem;
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 完成修改ToolStripMenuItem;
     }
 }

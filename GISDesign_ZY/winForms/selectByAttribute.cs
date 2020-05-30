@@ -20,11 +20,16 @@ namespace GISFinal
             InitializeComponent();
             recordset = geoRecordset;
             tempset=temp;
+            for(int i=0; i<recordset.fields.Count();i++)
+            {
+                fieldSelect.Items.Add(recordset.fields.Item(i).name);
+            }
+            
         }
 
         private void selectByAttribute_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void OK_Click(object sender, EventArgs e)

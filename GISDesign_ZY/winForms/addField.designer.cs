@@ -82,6 +82,10 @@
             // 
             this.typeSelect.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.typeSelect.FormattingEnabled = true;
+            this.typeSelect.Items.AddRange(new object[] {
+            "int",
+            "double",
+            "string"});
             this.typeSelect.Location = new System.Drawing.Point(206, 108);
             this.typeSelect.Margin = new System.Windows.Forms.Padding(6);
             this.typeSelect.Name = "typeSelect";

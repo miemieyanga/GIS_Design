@@ -119,6 +119,12 @@
     <Compile Include="MapControl.designer.cs">
       <DependentUpon>MapControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="winForms\selByAttriInMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\selByAttriInMainForm.Designer.cs">
+      <DependentUpon>selByAttriInMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\selectByAttribute.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapControl.resx">
       <DependentUpon>MapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="winForms\selByAttriInMainForm.resx">
+      <DependentUpon>selByAttriInMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\selectByAttribute.resx">
       <DependentUpon>selectByAttribute.cs</DependentUpon>
