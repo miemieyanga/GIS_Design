@@ -332,5 +332,15 @@ namespace GISFinal
             selByAttriInMainForm selByAttri = new selByAttriInMainForm(mcMap, map);
             selByAttri.Show();
         }
+
+        private void 添加指北针ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.GetCompass();
+        }
+
+        private void 添加比例尺ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.GetScale();
+        }
     }
 }

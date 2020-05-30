@@ -48,12 +48,13 @@
             this.平移选中要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选择要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.按属性选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.插入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.添加图层ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.添加要素ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.蚁图使用帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.关于蚁图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.制图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加静态注记ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加指北针ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusScale = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusPosition = new System.Windows.Forms.ToolStripStatusLabel();
@@ -79,8 +80,11 @@
             this.打开属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openProjectFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.帮助ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.使用帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于蚁图ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加比例尺ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mcMap = new GISDesign_ZY.MapControl();
-            this.按属性选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -96,10 +100,11 @@
             this.编辑ToolStripMenuItem,
             this.选择ToolStripMenuItem,
             this.插入ToolStripMenuItem,
-            this.帮助ToolStripMenuItem});
+            this.制图ToolStripMenuItem,
+            this.帮助ToolStripMenuItem1});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1924, 42);
+            this.menuStrip.Size = new System.Drawing.Size(1924, 48);
             this.menuStrip.TabIndex = 0;
             // 
             // 文件ToolStripMenuItem
@@ -115,7 +120,7 @@
             this.toolStripSeparator3,
             this.导出ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(82, 40);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 打开ToolStripMenuItem
@@ -196,7 +201,7 @@
             this.编辑选中要素ToolStripMenuItem,
             this.平移选中要素ToolStripMenuItem});
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(82, 40);
             this.编辑ToolStripMenuItem.Text = "编辑";
             // 
             // 编辑选中要素ToolStripMenuItem
@@ -218,15 +223,22 @@
             this.选择要素ToolStripMenuItem,
             this.按属性选择ToolStripMenuItem});
             this.选择ToolStripMenuItem.Name = "选择ToolStripMenuItem";
-            this.选择ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.选择ToolStripMenuItem.Size = new System.Drawing.Size(82, 40);
             this.选择ToolStripMenuItem.Text = "选择";
             // 
             // 选择要素ToolStripMenuItem
             // 
             this.选择要素ToolStripMenuItem.Name = "选择要素ToolStripMenuItem";
-            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(267, 44);
             this.选择要素ToolStripMenuItem.Text = "选择要素";
             this.选择要素ToolStripMenuItem.Click += new System.EventHandler(this.选择要素ToolStripMenuItem_Click);
+            // 
+            // 按属性选择ToolStripMenuItem
+            // 
+            this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(267, 44);
+            this.按属性选择ToolStripMenuItem.Text = "按属性选择";
+            this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
             // 插入ToolStripMenuItem
             // 
@@ -234,76 +246,91 @@
             this.添加图层ToolStripMenuItem1,
             this.添加要素ToolStripMenuItem1});
             this.插入ToolStripMenuItem.Name = "插入ToolStripMenuItem";
-            this.插入ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.插入ToolStripMenuItem.Size = new System.Drawing.Size(82, 40);
             this.插入ToolStripMenuItem.Text = "添加";
             // 
             // 添加图层ToolStripMenuItem1
             // 
             this.添加图层ToolStripMenuItem1.Name = "添加图层ToolStripMenuItem1";
-            this.添加图层ToolStripMenuItem1.Size = new System.Drawing.Size(359, 44);
+            this.添加图层ToolStripMenuItem1.Size = new System.Drawing.Size(243, 44);
             this.添加图层ToolStripMenuItem1.Text = "添加图层";
             // 
             // 添加要素ToolStripMenuItem1
             // 
             this.添加要素ToolStripMenuItem1.Name = "添加要素ToolStripMenuItem1";
-            this.添加要素ToolStripMenuItem1.Size = new System.Drawing.Size(359, 44);
+            this.添加要素ToolStripMenuItem1.Size = new System.Drawing.Size(243, 44);
             this.添加要素ToolStripMenuItem1.Text = "添加要素";
             // 
-            // 帮助ToolStripMenuItem
+            // 制图ToolStripMenuItem
             // 
-            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.蚁图使用帮助ToolStripMenuItem,
-            this.关于蚁图ToolStripMenuItem});
-            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
-            this.帮助ToolStripMenuItem.Text = "帮助";
+            this.制图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.添加静态注记ToolStripMenuItem,
+            this.添加指北针ToolStripMenuItem,
+            this.添加比例尺ToolStripMenuItem});
+            this.制图ToolStripMenuItem.Name = "制图ToolStripMenuItem";
+            this.制图ToolStripMenuItem.Size = new System.Drawing.Size(82, 40);
+            this.制图ToolStripMenuItem.Text = "制图";
             // 
-            // 蚁图使用帮助ToolStripMenuItem
+            // 添加静态注记ToolStripMenuItem
             // 
-            this.蚁图使用帮助ToolStripMenuItem.Name = "蚁图使用帮助ToolStripMenuItem";
-            this.蚁图使用帮助ToolStripMenuItem.Size = new System.Drawing.Size(243, 44);
-            this.蚁图使用帮助ToolStripMenuItem.Text = "使用帮助";
+            this.添加静态注记ToolStripMenuItem.Name = "添加静态注记ToolStripMenuItem";
+            this.添加静态注记ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
+            this.添加静态注记ToolStripMenuItem.Text = "添加静态注记";
             // 
-            // 关于蚁图ToolStripMenuItem
+            // 添加指北针ToolStripMenuItem
             // 
-            this.关于蚁图ToolStripMenuItem.Name = "关于蚁图ToolStripMenuItem";
-            this.关于蚁图ToolStripMenuItem.Size = new System.Drawing.Size(243, 44);
-            this.关于蚁图ToolStripMenuItem.Text = "关于蚁图";
+            this.添加指北针ToolStripMenuItem.Name = "添加指北针ToolStripMenuItem";
+            this.添加指北针ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
+            this.添加指北针ToolStripMenuItem.Text = "添加指北针";
+            this.添加指北针ToolStripMenuItem.Click += new System.EventHandler(this.添加指北针ToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusScale,
             this.statusPosition,
             this.statuSelected});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1038);
+            this.statusStrip1.Location = new System.Drawing.Point(352, 1008);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1924, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(817, 50);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // statusScale
             // 
             this.statusScale.AutoSize = false;
+            this.statusScale.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statusScale.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statusScale.Name = "statusScale";
-            this.statusScale.Size = new System.Drawing.Size(237, 12);
+            this.statusScale.Size = new System.Drawing.Size(310, 40);
             this.statusScale.Text = "1:1";
             this.statusScale.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // statusPosition
             // 
             this.statusPosition.AutoSize = false;
+            this.statusPosition.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statusPosition.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statusPosition.Name = "statusPosition";
-            this.statusPosition.Size = new System.Drawing.Size(450, 12);
+            this.statusPosition.Size = new System.Drawing.Size(310, 40);
             this.statusPosition.Text = "X:0.0, Y:0.0";
             // 
             // statuSelected
             // 
             this.statuSelected.AutoSize = false;
+            this.statuSelected.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.statuSelected.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statuSelected.Name = "statuSelected";
-            this.statuSelected.Size = new System.Drawing.Size(250, 12);
+            this.statuSelected.Size = new System.Drawing.Size(165, 40);
             this.statuSelected.Text = "(null)";
             // 
             // layerTreeView
@@ -311,7 +338,7 @@
             this.layerTreeView.AllowDrop = true;
             this.layerTreeView.ImageIndex = 0;
             this.layerTreeView.ImageList = this.layerImageList;
-            this.layerTreeView.Location = new System.Drawing.Point(0, 116);
+            this.layerTreeView.Location = new System.Drawing.Point(6, 112);
             this.layerTreeView.Margin = new System.Windows.Forms.Padding(6);
             this.layerTreeView.Name = "layerTreeView";
             this.layerTreeView.SelectedImageIndex = 0;
@@ -350,7 +377,7 @@
             this.选择要素,
             this.识别,
             this.转到XY});
-            this.toolStrip.Location = new System.Drawing.Point(0, 42);
+            this.toolStrip.Location = new System.Drawing.Point(0, 48);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.toolStrip.Size = new System.Drawing.Size(1924, 60);
@@ -509,6 +536,34 @@
             // 
             this.openProjectFileDialog.Filter = "|*.ant";
             // 
+            // 帮助ToolStripMenuItem1
+            // 
+            this.帮助ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.使用帮助ToolStripMenuItem,
+            this.关于蚁图ToolStripMenuItem1});
+            this.帮助ToolStripMenuItem1.Name = "帮助ToolStripMenuItem1";
+            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(82, 40);
+            this.帮助ToolStripMenuItem1.Text = "帮助";
+            // 
+            // 使用帮助ToolStripMenuItem
+            // 
+            this.使用帮助ToolStripMenuItem.Name = "使用帮助ToolStripMenuItem";
+            this.使用帮助ToolStripMenuItem.Size = new System.Drawing.Size(243, 44);
+            this.使用帮助ToolStripMenuItem.Text = "使用帮助";
+            // 
+            // 关于蚁图ToolStripMenuItem1
+            // 
+            this.关于蚁图ToolStripMenuItem1.Name = "关于蚁图ToolStripMenuItem1";
+            this.关于蚁图ToolStripMenuItem1.Size = new System.Drawing.Size(243, 44);
+            this.关于蚁图ToolStripMenuItem1.Text = "关于蚁图";
+            // 
+            // 添加比例尺ToolStripMenuItem
+            // 
+            this.添加比例尺ToolStripMenuItem.Name = "添加比例尺ToolStripMenuItem";
+            this.添加比例尺ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
+            this.添加比例尺ToolStripMenuItem.Text = "添加比例尺";
+            this.添加比例尺ToolStripMenuItem.Click += new System.EventHandler(this.添加比例尺ToolStripMenuItem_Click);
+            // 
             // mcMap
             // 
             this.mcMap.BackColor = System.Drawing.Color.White;
@@ -526,18 +581,11 @@
             this.mcMap.SelectingByPointFinished += new GISDesign_ZY.MapControl.SelectingByPointFinishedHandle(this.McMap_SelectingByPointFinished);
             this.mcMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.McMap_MouseMove);
             // 
-            // 按属性选择ToolStripMenuItem
-            // 
-            this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
-            this.按属性选择ToolStripMenuItem.Text = "按属性选择";
-            this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1924, 1060);
+            this.ClientSize = new System.Drawing.Size(1924, 937);
             this.Controls.Add(this.mcMap);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.layerTreeView);
@@ -546,6 +594,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(6);
+            this.MaximumSize = new System.Drawing.Size(1950, 1100);
             this.Name = "mainForm";
             this.Text = "AntMap";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -568,9 +617,9 @@
         private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 选择ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 插入ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 蚁图使用帮助ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 关于蚁图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 制图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 添加静态注记ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 添加指北针ToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusScale;
         private System.Windows.Forms.ToolStripStatusLabel statusPosition;
@@ -614,6 +663,10 @@
         private System.Windows.Forms.OpenFileDialog openProjectFileDialog;
         private GISDesign_ZY.MapControl mcMap;
         private System.Windows.Forms.ToolStripMenuItem 按属性选择ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 使用帮助ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关于蚁图ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 添加比例尺ToolStripMenuItem;
     }
 }
 

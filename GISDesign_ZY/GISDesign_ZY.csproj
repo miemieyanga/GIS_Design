@@ -206,6 +206,7 @@
     <Content Include="icon\PanUp.ico" />
     <Content Include="icon\ZoomIn.ico" />
     <Content Include="icon\ZoomOut.ico" />
+    <None Include="Resources\zhibeizhen.png" />
     <EmbeddedResource Include="Resources\ZoomOut.ico" />
     <EmbeddedResource Include="Resources\ZoomIn.ico" />
     <EmbeddedResource Include="Resources\PanUp.ico" />
