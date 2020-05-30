@@ -72,7 +72,7 @@ namespace GISDesign_ZY
             Descript = descript;
             DataSource = dataSource;
             Visible = true;
-            Selectable = false;
+            Selectable = true;
             MRenderer = new SimpleRenderer();
             MRecords = new GeoRecordset();
             MGeoDataIO = new GeoDataIO();

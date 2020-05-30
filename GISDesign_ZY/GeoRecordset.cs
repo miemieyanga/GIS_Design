@@ -227,7 +227,7 @@ namespace ClassLibraryIofly
                     }
                 }
             }
-            return new GeoRecordset();
+            return new GeoRecordset(newFeilds, newRecords);
         }
 
 
@@ -257,7 +257,7 @@ namespace ClassLibraryIofly
                     || valuetype == typeof(Polyline).Name
                     || valuetype == typeof(MultiPolyline).Name)
                 {
-                    object temp = records.Item(i).Value(0);
+                    object temp = records.Item(i).Value(1);
                     object[] para = new object[1];
                     para[0] = box;
                     object tempIsIn = temp.GetType().GetMethod("isInBox").Invoke(temp, para);

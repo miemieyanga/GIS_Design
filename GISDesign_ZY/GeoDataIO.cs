@@ -12,7 +12,7 @@ namespace ClassLibraryIofly
     public class GeoDataIO
     {
         //private GeoRecordset geoRecordset = new GeoRecordset();
-        public string myEncoding = "UTF-8";
+        public string myEncoding = "GBK";
         public GeoDataIO()
         {
 
