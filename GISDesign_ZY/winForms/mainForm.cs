@@ -42,10 +42,7 @@ namespace GISFinal
 
         }
 
-        private void 导出ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void 打开ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -377,6 +374,40 @@ namespace GISFinal
                     mcMap.EditLayer(layer);
             }
             addFeatureFrm.Dispose();
+        }
+
+        private void 保存BMPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveBmp = new SaveFileDialog();
+            saveBmp.Filter = "BitMap文件|*.bmp|所有文件|*.*";
+            if (saveBmp.ShowDialog() == DialogResult.OK)
+            {
+                GeoDataIO geoDataIO = new GeoDataIO();
+                geoDataIO.SaveToBitMap(saveBmp.FileName, mcMap);
+            }
+        }
+
+
+
+        private void 保存ShapeFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                GeoDataIO geoDataIO = layer.MGeoDataIO;
+                SaveFileDialog saveShape = new SaveFileDialog();
+                saveShape.Filter = "所有文件|*.|所有文件|*.*";
+                if (saveShape.ShowDialog() == DialogResult.OK)
+                {
+                    geoDataIO.SaveShapeFile(saveShape.FileName, layer);
+                }
+            }
+
+            addFeatureFrm.Dispose();
+
+
         }
     }
 }
