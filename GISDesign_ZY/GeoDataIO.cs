@@ -108,7 +108,7 @@ namespace ClassLibraryIofly
 
             //获取头文件的最后一个字节，值应为0D
             tempbyte = br.ReadByte();
-            if (tempbyte == 0x0D)
+            if (br.BaseStream.Position < br.BaseStream.Length-2) //tempbyte == 0x0D
             {
                 //添加表格的行及数据
                 if (RowCount > 0)
@@ -135,6 +135,7 @@ namespace ClassLibraryIofly
                                     break;
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
+                                    //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
                                     double tempDouble =Convert.ToDouble(tempStr2);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
@@ -252,9 +253,9 @@ namespace ClassLibraryIofly
         public GeoRecordset OpenShapeFile(string filename)
         {
             string shpFilename = filename;
-            //string dbfFilename = filename.Substring(0, filename.Length - 3) + "dbf";
+            string dbfFilename = filename.Substring(0, filename.Length - 3) + "dbf";
             GeoRecordset geoRecordset = ReadShp(shpFilename);
-            //geoRecordset = ReadDbf(dbfFilename, geoRecordset);
+            geoRecordset = ReadDbf(dbfFilename, geoRecordset);
             return geoRecordset;
         }
 
@@ -415,8 +416,108 @@ namespace ClassLibraryIofly
         {
             FileStream fs = new FileStream(filename + "dbf", FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
+            Records records = layer.MRecords.records;
+            Fields fields = layer.MRecords.fields;
+            int numField = fields.Count() - 2;
+            int num = numField * 32 + 33;
+            int numRecord = records.Count();
+            bw.Write((byte)0);  //版本
+            bw.Write((byte)20); //年
+            bw.Write((byte)06); //月
+            bw.Write((byte)02); //日
 
+            bw.Write(numRecord);  //文件中的记录条数
 
+            bw.Write((Int16)num); //文件头中的字节数
+            bw.Write((Int16)10000); //一条记录中的字节长度，由于长度不好确定，随便赋个值
+            for(int i=0;i<20;i++)
+            {
+                bw.Write((byte)0); //这部分信息暂时无用
+            }
+            //写入字段信息
+            for (int i = 0; i < numField; i++)
+            {
+                string fieldName = fields.Item(i + 2).name;
+                fieldName = fieldName.PadRight(11, '\0');
+                Byte[] fieldNameAscii = System.Text.Encoding.ASCII.GetBytes(fieldName); // 将字段名称转为Ascii码
+                bw.Write(fieldNameAscii);
+                int fieldByteLen;
+                switch(fields.Item(i+2).valueType)
+                {
+                    case "int":
+                        byte[] typeIAscii = System.Text.Encoding.ASCII.GetBytes("I");
+                        bw.Write(typeIAscii);
+                        fieldByteLen = 4;
+                        break;
+
+                    case "double":
+                        byte[] typeBAscii = System.Text.Encoding.ASCII.GetBytes("B");
+                        bw.Write(typeBAscii);
+                        fieldByteLen = 8;
+                        break;
+
+                    case "string":
+                        byte[] typeCAscii = System.Text.Encoding.ASCII.GetBytes("C");
+                        bw.Write(typeCAscii);
+                        fieldByteLen = 128;
+                        break;
+
+                    default:
+                        byte[] typeAscii = System.Text.Encoding.ASCII.GetBytes("C");
+                        bw.Write(typeAscii);
+                        fieldByteLen = 128;
+                        break;
+                }
+
+                bw.Write(0);
+                bw.Write((byte)fieldByteLen);
+                for(int x=0; x<15;x++)
+                {
+                    bw.Write((byte)0);
+                }
+
+            }
+
+            bw.Write((byte)0x0D);
+
+            //写入属性信息
+            for(int i=0;i<numRecord;i++)
+            {
+                bw.Write((byte)0x20);
+                for(int j=2;j<records.Item(i).Count();j++)
+                {
+                    object value = records.Item(i).Value(j);
+                    switch(fields.Item(j).valueType)
+                    {
+                        case "int":
+                            Int32 valueInt = (Int32)value;
+                            bw.Write(valueInt);
+                            break;
+
+                        case "double":
+                            double valueDouble = (double)value;
+
+                            bw.Write(valueDouble);
+                            break;
+
+                        case "string":
+                            string valueStr = (string)value;
+                            valueStr = valueStr.PadRight(128, '\0');
+                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr));
+                            break;
+
+                        default:
+                            string valueStr2 = (string)value;
+                            valueStr = valueStr2.PadRight(128, '\0');
+                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr2));
+                            break;
+                    }
+                }
+            }
+
+            bw.Write((byte)0x1A);
+            bw.Dispose();
+            fs.Dispose();
         }
 
         public void SaveShapeFile(string filename, Layer layer)
