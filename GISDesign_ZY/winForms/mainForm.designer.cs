@@ -105,7 +105,7 @@
             this.帮助ToolStripMenuItem1});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1924, 42);
+            this.menuStrip.Size = new System.Drawing.Size(1924, 39);
             this.menuStrip.TabIndex = 0;
             // 
             // 文件ToolStripMenuItem
@@ -121,7 +121,7 @@
             this.toolStripSeparator3,
             this.导出ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 打开ToolStripMenuItem
@@ -202,19 +202,20 @@
             this.编辑选中要素ToolStripMenuItem,
             this.平移选中要素ToolStripMenuItem});
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.编辑ToolStripMenuItem.Text = "编辑";
             // 
             // 编辑选中要素ToolStripMenuItem
             // 
             this.编辑选中要素ToolStripMenuItem.Name = "编辑选中要素ToolStripMenuItem";
-            this.编辑选中要素ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
-            this.编辑选中要素ToolStripMenuItem.Text = "编辑选中要素";
+            this.编辑选中要素ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.编辑选中要素ToolStripMenuItem.Text = "编辑要素节点";
+            this.编辑选中要素ToolStripMenuItem.Click += new System.EventHandler(this.编辑选中要素ToolStripMenuItem_Click);
             // 
             // 平移选中要素ToolStripMenuItem
             // 
             this.平移选中要素ToolStripMenuItem.Name = "平移选中要素ToolStripMenuItem";
-            this.平移选中要素ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
+            this.平移选中要素ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.平移选中要素ToolStripMenuItem.Text = "删除选中要素";
             this.平移选中要素ToolStripMenuItem.Click += new System.EventHandler(this.平移选中要素ToolStripMenuItem_Click);
             // 
@@ -224,7 +225,7 @@
             this.选择要素ToolStripMenuItem,
             this.按属性选择ToolStripMenuItem});
             this.选择ToolStripMenuItem.Name = "选择ToolStripMenuItem";
-            this.选择ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.选择ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.选择ToolStripMenuItem.Text = "选择";
             // 
             // 选择要素ToolStripMenuItem
@@ -247,7 +248,7 @@
             this.添加图层ToolStripMenuItem1,
             this.添加要素ToolStripMenuItem1});
             this.插入ToolStripMenuItem.Name = "插入ToolStripMenuItem";
-            this.插入ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.插入ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.插入ToolStripMenuItem.Text = "添加";
             // 
             // 添加图层ToolStripMenuItem1
@@ -261,6 +262,7 @@
             this.添加要素ToolStripMenuItem1.Name = "添加要素ToolStripMenuItem1";
             this.添加要素ToolStripMenuItem1.Size = new System.Drawing.Size(243, 44);
             this.添加要素ToolStripMenuItem1.Text = "添加要素";
+            this.添加要素ToolStripMenuItem1.Click += new System.EventHandler(this.添加要素ToolStripMenuItem1_Click);
             // 
             // 制图ToolStripMenuItem
             // 
@@ -269,27 +271,27 @@
             this.添加指北针ToolStripMenuItem,
             this.添加比例尺ToolStripMenuItem});
             this.制图ToolStripMenuItem.Name = "制图ToolStripMenuItem";
-            this.制图ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.制图ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.制图ToolStripMenuItem.Text = "制图";
             // 
             // 添加静态注记ToolStripMenuItem
             // 
             this.添加静态注记ToolStripMenuItem.Name = "添加静态注记ToolStripMenuItem";
-            this.添加静态注记ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.添加静态注记ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
             this.添加静态注记ToolStripMenuItem.Text = "添加静态注记";
             this.添加静态注记ToolStripMenuItem.Click += new System.EventHandler(this.添加静态注记ToolStripMenuItem_Click);
             // 
             // 添加指北针ToolStripMenuItem
             // 
             this.添加指北针ToolStripMenuItem.Name = "添加指北针ToolStripMenuItem";
-            this.添加指北针ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.添加指北针ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
             this.添加指北针ToolStripMenuItem.Text = "添加指北针";
             this.添加指北针ToolStripMenuItem.Click += new System.EventHandler(this.添加指北针ToolStripMenuItem_Click);
             // 
             // 添加比例尺ToolStripMenuItem
             // 
             this.添加比例尺ToolStripMenuItem.Name = "添加比例尺ToolStripMenuItem";
-            this.添加比例尺ToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.添加比例尺ToolStripMenuItem.Size = new System.Drawing.Size(291, 44);
             this.添加比例尺ToolStripMenuItem.Text = "添加比例尺";
             this.添加比例尺ToolStripMenuItem.Click += new System.EventHandler(this.添加比例尺ToolStripMenuItem_Click);
             // 
@@ -299,7 +301,7 @@
             this.使用帮助ToolStripMenuItem,
             this.关于蚁图ToolStripMenuItem1});
             this.帮助ToolStripMenuItem1.Name = "帮助ToolStripMenuItem1";
-            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(82, 38);
+            this.帮助ToolStripMenuItem1.Size = new System.Drawing.Size(82, 35);
             this.帮助ToolStripMenuItem1.Text = "帮助";
             // 
             // 使用帮助ToolStripMenuItem
@@ -407,7 +409,7 @@
             this.选择要素,
             this.识别,
             this.转到XY});
-            this.toolStrip.Location = new System.Drawing.Point(0, 42);
+            this.toolStrip.Location = new System.Drawing.Point(0, 39);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.toolStrip.Size = new System.Drawing.Size(1924, 60);

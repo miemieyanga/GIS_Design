@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibraryIofly;
 using GISDesign_ZY.winForms;
+using System.Drawing.Drawing2D;
 
 namespace GISDesign_ZY
 {
@@ -199,7 +200,7 @@ namespace GISDesign_ZY
         /// <summary>
         /// 将地图操作设置为编辑状态
         /// </summary>
-        public void TrackPolygon(Layer editingLayer)
+        public void EditLayer(Layer editingLayer)
         {
             mMapOpStyle = 4; //记录操作状态
             this.Cursor = mCur_Cross; //更改光标
@@ -468,6 +469,16 @@ namespace GISDesign_ZY
             SetStaticNotes(label);
             label.Show();
             lblStaticNotes.Add(label);
+        }
+
+        /// <summary>
+        /// 获得bmp地图
+        /// </summary>
+        public Bitmap GetBitmap()
+        {
+            Bitmap bit = new Bitmap(this.Width, this.Height);
+            this.DrawToBitmap(bit, new Rectangle(0, 0, this.Width, this.Height));
+            return bit;
         }
 
         #endregion
@@ -937,10 +948,11 @@ namespace GISDesign_ZY
                     for (int i = 0; i < mEditingLayer.MRecords.records.Count(); i++)
                     {
                         Record r = mEditingLayer.MRecords.records.Item(i);
-                        PointD point = (PointD)r.Value(1);
+                        PointD point = FromMapPoint((PointD)r.Value(1));
                         //判断是否定位到可编辑结点
                         if (point.Distance(MouseMapPosition) < 8)
                         {
+                            //MessageBox.Show(text: point.Distance(MouseMapPosition).ToString());
                             Editing = true;
                             //将编辑要素放置最后
                             mEditingLayer.MRecords.records.Delete(i);
@@ -957,7 +969,7 @@ namespace GISDesign_ZY
                         //逐个节点判断
                         for (int k = 0; k < polyline.PointCount; k++)
                         {
-                            PointD point = polyline.GetPointD(k);
+                            PointD point = FromMapPoint(polyline.GetPointD(k));
                             if (point.Distance(MouseMapPosition) < 8)
                             {
                                 Editing = true;
@@ -983,7 +995,7 @@ namespace GISDesign_ZY
                             //逐个节点判断
                             for (int k = 0; k < polyline.PointCount; k++)
                             {
-                                PointD point = polyline.GetPointD(k);
+                                PointD point = FromMapPoint(polyline.GetPointD(k));
                                 //判断是否定位到可编辑结点
                                 if (point.Distance(MouseMapPosition) < 8)
                                 {
@@ -1008,7 +1020,7 @@ namespace GISDesign_ZY
                         //逐个节点判断
                         for (int k = 0; k < polygon.PointCount; k++)
                         {
-                            PointD point = polygon.GetPointD(k);
+                            PointD point = FromMapPoint(polygon.GetPointD(k));
                             //判断是否定位到可编辑结点
                             if (point.Distance(MouseMapPosition) < 8)
                             {
@@ -1035,7 +1047,7 @@ namespace GISDesign_ZY
                             //逐个节点判断
                             for (int k = 0; k < polygon.PointCount; k++)
                             {
-                                PointD point = polygon.GetPointD(k);
+                                PointD point = FromMapPoint(polygon.GetPointD(k));
                                 //判断是否定位到可编辑结点
                                 if (point.Distance(MouseMapPosition) < 8)
                                 {
@@ -1060,9 +1072,9 @@ namespace GISDesign_ZY
         {
             int recordsCount = mEditingLayer.MRecords.records.Count();
             Record record = mEditingLayer.MRecords.records.Item(recordsCount - 1);
-            object[] objs = new object[mEditingLayer.MRecords.fields.Count()];
+            object[] objs = new object[record.Count()];
             objs[0] = record.Value(0);
-            for (int i = 2; i < mEditingLayer.MRecords.fields.Count(); i++)
+            for (int i = 2; i < record.Count(); i++)
             {
                 objs[i] = record.Value(i);
             }
@@ -1175,6 +1187,11 @@ namespace GISDesign_ZY
                     }
                     break;
             }
+
+            record = new Record(objs);
+            mEditingLayer.MRecords.records.Delete(recordsCount - 1);
+            mEditingLayer.MRecords.records.Append(record);
+
         }
 
         //设置静态注记
@@ -1194,6 +1211,7 @@ namespace GISDesign_ZY
             }
             staticNoteFrm.Dispose();
         }
+
 
         #endregion
 
@@ -1303,7 +1321,10 @@ namespace GISDesign_ZY
                         switch (mTrackingLayer.FeatureType)
                         {
                             case FeatureTypeConstant.PointD:
-                                TrackingFeature[0] = new PointF(e.Location.X, e.Location.Y);
+                                if (TrackingFeature.Count > 0)
+                                    TrackingFeature[0] = new PointF(e.Location.X, e.Location.Y);
+                                else
+                                    TrackingFeature.Add(new PointF(e.Location.X, e.Location.Y));
                                 break;
                             case FeatureTypeConstant.Polyline:
                             case FeatureTypeConstant.MultiPolyline:
@@ -1406,8 +1427,9 @@ namespace GISDesign_ZY
                     if (e.Button == MouseButtons.Left && Editing)
                     {
                         //鼠标位置在地图上的坐标
-                        PointD MouseMapPosition = new PointD(e.Location.X, e.Location.Y);
+                        PointD MouseMapPosition = ToMapPoint(new PointD(e.Location.X, e.Location.Y));
                         EditPoint(MouseMapPosition);
+
                         Refresh();
                     }
                     break;
@@ -1429,6 +1451,7 @@ namespace GISDesign_ZY
                 case 6: //新建要素
                     mMouseLocation.X = e.Location.X;
                     mMouseLocation.Y = e.Location.Y;
+                    Refresh();
                     break;
             }
         }
@@ -1455,6 +1478,7 @@ namespace GISDesign_ZY
             }
         }
 
+        //鼠标点击
         private void MapControl_MouseClick(object sender, MouseEventArgs e)
         {
             switch (mMapOpStyle)

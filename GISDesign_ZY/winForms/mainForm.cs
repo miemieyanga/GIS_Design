@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GISDesign_ZY;
 using ClassLibraryIofly;
+using GISDesign_ZY.winForms;
 
 namespace GISFinal
 {
@@ -352,6 +353,30 @@ namespace GISFinal
         private void 添加静态注记ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mcMap.AddStaticNotes();
+        }
+
+        private void 添加要素ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                if(layer != null)
+                    mcMap.TrackFeature(layer);
+            }
+            addFeatureFrm.Dispose();
+        }
+
+        private void 编辑选中要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                if (layer != null)
+                    mcMap.EditLayer(layer);
+            }
+            addFeatureFrm.Dispose();
         }
     }
 }

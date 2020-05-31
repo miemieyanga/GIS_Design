@@ -74,6 +74,12 @@
     <Compile Include="GeoRecordset.cs" />
     <Compile Include="LabelRenderer\LabelRenderer.cs" />
     <Compile Include="Layer.cs" />
+    <Compile Include="winForms\AddFeatureFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\AddFeatureFrm.Designer.cs">
+      <DependentUpon>AddFeatureFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\addField.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     <Compile Include="winForms\SymbolSelectorFrm.designer.cs">
       <DependentUpon>SymbolSelectorFrm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="winForms\AddFeatureFrm.resx">
+      <DependentUpon>AddFeatureFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="winForms\addField.resx">
       <DependentUpon>addField.cs</DependentUpon>
     </EmbeddedResource>
