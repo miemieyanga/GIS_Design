@@ -58,7 +58,10 @@ namespace ClassLibraryIofly
                 Data.Rows[i][0] = i;
                 for (int j = 1; j < records.Item(i).Count() - 1; j++)
                 {
-                    Data.Rows[i][j] = records.Item(i).Value(j + 1).ToString();
+                    if (records.Item(i).Value(j + 1)!=null)
+                        Data.Rows[i][j] = records.Item(i).Value(j + 1).ToString();
+                    else
+                        Data.Rows[i][j] = "";
                 }
             }
             return Data;
