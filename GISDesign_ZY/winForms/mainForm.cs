@@ -491,5 +491,10 @@ namespace GISFinal
             layerTreeView.Nodes[0].Nodes.Remove(layerTreeView.SelectedNode);
             mcMap.Refresh();
         }
+
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            mcMap.AddLabels(map.GetLayerByName(layerTreeView.SelectedNode.Text));
+        }
     }
 }

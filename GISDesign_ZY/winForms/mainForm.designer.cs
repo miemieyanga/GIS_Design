@@ -83,10 +83,11 @@
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openProjectFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mcMap = new GISDesign_ZY.MapControl();
-            this.删除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -547,9 +548,10 @@
             this.属性ToolStripMenuItem,
             this.打开属性表ToolStripMenuItem,
             this.缩放至图层ToolStripMenuItem,
-            this.删除图层ToolStripMenuItem});
+            this.删除图层ToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.layerContextMenuStrip.Name = "layerContextMenuStrip";
-            this.layerContextMenuStrip.Size = new System.Drawing.Size(181, 114);
+            this.layerContextMenuStrip.Size = new System.Drawing.Size(181, 136);
             // 
             // 属性ToolStripMenuItem
             // 
@@ -572,6 +574,20 @@
             this.缩放至图层ToolStripMenuItem.Text = "缩放至图层";
             this.缩放至图层ToolStripMenuItem.Click += new System.EventHandler(this.缩放至图层ToolStripMenuItem_Click);
             // 
+            // 删除图层ToolStripMenuItem
+            // 
+            this.删除图层ToolStripMenuItem.Name = "删除图层ToolStripMenuItem";
+            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除图层ToolStripMenuItem.Text = "移除图层";
+            this.删除图层ToolStripMenuItem.Click += new System.EventHandler(this.删除图层ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "添加标注";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            // 
             // saveProjectFileDialog
             // 
             this.saveProjectFileDialog.Filter = "|*.ant";
@@ -586,7 +602,7 @@
             this.mcMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.mcMap.Layers = new GISDesign_ZY.Layer[0];
             this.mcMap.Location = new System.Drawing.Point(177, 56);
-            this.mcMap.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.mcMap.Margin = new System.Windows.Forms.Padding(2);
             this.mcMap.Name = "mcMap";
             this.mcMap.SelectedLayers = new GISDesign_ZY.Layer[0];
             this.mcMap.SelfMouseWheel = true;
@@ -596,13 +612,6 @@
             this.mcMap.SelectingByBoxFinished += new GISDesign_ZY.MapControl.SelectingByBoxFinishedHandle(this.McMap_SelectingByBoxFinished);
             this.mcMap.SelectingByPointFinished += new GISDesign_ZY.MapControl.SelectingByPointFinishedHandle(this.McMap_SelectingByPointFinished);
             this.mcMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.McMap_MouseMove);
-            // 
-            // 删除图层ToolStripMenuItem
-            // 
-            this.删除图层ToolStripMenuItem.Name = "删除图层ToolStripMenuItem";
-            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.删除图层ToolStripMenuItem.Text = "移除图层";
-            this.删除图层ToolStripMenuItem.Click += new System.EventHandler(this.删除图层ToolStripMenuItem_Click);
             // 
             // mainForm
             // 
@@ -691,6 +700,7 @@
         private System.Windows.Forms.ToolStripMenuItem 保存BMPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 保存ShapeFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 删除图层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

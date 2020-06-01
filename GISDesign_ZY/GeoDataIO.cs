@@ -16,7 +16,7 @@ namespace ClassLibraryIofly
     public class GeoDataIO
     {
         //private GeoRecordset geoRecordset = new GeoRecordset();
-        public string myEncoding = "UTF-8";
+        public string myEncoding = "GBK";
         public GeoDataIO()
         {
 
@@ -138,8 +138,8 @@ namespace ClassLibraryIofly
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
-                                    //double tempDouble =Convert.ToDouble(tempStr2);
-                                    double tempDouble = BitConverter.ToDouble(tempBytes,0);
+                                    double tempDouble =Convert.ToDouble(tempStr2);
+                                    //double tempDouble = BitConverter.ToDouble(tempBytes,0);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);

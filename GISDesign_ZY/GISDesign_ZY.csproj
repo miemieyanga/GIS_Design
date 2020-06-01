@@ -73,6 +73,7 @@
     <Compile Include="GeoDataIO.cs" />
     <Compile Include="GeoRecordset.cs" />
     <Compile Include="LabelRenderer\LabelRenderer.cs" />
+    <Compile Include="Label\Label.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="ObjToString.cs" />
     <Compile Include="winForms\AddFeatureFrm.cs">

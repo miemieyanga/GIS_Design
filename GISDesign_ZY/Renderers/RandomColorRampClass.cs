@@ -115,7 +115,7 @@ namespace GISDesign_ZY
     /// <summary>
     /// 色带类
     /// </summary>
-    class ColorRampClass
+    public class ColorRampClass
     {
         # region 属性
         public Color[] colors;

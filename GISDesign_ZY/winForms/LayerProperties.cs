@@ -29,6 +29,7 @@ namespace GISDesign_ZY
         private Symbol symbolToReset;
         private int rowToSet, columnToSet;
         private Symbol defaultSymbol;
+        private ColorRampClass curColorRamp;
 
         //随即色带类集合
         private RandomColorRampClass[] randomRampColors
@@ -312,6 +313,7 @@ namespace GISDesign_ZY
             classbreakRendererBreaks.Clear();
             ColorRampClass curRamp = rampColors[classBreakRendererColorCmb.SelectedIndex];
             curRamp.Reset();
+            curColorRamp = curRamp;
             double min = values.Min();
             double max = values.Max();
             int breakCount = Convert.ToInt32(classBreakRendererCountTbx.Text);
@@ -454,6 +456,7 @@ namespace GISDesign_ZY
                     classBreaksRenderer.symbols = symbols;
                     classBreaksRenderer.breaks = classbreakRendererBreaks;
                     classBreaksRenderer.FieldLabel = fieldLabels;
+                    classBreaksRenderer.colorRamp = curColorRamp;
                     curLayer.MRenderer = classBreaksRenderer;
                     break;
                 case 3:  //分级大小
@@ -621,10 +624,18 @@ namespace GISDesign_ZY
         //生成注记
         private void Button9_Click(object sender, EventArgs e)
         {
-            curLayer.MLabelRender.Used = true;
-            curLayer.MLabelRender.MTextSymbol = textSymbol;
-            curLayer.MLabelRender.Field = labelRendererValueCmb.Text;
-            FinishSettingLabel(this);
+            if (labelValidBtn.Checked)
+            {
+                curLayer.MLabelRender.Used = true;
+                curLayer.MLabelRender.MTextSymbol = textSymbol;
+                curLayer.MLabelRender.Field = labelRendererValueCmb.Text;
+                FinishSettingLabel(this);
+            }
+            else
+            {
+                curLayer.MLabelRender.Used = false;
+            }
+            Dispose();
         }
 
         private void Button8_Click(object sender, EventArgs e)
