@@ -197,7 +197,7 @@ namespace GISFinal
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
-            attributeList attribute = new attributeList(curLayer.MRecords);
+            attributeList attribute = new attributeList(curLayer, mcMap);
             attribute.Show();
         }
 

@@ -412,6 +412,16 @@ namespace ClassLibraryIofly
         }
 
 
+        public Fields Clone()
+        {
+            Fields newFields = new Fields();
+            for(int i=0;i<Count();i++)
+            {
+                Field temp = new Field(_fields[i].name, _fields[i].valueType);
+                newFields.Append(temp);
+            }
+            return newFields;
+        }
 
 
     }
@@ -544,7 +554,21 @@ namespace ClassLibraryIofly
             _records.Remove(_records[index]);
         }
 
-
+        public Records Clone()
+        {
+            Records newRecords = new Records();
+            for(int i=0;i<Count();i++)
+            {
+                object[] value = new object[Item(i).Count()];
+                for(int j=0;j<Item(i).Count();j++)
+                {
+                    value[j] = Item(i).Value(j);
+                }
+                Record temp = new Record(value);
+                newRecords.Append(temp);
+            }
+            return newRecords;
+        }
 
 
     }

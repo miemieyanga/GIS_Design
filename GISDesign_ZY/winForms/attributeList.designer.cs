@@ -34,8 +34,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.添加字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.完成修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.取消修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.所有记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.已选记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.撤销修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刷新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -83,52 +83,55 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加字段ToolStripMenuItem,
             this.属性查询ToolStripMenuItem,
-            this.完成修改ToolStripMenuItem,
-            this.取消修改ToolStripMenuItem,
+            this.所有记录ToolStripMenuItem,
+            this.已选记录ToolStripMenuItem,
             this.撤销修改ToolStripMenuItem,
             this.刷新ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1600, 39);
+            this.menuStrip1.Size = new System.Drawing.Size(1600, 42);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // 添加字段ToolStripMenuItem
             // 
             this.添加字段ToolStripMenuItem.Name = "添加字段ToolStripMenuItem";
-            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
+            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
             this.添加字段ToolStripMenuItem.Text = "添加字段";
             this.添加字段ToolStripMenuItem.Click += new System.EventHandler(this.添加字段ToolStripMenuItem_Click);
             // 
             // 属性查询ToolStripMenuItem
             // 
             this.属性查询ToolStripMenuItem.Name = "属性查询ToolStripMenuItem";
-            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
+            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
             this.属性查询ToolStripMenuItem.Text = "属性查询";
             this.属性查询ToolStripMenuItem.Click += new System.EventHandler(this.属性查询ToolStripMenuItem_Click);
             // 
-            // 完成修改ToolStripMenuItem
+            // 所有记录ToolStripMenuItem
             // 
-            this.完成修改ToolStripMenuItem.Name = "完成修改ToolStripMenuItem";
-            this.完成修改ToolStripMenuItem.Size = new System.Drawing.Size(178, 35);
-            this.完成修改ToolStripMenuItem.Text = "显示所有记录";
+            this.所有记录ToolStripMenuItem.Name = "所有记录ToolStripMenuItem";
+            this.所有记录ToolStripMenuItem.Size = new System.Drawing.Size(178, 38);
+            this.所有记录ToolStripMenuItem.Text = "显示所有记录";
+            this.所有记录ToolStripMenuItem.Click += new System.EventHandler(this.所有记录ToolStripMenuItem_Click);
             // 
-            // 取消修改ToolStripMenuItem
+            // 已选记录ToolStripMenuItem
             // 
-            this.取消修改ToolStripMenuItem.Name = "取消修改ToolStripMenuItem";
-            this.取消修改ToolStripMenuItem.Size = new System.Drawing.Size(202, 35);
-            this.取消修改ToolStripMenuItem.Text = "显示已选择记录";
+            this.已选记录ToolStripMenuItem.Name = "已选记录ToolStripMenuItem";
+            this.已选记录ToolStripMenuItem.Size = new System.Drawing.Size(202, 38);
+            this.已选记录ToolStripMenuItem.Text = "显示已选择记录";
+            this.已选记录ToolStripMenuItem.Click += new System.EventHandler(this.已选记录ToolStripMenuItem_Click);
             // 
             // 撤销修改ToolStripMenuItem
             // 
             this.撤销修改ToolStripMenuItem.Name = "撤销修改ToolStripMenuItem";
-            this.撤销修改ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
+            this.撤销修改ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
             this.撤销修改ToolStripMenuItem.Text = "撤销修改";
+            this.撤销修改ToolStripMenuItem.Click += new System.EventHandler(this.撤销修改ToolStripMenuItem_Click);
             // 
             // 刷新ToolStripMenuItem
             // 
             this.刷新ToolStripMenuItem.Name = "刷新ToolStripMenuItem";
-            this.刷新ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
+            this.刷新ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
             this.刷新ToolStripMenuItem.Text = "刷新";
             this.刷新ToolStripMenuItem.Click += new System.EventHandler(this.刷新ToolStripMenuItem_Click);
             // 
@@ -160,10 +163,10 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 添加字段ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 属性查询ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 取消修改ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 已选记录ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 撤销修改ToolStripMenuItem;
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 完成修改ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 所有记录ToolStripMenuItem;
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibraryIofly;
+using GISDesign_ZY;
 
 namespace GISFinal
 {
@@ -15,12 +16,18 @@ namespace GISFinal
     {
         public GeoRecordset recordset;
         private GeoRecordset tempset;
-        public attributeList(GeoRecordset geoRecordset)
+        public GeoRecordset selGoerecordset;
+        public List<GeoRecordset> historyGeorecordset=new List<GeoRecordset>();
+        MapControl mapControl;
+        public attributeList(Layer layer, MapControl mcMap)
         {
             InitializeComponent();
-            this.dataGridView1.DataSource= geoRecordset.GetDataTable();
-            recordset = geoRecordset;
+            this.dataGridView1.DataSource= layer.MRecords.GetDataTable();
+            recordset = layer.MRecords;
             tempset = new GeoRecordset(recordset.fields, recordset.records);
+           if(mcMap.SelectedLayers.Count()==1)
+                selGoerecordset = mcMap.SelectedLayers[0].MRecords;
+            mapControl = mcMap;
         }
 
         private void 添加字段ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -50,6 +57,7 @@ namespace GISFinal
         /// <param name="e"></param>
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            historyGeorecordset.Add(new GeoRecordset(recordset.fields.Clone(), recordset.records.Clone()));
             int numRecord = e.RowIndex;
             int numField = e.ColumnIndex;
             object temp = dataGridView1[numField, numRecord].Value;
@@ -74,6 +82,32 @@ namespace GISFinal
                     break;
             }
             recordset.records.Item(numRecord).SetValue(numField+1, temp2);
+        }
+
+        private void 已选记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mapControl.SelectedLayers.Count() == 1)
+            {
+                selGoerecordset = mapControl.SelectedLayers[0].MRecords;
+                if(selGoerecordset.fields.Count()>0)
+                {
+                    this.dataGridView1.DataSource = selGoerecordset.GetDataTable();
+                }
+                
+            }
+
+        }
+
+        private void 所有记录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.dataGridView1.DataSource = recordset.GetDataTable();
+        }
+
+        private void 撤销修改ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            recordset = historyGeorecordset.Last();
+            historyGeorecordset.RemoveAt(historyGeorecordset.Count() - 1);
+            this.dataGridView1.DataSource = recordset.GetDataTable();
         }
     }
 }
