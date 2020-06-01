@@ -54,7 +54,7 @@ namespace GISDesign_ZY
             symbols = new List<Symbol>();
             fieldLabels = new List<string>();
             curLayer = layer;
-            if(layer.MRenderer.Type == RendererType.SimpleRenderer)
+            if (layer.MRenderer.Type == RendererType.SimpleRenderer)
             {
                 SimpleRenderer simple = (SimpleRenderer)layer.MRenderer;
                 simpleRendererSymbol = simple.MSymbol;
@@ -100,13 +100,13 @@ namespace GISDesign_ZY
             datasourceTbx.Text += "几何数据类型：" + curLayer.FeatureTypeString + "\r\n";
             datasourceTbx.Text += "地理坐标系： WGS84" + "\r\n";
             datasourceTbx.Text += "投影坐标系： Equidistant Tangent Cylinder Projection" + "\r\n";
-            
+
             //标注界面初始化
             for (int i = 0; i < curLayer.MRecords.fields.Count(); i++)
             {
                 labelRendererValueCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
             }
-            if(curLayer.MRecords.records.Count()!=0)
+            if (curLayer.MRecords.records.Count() != 0)
                 labelRendererValueCmb.SelectedIndex = 0;
             fontSizeTbx.Text = textSymbol.FontSize.ToString();
             fontNameCmb.Text = textSymbol.FontName;
@@ -121,12 +121,12 @@ namespace GISDesign_ZY
             //初始化值字段、色带
             //唯一值
             defaulySymbolBtn.Image = DrawSymbol.GetBitmapOfSymbol(defaultSymbol,
-                new RectangleF(0,0, defaulySymbolBtn.Bounds.Width, defaulySymbolBtn.Bounds.Y));
+                new RectangleF(0, 0, defaulySymbolBtn.Bounds.Width, defaulySymbolBtn.Bounds.Y));
             for (int i = 0; i < curLayer.MRecords.fields.Count(); i++)
             {
                 uniqueValueCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
             }
-            for(int i=0;i< randomRampColors.Length; i++)
+            for (int i = 0; i < randomRampColors.Length; i++)
             {
                 uniqueValueColorCmb.Items.Add(randomRampColors[i]);
             }
@@ -156,9 +156,9 @@ namespace GISDesign_ZY
             if (curLayer.MRecords.records.Count() != 0)
                 classBreakRendererColorCmb.SelectedIndex = 0;
 
-            if(classBreakRendererValueCmb.Items.Count>0)
+            if (classBreakRendererValueCmb.Items.Count > 0)
                 classBreakRendererValueCmb.SelectedIndex = 0;
-            if(classBreakRendererSizeCmb.Items.Count>0)
+            if (classBreakRendererSizeCmb.Items.Count > 0)
                 classBreakRendererSizeCmb.SelectedIndex = 0;
         }
 
@@ -197,13 +197,13 @@ namespace GISDesign_ZY
             for (int i = 0; i < values.Count; i++)
             {
                 Color curColor = curRamp.Next();
-                symbols.Add(SymbolFactory.CreateSymbol(curLayer.FeatureType,curColor));
+                symbols.Add(SymbolFactory.CreateSymbol(curLayer.FeatureType, curColor));
             }
 
             //绘制gridview
             uniqueRendererValues.Clear();
             fieldLabels.Clear();
-            for(int i=0;i<values.Count;i++)
+            for (int i = 0; i < values.Count; i++)
             {
                 object value = values[i];
                 Symbol curSymbol = symbols[i];
@@ -219,7 +219,7 @@ namespace GISDesign_ZY
                 //TODO:
                 DataGridViewImageCell symbolCell = new DataGridViewImageCell();
                 symbolCell.Value = DrawSymbol.GetBitmapOfSymbol(curSymbol,
-                    new RectangleF(5,1,50,18));
+                    new RectangleF(5, 1, 50, 18));
 
                 curRow.Cells.Add(symbolCell);
                 DataGridViewTextBoxCell uniqueCell = new DataGridViewTextBoxCell();
@@ -258,10 +258,10 @@ namespace GISDesign_ZY
             int maxSize = Convert.ToInt32(classBreakRendererSizeToTbx.Text);
             int minSize = Convert.ToInt32(classBreakRendererSizeFromTbx.Text);
             int cnt = 0;
-            for(double i = min; i < max; i += (max - min) / breakCount)
+            for (double i = min; i < max; i += (max - min) / breakCount)
             {
                 symbols.Add(SymbolFactory.CreateSymbol(curLayer.FeatureType,
-                    minSize+(int)cnt*(maxSize-minSize)/breakCount));
+                    minSize + (int)cnt * (maxSize - minSize) / breakCount));
                 classbreakRendererBreaks.Add(i);
                 cnt += 1;
             }
@@ -318,8 +318,8 @@ namespace GISDesign_ZY
             double max = values.Max();
             int breakCount = Convert.ToInt32(classBreakRendererCountTbx.Text);
 
-            if(breakCount>=1)
-                curRamp.Pace = curRamp.Size / breakCount-1;
+            if (breakCount >= 1)
+                curRamp.Pace = curRamp.Size / breakCount - 1;
 
             for (double i = min; i < max; i += (max - min) / breakCount)
             {
@@ -333,8 +333,8 @@ namespace GISDesign_ZY
             //绘制gridview
             for (int i = 0; i < breakCount; i++)
             {
-                string frm = Math.Round(classbreakRendererBreaks[i],3).ToString();
-                string to = Math.Round(classbreakRendererBreaks[i+1], 3).ToString();
+                string frm = Math.Round(classbreakRendererBreaks[i], 3).ToString();
+                string to = Math.Round(classbreakRendererBreaks[i + 1], 3).ToString();
                 Symbol curSymbol = symbols[i];
 
                 DataGridViewRow curRow = new DataGridViewRow();
@@ -344,7 +344,7 @@ namespace GISDesign_ZY
                 curRow.Cells.Add(symbolCell);
 
                 DataGridViewTextBoxCell uniqueCell = new DataGridViewTextBoxCell();
-                uniqueCell.Value = frm + "-" +to;
+                uniqueCell.Value = frm + "-" + to;
                 curRow.Cells.Add(uniqueCell);
                 DataGridViewTextBoxCell labelCell = new DataGridViewTextBoxCell();
                 labelCell.Value = frm + "-" + to;
@@ -585,7 +585,7 @@ namespace GISDesign_ZY
         private void EmampleStringPbx_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawString(textSymbol.FontName, textSymbol.ToFont(),
-                new SolidBrush(textSymbol.FontColor), new Point(10,10));
+                new SolidBrush(textSymbol.FontColor), new Point(10, 10));
 
         }
 

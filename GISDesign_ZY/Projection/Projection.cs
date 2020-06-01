@@ -121,7 +121,8 @@ namespace GISDesign_ZY
                 {
                     case FeatureTypeConstant.PointD:
                         PointD cp = LngLatToXY((PointD)feature);
-                        feature = cp;
+                        (layer.MRecords.records.Item(i).Value(1) as PointD).X = cp.X;
+                        (layer.MRecords.records.Item(i).Value(1) as PointD).Y = cp.Y;
                         break;
                     case FeatureTypeConstant.Polyline:
                         Polyline polyline = (Polyline)feature;

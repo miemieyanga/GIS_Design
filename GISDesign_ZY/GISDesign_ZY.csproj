@@ -100,6 +100,12 @@
     <Compile Include="winForms\attributeList.designer.cs">
       <DependentUpon>attributeList.cs</DependentUpon>
     </Compile>
+    <Compile Include="winForms\IdentifyResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="winForms\IdentifyResultForm.Designer.cs">
+      <DependentUpon>IdentifyResultForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="winForms\mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\attributeList.resx">
       <DependentUpon>attributeList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="winForms\IdentifyResultForm.resx">
+      <DependentUpon>IdentifyResultForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="winForms\mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>

@@ -45,10 +45,9 @@ namespace GISDesign_ZY
         private PointF mStartPoint = new PointF(); //鼠标按下位置，用于拉框
         private Point MapElementOffset; //地图要素位置偏移量
         private bool MapElementMove = false;   //地图要素是否可移动
-
         private List<Label> lblStaticNotes = new List<Label>();   //存储静态注记
-        private List<PictureBox> pbxStaticNotes = new List<PictureBox>();   //存储静态标注
         private Label ChosenLabel; //右击选中的注记
+        private List<PictureBox> pbxStaticNotes = new List<PictureBox>();   //存储静态标注
         private PictureBox ChosenPbx;
 
         //鼠标光标
@@ -479,7 +478,7 @@ namespace GISDesign_ZY
         /// </summary>
         public void AddLabels(Layer layer)
         {
-            MapLabel mapLabel = new MapLabel(100,50);
+            MapLabel mapLabel = new MapLabel(100, 50);
             mapLabel.DrawLabelOfLayer(layer);
             PictureBox p = new PictureBox();
             p.ContextMenuStrip = cMSLabel;
@@ -537,31 +536,6 @@ namespace GISDesign_ZY
         #endregion
 
         #region 私有函数
-
-        /// <summary>
-        /// 计算屏幕面积
-        /// </summary>
-        /// <returns></returns>
-        public double GetArea(PointF[] points)
-        {
-            double allArea = 0;
-            double tempArea = 0;
-            List<PointD> tempPts = new List<PointD>();
-            int sPointCount = points.Length;
-            for (int i = 0; i < sPointCount; i++) //以第一个顶点作为原点，更新坐标系方便运算
-            {
-                PointD tempPt = new PointD(points[i].X - points[0].X, points[i].Y - points[0].Y);
-                tempPts.Add(tempPt);
-            }
-            for (int i = 1; i < sPointCount - 1; i++) //向量叉乘算面积
-            {
-                tempArea = 0.5 * (tempPts[i].X * tempPts[i + 1].Y - tempPts[i + 1].X * tempPts[i].Y);
-                allArea += tempArea;
-            }
-            allArea = Math.Abs(allArea);
-            return allArea;
-        }
-
         //绘制点图层
         private void DrawPointLayer(Graphics g, Layer curLayer)
         {
@@ -891,7 +865,7 @@ namespace GISDesign_ZY
                                 {
                                     Font f1 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
                                     g.DrawString(labelstring[k].ToString(), f1,
-                                        new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), points[k]);
+                                        new SolidBrush(_Layers[i].MLabelRender.MTextSymbol.FontColor), points[i]);
                                 }
                                 break;
                             case FeatureTypeConstant.Polygon:
@@ -902,8 +876,7 @@ namespace GISDesign_ZY
                                     PointD p1 = FromMapPoint(polygon.points[k]);
                                     pointFs1[k] = new PointF((float)p1.X, (float)p1.Y);
                                 }
-                                //if (GetArea(pointFs1) <= 100)
-                                    //continue;
+
 
                                 PointF points1 = _Layers[i].GetLabelPositionOfPolygon(pointFs1, labelstring);
                                 Font f2 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
@@ -1670,6 +1643,7 @@ namespace GISDesign_ZY
         #endregion
 
         #region 静态注记事件处理
+
         //静态注记鼠标按下事件
         private void l_Down(object sender, MouseEventArgs e)
         {
@@ -1707,6 +1681,7 @@ namespace GISDesign_ZY
             ChosenLabel = (Label)(sender as ContextMenuStrip).SourceControl;
         }
 
+
         private void 删除标注ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChosenPbx.Visible = false;
@@ -1714,7 +1689,7 @@ namespace GISDesign_ZY
             pbxStaticNotes.Remove(ChosenPbx);
         }
 
-        private void CMSLabel_Opening(object sender, CancelEventArgs e)
+        private void CMSLabel_Opening_1(object sender, CancelEventArgs e)
         {
             ChosenPbx = (PictureBox)(sender as ContextMenuStrip).SourceControl;
         }

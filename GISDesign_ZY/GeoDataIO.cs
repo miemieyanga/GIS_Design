@@ -16,7 +16,7 @@ namespace ClassLibraryIofly
     public class GeoDataIO
     {
         //private GeoRecordset geoRecordset = new GeoRecordset();
-        public string myEncoding = "GBK";
+        public string myEncoding = "utf-8";
         public GeoDataIO()
         {
 
@@ -138,8 +138,32 @@ namespace ClassLibraryIofly
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
-                                    double tempDouble =Convert.ToDouble(tempStr2);
-                                    //double tempDouble = BitConverter.ToDouble(tempBytes,0);
+                                    double tempDouble;
+                                    try
+                                    {
+                                        tempDouble = Convert.ToDouble(tempStr2);
+                                    }
+                                    catch
+                                    {
+                                        try
+                                        {
+                                            tempDouble = BitConverter.ToDouble(tempBytes, 0);
+                                        }
+                                        catch
+                                        {
+                                            try
+                                            {
+                                                tempDouble =(double) Convert.ToSingle(tempStr2);
+                                            }
+                                            catch
+                                            {
+                                                tempDouble =(double) BitConverter.ToSingle(tempBytes, 0);
+                                            }
+                                        }
+                                        
+                                    }
+
+                                    //
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);
@@ -351,22 +375,18 @@ namespace ClassLibraryIofly
                             bw.Write(mPolyLine.GetEnvelope().MinY);
                             bw.Write(mPolyLine.GetEnvelope().MaxX);
                             bw.Write(mPolyLine.GetEnvelope().MaxY);
-                            Int32 NumParts = mPolyLine.PointCount;
+                            Int32 NumParts = 1;
                             bw.Write(NumParts);//子线段个数
-                            Int32 NumPoints =  8;
+                            Int32 NumPoints =  mPolyLine.PointCount;
                             bw.Write(NumPoints);//点个数
                             Int32 parts = 0;
                             bw.Write(parts);//每个子线段的点坐标信息在所有点坐标信息中的起始位置，第一个为0
-                            for (int j = 0; j < NumParts - 1; j++)
-                            {
-                                //parts += mPolyLine.Parts[j];
-                                bw.Write(parts);
-                            }
+
                             //点坐标信息
                             for (int k = 0; k < NumPoints; k++)
                             {
-                                //bw.Write(mPolyLine._Points[k].X);
-                                //bw.Write(mPolyLine._Points[k].Y);
+                                bw.Write(mPolyLine.GetPointD(k).X);
+                                bw.Write(mPolyLine.GetPointD(k).Y);
 
                             }
                         }
@@ -495,18 +515,30 @@ namespace ClassLibraryIofly
                     switch(fields.Item(j).valueType)
                     {
                         case "int":
-                            Int32 valueInt = (Int32)value;
+                            Int32 valueInt;
+                            if (value == null)
+                                valueInt = 0;
+                            else
+                                valueInt = (Int32)value;
                             bw.Write(valueInt);
                             break;
 
                         case "double":
-                            double valueDouble = (double)value;
+                            double valueDouble;
+                            if (value == null)
+                                valueDouble = 0;
+                            else
+                                valueDouble = (double)value;
 
                             bw.Write(valueDouble);
                             break;
 
                         case "string":
-                            string valueStr = (string)value;
+                            string valueStr;
+                            if (value == null)
+                                valueStr = "";
+                            else
+                                valueStr = (string)value;
                             //valueStr = valueStr.PadRight(128, '\0');
                             valueStr=valueStr.Trim();
                             int len = System.Text.Encoding.UTF8.GetBytes(valueStr).Length;
@@ -517,7 +549,11 @@ namespace ClassLibraryIofly
                             break;
 
                         default:
-                            string valueStr2 = (string)value;
+                            string valueStr2;
+                            if (value == null)
+                                valueStr2 = "";
+                            else
+                                valueStr2 = (string)value;
                             valueStr2 = valueStr2.Trim();
                             int len2 = System.Text.Encoding.UTF8.GetBytes(valueStr2).Length;
                             int delta2 = 2 * len2 / 3;
