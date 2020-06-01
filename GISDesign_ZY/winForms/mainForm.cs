@@ -123,18 +123,21 @@ namespace GISFinal
 
         private void 删除选中要素ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
+            
             Layer[] layers = mcMap.SelectedLayers;
             for(int i=0; i<layers.Count();i++)
             {
                 GeoRecordset tempset = layers[i].MRecords;
                 for(int j=0;j<tempset.records.Count();j++)
                 {
-                    object tempvalue = tempset.records.Item(j).Value(1);
-                    
+                    Record tempvalue = tempset.records.Item(j);
+                    int index = Convert.ToInt32(tempvalue.Value(tempvalue.Count() - 1));
+                    mcMap.Layers[i].MRecords.records.Delete(index);
+                    //tempvalue
                 }
             }
-            */
+            mcMap.SelectedLayers = new Layer[0];
+            mcMap.Refresh();
         }
 
         //打开一个shapefile

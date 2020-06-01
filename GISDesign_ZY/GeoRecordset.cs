@@ -193,7 +193,9 @@ namespace ClassLibraryIofly
         public GeoRecordset SelectByPoint(PointD point, double tolerance)
         {
             Records newRecords = new Records();
-            Fields newFeilds = fields;
+            Field index = new Field("index", "int");
+            Fields newFeilds = fields.Clone();
+            newFeilds.Append(index);
             for (int i = 0; i < records.Count(); i++)
             {
                 string valuetype = (string)(records.Item(i).Value(0));
@@ -204,15 +206,21 @@ namespace ClassLibraryIofly
 
                     if (tempPt.isNearPoint(point, tolerance))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
                     }
+
                 }
                 else if (valuetype == typeof(Polygon).Name)
                 {
                     Polygon temppolygon = (Polygon)records.Item(i).Value(1);
                     if(temppolygon.isContainPoint(point))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
                 else if (valuetype == typeof(MultiPolygon).Name)
@@ -220,7 +228,10 @@ namespace ClassLibraryIofly
                     MultiPolygon tempmpolygon = (MultiPolygon)records.Item(i).Value(1);
                     if (tempmpolygon.isContainPoint(point))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
                 else if (valuetype == typeof(Polyline).Name)
@@ -228,7 +239,10 @@ namespace ClassLibraryIofly
                     Polyline temppolyline = (Polyline)records.Item(i).Value(1);
                     if(temppolyline.isNearPoint(point,tolerance))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
                 else if(valuetype == typeof(MultiPolyline).Name)
@@ -236,7 +250,10 @@ namespace ClassLibraryIofly
                     MultiPolyline tempmpolyline = (MultiPolyline)records.Item(i).Value(1);
                     if (tempmpolyline.isNearPoint(point, tolerance))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
             }
@@ -252,7 +269,9 @@ namespace ClassLibraryIofly
         public GeoRecordset SelectByBox(RectangleD box)
         {
             Records newRecords = new Records();
-            Fields newFeilds = fields;
+            Field index = new Field("index", "int");
+            Fields newFeilds = fields.Clone();
+            newFeilds.Append(index);
             for (int i = 0; i < records.Count(); i++)
             {
                 string valuetype = (string)(records.Item(i).Value(0));
@@ -262,7 +281,10 @@ namespace ClassLibraryIofly
 
                     if (tempPt.isInBox(box))
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
                 else if (valuetype == typeof(Polygon).Name
@@ -277,7 +299,10 @@ namespace ClassLibraryIofly
                     bool isIn = Convert.ToBoolean(tempIsIn);
                     if (isIn)
                     {
-                        newRecords.Append(records.Item(i));
+                        Record temprecord = records.Item(i).Clone();
+                        temprecord.Append(i);
+                        newRecords.Append(temprecord);
+                        //newRecords.Append(records.Item(i));
                     }
                 }
             }
@@ -459,6 +484,16 @@ namespace ClassLibraryIofly
         {
             _values.AddRange(v);
             values = v;
+        }
+
+        public Record Clone()
+        {
+            object[] tempv = new object[Count()];
+            for(int i=0;i<Count();i++)
+            {
+                tempv[i] = _values[i];
+            }
+            return new Record(tempv);
         }
 
         /// <summary>
