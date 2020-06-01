@@ -34,10 +34,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.添加字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.完成修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.取消修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.撤销修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刷新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.完成修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -55,6 +55,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1552, 790);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
             // statusStrip1
             // 
@@ -88,48 +89,48 @@
             this.刷新ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1600, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(1600, 39);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // 添加字段ToolStripMenuItem
             // 
             this.添加字段ToolStripMenuItem.Name = "添加字段ToolStripMenuItem";
-            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
+            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
             this.添加字段ToolStripMenuItem.Text = "添加字段";
             this.添加字段ToolStripMenuItem.Click += new System.EventHandler(this.添加字段ToolStripMenuItem_Click);
             // 
             // 属性查询ToolStripMenuItem
             // 
             this.属性查询ToolStripMenuItem.Name = "属性查询ToolStripMenuItem";
-            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
+            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
             this.属性查询ToolStripMenuItem.Text = "属性查询";
             this.属性查询ToolStripMenuItem.Click += new System.EventHandler(this.属性查询ToolStripMenuItem_Click);
+            // 
+            // 完成修改ToolStripMenuItem
+            // 
+            this.完成修改ToolStripMenuItem.Name = "完成修改ToolStripMenuItem";
+            this.完成修改ToolStripMenuItem.Size = new System.Drawing.Size(178, 35);
+            this.完成修改ToolStripMenuItem.Text = "显示所有记录";
             // 
             // 取消修改ToolStripMenuItem
             // 
             this.取消修改ToolStripMenuItem.Name = "取消修改ToolStripMenuItem";
-            this.取消修改ToolStripMenuItem.Size = new System.Drawing.Size(202, 38);
+            this.取消修改ToolStripMenuItem.Size = new System.Drawing.Size(202, 35);
             this.取消修改ToolStripMenuItem.Text = "显示已选择记录";
             // 
             // 撤销修改ToolStripMenuItem
             // 
             this.撤销修改ToolStripMenuItem.Name = "撤销修改ToolStripMenuItem";
-            this.撤销修改ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
+            this.撤销修改ToolStripMenuItem.Size = new System.Drawing.Size(130, 35);
             this.撤销修改ToolStripMenuItem.Text = "撤销修改";
             // 
             // 刷新ToolStripMenuItem
             // 
             this.刷新ToolStripMenuItem.Name = "刷新ToolStripMenuItem";
-            this.刷新ToolStripMenuItem.Size = new System.Drawing.Size(82, 38);
+            this.刷新ToolStripMenuItem.Size = new System.Drawing.Size(82, 35);
             this.刷新ToolStripMenuItem.Text = "刷新";
             this.刷新ToolStripMenuItem.Click += new System.EventHandler(this.刷新ToolStripMenuItem_Click);
-            // 
-            // 完成修改ToolStripMenuItem
-            // 
-            this.完成修改ToolStripMenuItem.Name = "完成修改ToolStripMenuItem";
-            this.完成修改ToolStripMenuItem.Size = new System.Drawing.Size(178, 38);
-            this.完成修改ToolStripMenuItem.Text = "显示所有记录";
             // 
             // attributeList
             // 

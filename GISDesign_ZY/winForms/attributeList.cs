@@ -42,5 +42,38 @@ namespace GISFinal
             selectByAttribute ByAttribute = new selectByAttribute(recordset, tempset);
             ByAttribute.Show();
         }
+
+        /// <summary>
+        /// 编辑属性值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            int numRecord = e.RowIndex;
+            int numField = e.ColumnIndex;
+            object temp = dataGridView1[numField, numRecord].Value;
+            string type = recordset.fields.Item(numField+1).valueType;
+            object temp2;
+            switch(type)
+            {
+                case "int":
+                    temp2 = Convert.ToInt32(temp);
+                    break;
+
+                case "string":
+                    temp2 = Convert.ToString(temp);
+                    break;
+
+                case "double":
+                    temp2 = Convert.ToDouble(temp);
+                    break;
+
+                default:
+                    temp2 = Convert.ToString(temp);
+                    break;
+            }
+            recordset.records.Item(numRecord).SetValue(numField+1, temp2);
+        }
     }
 }

@@ -110,7 +110,7 @@ namespace ClassLibraryIofly
 
             //获取头文件的最后一个字节，值应为0D
             tempbyte = br.ReadByte();
-            if (br.BaseStream.Position < br.BaseStream.Length-2) //tempbyte == 0x0D
+            if (tempbyte == 0x0D) //tempbyte == 0x0D
             {
                 //添加表格的行及数据
                 if (RowCount > 0)
@@ -138,13 +138,16 @@ namespace ClassLibraryIofly
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
-                                    double tempDouble =Convert.ToDouble(tempStr2);
+                                    //double tempDouble =Convert.ToDouble(tempStr2);
+                                    double tempDouble = BitConverter.ToDouble(tempBytes,0);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);
                                     break;
                                 case "string":
-                                    string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
+                                    string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes);
+                                    tempStr3= tempStr3.Replace("\0", "");
+                                    tempStr3 = tempStr3.Trim();
                                     geoRecordset.records.Item(i).Append(tempStr3);
                                     //temp.Add(tempStr);
                                     break;
@@ -504,14 +507,23 @@ namespace ClassLibraryIofly
 
                         case "string":
                             string valueStr = (string)value;
-                            valueStr = valueStr.PadRight(128, '\0');
-                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr));
+                            //valueStr = valueStr.PadRight(128, '\0');
+                            valueStr=valueStr.Trim();
+                            int len = System.Text.Encoding.UTF8.GetBytes(valueStr).Length;
+                            int delta = 2 * len / 3;
+                            valueStr = valueStr.PadRight(128-delta, '\0');
+                            byte[] str = System.Text.Encoding.UTF8.GetBytes(valueStr);
+                            bw.Write(str);
                             break;
 
                         default:
                             string valueStr2 = (string)value;
-                            valueStr = valueStr2.PadRight(128, '\0');
-                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr2));
+                            valueStr2 = valueStr2.Trim();
+                            int len2 = System.Text.Encoding.UTF8.GetBytes(valueStr2).Length;
+                            int delta2 = 2 * len2 / 3;
+                            valueStr2 = valueStr2.PadRight(128 - delta2, '\0');
+                            byte[] str2 = System.Text.Encoding.UTF8.GetBytes(valueStr2);
+                            bw.Write(str2);
                             break;
                     }
                 }
