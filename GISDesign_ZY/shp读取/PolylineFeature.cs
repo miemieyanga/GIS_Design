@@ -8,6 +8,7 @@ using System.Drawing;
 
 namespace shp读取
 {
+    [Serializable]
     class PolylineFeature
     {
         static ShapeTypes shapeType = ShapeTypes.Polyline;

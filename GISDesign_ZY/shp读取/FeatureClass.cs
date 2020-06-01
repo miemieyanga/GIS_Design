@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace shp读取
 {
+
+    [Serializable]
     struct BBOX
     {
         public double xmin, ymin, xmax, ymax;
@@ -20,6 +22,8 @@ namespace shp读取
         }
     }
 
+
+    [Serializable]
     class FeatureClass
     {
         ShapeTypes shapetype;

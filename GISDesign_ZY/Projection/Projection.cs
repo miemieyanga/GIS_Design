@@ -8,6 +8,8 @@ using ClassLibraryIofly;
 
 namespace GISDesign_ZY
 {
+
+    [Serializable]
     public abstract class Projection
     {
         abstract public PointD LngLatToXY(PointD coordinate);
@@ -22,6 +24,7 @@ namespace GISDesign_ZY
     /// <summary>
     /// 等距切圆柱投影
     /// </summary>
+    [Serializable]
     public class ProjectionETC:Projection
     {
         const double a = 6378137, b = 6356752;

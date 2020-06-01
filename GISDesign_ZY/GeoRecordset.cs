@@ -11,6 +11,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// GeoRecordset类
     /// </summary>
+    /// 
+    [Serializable]
     public class GeoRecordset
     {//todo: 判断record里面的值的类型是否和字段匹配
         public Fields fields;
@@ -19,8 +21,16 @@ namespace ClassLibraryIofly
 
         public GeoRecordset()
         {
-            ;
+
         }
+
+        public GeoRecordset(string vType)
+        {
+            fields = new Fields();
+            records = new Records();
+            valueType = vType;
+        }
+
 
         public GeoRecordset(Fields fs, Records rs)
         {
@@ -298,6 +308,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// Field类
     /// </summary>
+    /// 
+    [Serializable]
     public class Field
     {
         public string name;
@@ -314,6 +326,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// Fields类
     /// </summary>
+    /// 
+    [Serializable]
     public class Fields
     {
         public Field[] fields;
@@ -420,6 +434,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// Record类
     /// </summary>
+    /// 
+    [Serializable]
     public class Record
     {
         object[] values;
@@ -480,6 +496,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// Records类
     /// </summary>
+    /// 
+    [Serializable]
     public class Records
     {
         Record[] records;

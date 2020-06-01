@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using GISDesign_ZY;
 using ClassLibraryIofly;
 using GISDesign_ZY.winForms;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+using System.IO;
 
 namespace GISFinal
 {
@@ -42,8 +45,6 @@ namespace GISFinal
 
         }
 
-
-
         private void 打开ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
@@ -71,22 +72,48 @@ namespace GISFinal
 
         private void toolStripButton1_Click_1(object sender, EventArgs e)
         {
-
+            addLayer addForm = new addLayer();
+            if (addForm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer curLayer = addForm.newLayer;
+                map.Layers.Add(curLayer);
+                AddLayerToTreeView(curLayer);
+            }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-
+            AntMap文件ToolStripMenuItem_Click(sender,e);
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-
+            if (openShapefileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = openShapefileDialog.FileName;
+                map.Layers.Add(map.OpenLayerFile(path));
+                //更新treeview视图
+                AddLayerToTreeView(map.Layers[map.Layers.Count - 1], map.name);
+                layerTreeView.ExpandAll();
+                if (map.projection == null)
+                {
+                    map.projection = new ProjectionETC();
+                }
+                Layer cl = map.Layers[map.Layers.Count - 1];
+                map.projection.LngLatToXY(cl);
+                mcMap.Extent(map.Layers[map.Layers.Count - 1]);
+            }
         }
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            addLayer addForm = new addLayer();
+            if (addForm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer curLayer = addForm.newLayer;
+                map.Layers.Add(curLayer);
+                AddLayerToTreeView(curLayer);
+            }
         }
 
         private void 添加ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,12 +134,7 @@ namespace GISFinal
                 string path = openShapefileDialog.FileName;
                 map.Layers.Add(map.OpenLayerFile(path));
                 //更新treeview视图
-                if (layerTreeView.Nodes.Count == 0)
-                {
-                    TreeNode root = new TreeNode("NewAntMap");
-                    layerTreeView.Nodes.Add(root);
-                }
-                layerTreeView.Nodes[0].Nodes.Add(map.Layers[map.Layers.Count-1].Name);
+                AddLayerToTreeView(map.Layers[map.Layers.Count - 1],map.name);
                 layerTreeView.ExpandAll();
                 if (map.projection == null)
                 {
@@ -129,18 +151,13 @@ namespace GISFinal
             if (openProjectFileDialog.ShowDialog() == DialogResult.OK)
             {
                 map = new MapManager();
-                map.OpenProjectFile(openProjectFileDialog.FileName);
-                //TODO:打开后刷新地图控件
-                if (layerTreeView.Nodes.Count == 0)
+                using(StreamReader sr = new StreamReader(openProjectFileDialog.FileName))
                 {
-                    TreeNode root = new TreeNode(map.name);
-                    layerTreeView.Nodes.Add(root);
+                    string objString = sr.ReadToEnd();
+                    map = ObjToString.StringToObject<MapManager>(objString);
                 }
-                foreach (Layer layer in map.Layers)
-                {
-                    layerTreeView.Nodes[0].Nodes.Add(layer.Name);
-                }
-                layerTreeView.ExpandAll();
+                AddMapToTreeView(map);
+                mcMap._Layers = map.Layers;
                 mcMap.Extent(map.GetExtent());
             }
         }
@@ -151,7 +168,6 @@ namespace GISFinal
         {
             statusScale.Text = "1:" + mcMap.DisplayScale.ToString("0.00");
         }
-
 
         //treeView节点绘制
         private void TreeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -173,6 +189,28 @@ namespace GISFinal
                 layerContextMenuStrip.Show(layerTreeView, ClickPoint);
             }
         }
+
+        //添加一个图层
+        private void AddLayerToTreeView(Layer layer, string rootName = "NewAntMap")
+        {
+            if (layerTreeView.Nodes.Count == 0)
+                layerTreeView.Nodes.Add(rootName);
+            layerTreeView.Nodes[0].Nodes.Add(layer.Name);
+            layerTreeView.ExpandAll();
+        }
+
+        private void AddMapToTreeView(MapManager curMap)
+        {
+            layerTreeView.Nodes.Clear();
+            layerTreeView.Nodes.Add(curMap.name);
+            foreach (Layer layer in curMap.Layers)
+            {
+                layerTreeView.Nodes[0].Nodes.Add(layer.Name);
+            }
+            layerTreeView.ExpandAll();
+        }
+
+        //添加一个地图框
 
         //treeView右键菜单中属性选项被按下
         private void 属性ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -203,10 +241,7 @@ namespace GISFinal
 
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveProjectFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                map.SaveProject(saveProjectFileDialog.FileName);
-            }
+            保存_Click(sender, e);
         }
 
         //显示鼠标位置
@@ -387,8 +422,6 @@ namespace GISFinal
             }
         }
 
-
-
         private void 保存ShapeFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
@@ -408,6 +441,55 @@ namespace GISFinal
             addFeatureFrm.Dispose();
 
 
+        }
+
+        private void 添加图层ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addLayer addForm = new addLayer();
+            if(addForm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer curLayer = addForm.newLayer;
+                map.Layers.Add(curLayer);
+                AddLayerToTreeView(curLayer);
+            }
+        }
+
+        private void 添加数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openShapefileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = openShapefileDialog.FileName;
+                map.Layers.Add(map.OpenLayerFile(path));
+                //更新treeview视图
+                AddLayerToTreeView(map.Layers[map.Layers.Count - 1], map.name);
+                layerTreeView.ExpandAll();
+                if (map.projection == null)
+                {
+                    map.projection = new ProjectionETC();
+                }
+                Layer cl = map.Layers[map.Layers.Count - 1];
+                map.projection.LngLatToXY(cl);
+                mcMap.Extent(map.Layers[map.Layers.Count - 1]);
+            }
+        }
+
+        private void 保存_Click(object sender, EventArgs e)
+        {
+            if (saveProjectFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string objString = ObjToString.ObjectToString(map);
+                using (StreamWriter sr = new StreamWriter(saveProjectFileDialog.FileName))
+                {
+                    sr.Write(objString);
+                }
+            }
+        }
+
+        private void 删除图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            map.DelLayerByName(layerTreeView.SelectedNode.Text);
+            layerTreeView.Nodes[0].Nodes.Remove(layerTreeView.SelectedNode);
+            mcMap.Refresh();
         }
     }
 }
