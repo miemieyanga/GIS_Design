@@ -11,6 +11,7 @@ namespace GISDesign_ZY
     /// <summary>
     /// 随机色带类
     /// </summary>
+    [Serializable]
     class RandomColorRampClass
     {
         #region 属性
@@ -115,6 +116,7 @@ namespace GISDesign_ZY
     /// <summary>
     /// 色带类
     /// </summary>
+    [Serializable]
     public class ColorRampClass
     {
         # region 属性
