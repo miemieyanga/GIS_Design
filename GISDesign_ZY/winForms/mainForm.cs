@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GISDesign_ZY;
 using ClassLibraryIofly;
+using GISDesign_ZY.winForms;
 
 namespace GISFinal
 {
@@ -41,10 +42,7 @@ namespace GISFinal
 
         }
 
-        private void 导出ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void 打开ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -331,6 +329,85 @@ namespace GISFinal
         {
             selByAttriInMainForm selByAttri = new selByAttriInMainForm(mcMap, map);
             selByAttri.Show();
+        }
+
+        private void 添加指北针ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.GetCompass();
+        }
+
+        private void 添加比例尺ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.GetScale();
+        }
+
+        private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Layer curLayer = map.GetLayerByName(layerTreeView.SelectedNode.Text);
+            mcMap.Extent(curLayer);
+        }
+
+        private void 添加静态注记ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.AddStaticNotes();
+        }
+
+        private void 添加要素ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                if(layer != null)
+                    mcMap.TrackFeature(layer);
+            }
+            addFeatureFrm.Dispose();
+        }
+
+        private void 编辑选中要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                if (layer != null)
+                    mcMap.EditLayer(layer);
+            }
+            addFeatureFrm.Dispose();
+        }
+
+        private void 保存BMPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveBmp = new SaveFileDialog();
+            saveBmp.Filter = "BitMap文件|*.bmp|所有文件|*.*";
+            if (saveBmp.ShowDialog() == DialogResult.OK)
+            {
+                GeoDataIO geoDataIO = new GeoDataIO();
+                geoDataIO.SaveToBitMap(saveBmp.FileName, mcMap);
+            }
+        }
+
+
+
+        private void 保存ShapeFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFeatureFrm addFeatureFrm = new AddFeatureFrm(mcMap, map);
+            
+            if (addFeatureFrm.ShowDialog(this) == DialogResult.OK)
+            {
+                Layer layer = addFeatureFrm.ChosenLayer;
+                GeoDataIO geoDataIO = layer.MGeoDataIO;
+                SaveFileDialog saveShape = new SaveFileDialog();
+                saveShape.Filter = "所有文件|*.|所有文件|*.*";
+                if (saveShape.ShowDialog() == DialogResult.OK)
+                {
+                    geoDataIO.SaveShapeFile(saveShape.FileName, layer);
+                }
+            }
+
+            addFeatureFrm.Dispose();
+
+
         }
     }
 }

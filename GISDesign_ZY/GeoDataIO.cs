@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Threading.Tasks;
 //using System.Windows.Forms;
 using System.IO;
+using GISFinal;
+using GISDesign_ZY;
 
 namespace ClassLibraryIofly
 {
@@ -106,7 +108,7 @@ namespace ClassLibraryIofly
 
             //获取头文件的最后一个字节，值应为0D
             tempbyte = br.ReadByte();
-            if (tempbyte == 0x0D)
+            if (br.BaseStream.Position < br.BaseStream.Length-2) //tempbyte == 0x0D
             {
                 //添加表格的行及数据
                 if (RowCount > 0)
@@ -133,6 +135,7 @@ namespace ClassLibraryIofly
                                     break;
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
+                                    //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
                                     double tempDouble =Convert.ToDouble(tempStr2);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
@@ -159,7 +162,6 @@ namespace ClassLibraryIofly
             //ReadMap("d://mymap2.map");
             return geoRecordset;
         }
-
 
 
         /// <summary>
@@ -242,6 +244,7 @@ namespace ClassLibraryIofly
             return new GeoRecordset(fields,records);
         }
 
+
         /// <summary>
         /// 读取SHP文件和DBF文件，参数为SHP文件完整路径
         /// </summary>
@@ -256,8 +259,282 @@ namespace ClassLibraryIofly
             return geoRecordset;
         }
 
-        public bool SaveToBitMap(string filename, GeoRecordset geoset)
+        /// <summary>
+        /// 将要素数据写入SHP文件
+        /// </summary>
+        /// <param name="filename"></param>
+        public void WriteShp(string filename, Layer layer)
         {
+            FileStream fs = new FileStream(filename+"shp", FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            for (int i = 0; i < 6; i++)
+                bw.Write(0);
+
+            Int32 TypeCode;//要素类型对应的编码
+            Int32 FileLength = 100;//文件长度，初值为头文件长度50
+            Records records = layer.MRecords.records;
+            switch(layer.FeatureType)
+            {
+                case FeatureTypeConstant.PointD:
+                    TypeCode = 1;
+                    for (int i = 0; i < records.Count(); i++)
+                    {
+                        FileLength += 28;
+                    }
+                    break;
+
+                case FeatureTypeConstant.Polyline:
+                    TypeCode = 3;
+                    for (int i = 0; i < records.Count(); i++)
+                    {
+                        FileLength += 100;
+                    }
+                    break;
+
+                case FeatureTypeConstant.Polygon:
+                    TypeCode = 5;
+                    break;
+                default:
+                    throw new FileLoadException("不支持的数据类型");
+            }
+            bw.Write(shp读取.Shapefile.ReverseByte(FileLength));
+            bw.Write(1000);//写入版本号
+            bw.Write(TypeCode);//写入几何类型
+                               //写入MBR数据
+            bw.Write(layer.GetExtent().MinX);
+            bw.Write(layer.GetExtent().MinY);
+            bw.Write(layer.GetExtent().MaxX);
+            bw.Write(layer.GetExtent().MaxY);
+            //最大、最小Z值、M值为0
+            for (int i = 0; i < 4; i++)
+            {
+                bw.Write((double)0);
+            }
+
+            //写空间数据
+            switch (TypeCode)
+            {
+                case 1://空间数据几何类型为点                   
+                    {
+                        int RecordNum = records.Count();
+                        for (int i = 0; i < RecordNum; i++)
+                        {
+                            bw.Write(shp读取.Shapefile.ReverseByte(i + 1));//ID
+                            bw.Write(shp读取.Shapefile.ReverseByte(10));//坐标记录长度
+                            bw.Write(1);//几何类型
+                                        //坐标信息
+                            PointD mpoint = (PointD)records.Item(i).Value(1);
+                            bw.Write(mpoint.X);
+                            bw.Write(mpoint.Y);
+                        }
+                    }
+                    break;
+                case 3://空间数据几何类型为线
+                    {
+
+
+                        int RecordNum = records.Count();
+                        for (int i = 0; i < RecordNum; i++)
+                        {
+                            bw.Write(shp读取.Shapefile.ReverseByte(i + 1));//ID
+
+                            Polyline mPolyLine = (Polyline)records.Item(i).Value(1);
+                            bw.Write(shp读取.Shapefile.ReverseByte(100));//坐标记录长度
+                            bw.Write(3);//写入几何类型
+                                        //MBR数据
+                            bw.Write(mPolyLine.GetEnvelope().MinX);
+                            bw.Write(mPolyLine.GetEnvelope().MinY);
+                            bw.Write(mPolyLine.GetEnvelope().MaxX);
+                            bw.Write(mPolyLine.GetEnvelope().MaxY);
+                            Int32 NumParts = mPolyLine.PointCount;
+                            bw.Write(NumParts);//子线段个数
+                            Int32 NumPoints =  8;
+                            bw.Write(NumPoints);//点个数
+                            Int32 parts = 0;
+                            bw.Write(parts);//每个子线段的点坐标信息在所有点坐标信息中的起始位置，第一个为0
+                            for (int j = 0; j < NumParts - 1; j++)
+                            {
+                                //parts += mPolyLine.Parts[j];
+                                bw.Write(parts);
+                            }
+                            //点坐标信息
+                            for (int k = 0; k < NumPoints; k++)
+                            {
+                                //bw.Write(mPolyLine._Points[k].X);
+                                //bw.Write(mPolyLine._Points[k].Y);
+
+                            }
+                        }
+                    }
+                    break;
+                case 5://空间数据几何类型为多边形
+                    {
+                        int RecordNum = records.Count();
+                        for (int i = 0; i < RecordNum; i++)
+                        {
+                            bw.Write(shp读取.Shapefile.ReverseByte(i + 1));//ID
+
+                            Polygon mPolygon = (Polygon)records.Item(i).Value(1);
+                            bw.Write(shp读取.Shapefile.ReverseByte(100));//坐标记录长度
+                            bw.Write(5);//写入几何类型
+                                        //MBR数据
+                            bw.Write(mPolygon.GetEnvelope().MinX);
+                            bw.Write(mPolygon.GetEnvelope().MinY);
+                            bw.Write(mPolygon.GetEnvelope().MaxX);
+                            bw.Write(mPolygon.GetEnvelope().MaxY);
+                            Int32 NumParts = 1;
+                            bw.Write(NumParts);//子环个数
+                            Int32 NumPoints = mPolygon.PointCount;
+                            bw.Write(NumPoints);//点个数
+                            Int32 parts = 0;
+                            bw.Write(parts);//每个子环的点坐标信息在所有点坐标信息中的起始位置，第一个为0
+
+                            for(int j=0;j<mPolygon.PointCount;j++)
+                            {
+                                bw.Write(mPolygon.GetPointD(j).X);
+                                bw.Write(mPolygon.GetPointD(j).Y);
+                            }
+                            //bw.Write(mPolygon.GetPointD(0).X);
+                            //bw.Write(mPolygon.GetPointD(0).Y);
+
+                        }
+                    }
+                    break;
+                default:
+                    throw new FileLoadException("不支持的数据类型");
+            }
+            bw.Dispose();
+            fs.Dispose();
+
+        }
+
+        /// <summary>
+        /// 将属性数据写入DBF文件
+        /// </summary>
+        /// <param name="filename"></param>
+        public void WriteDbf(string filename, Layer layer)
+        {
+            FileStream fs = new FileStream(filename + "dbf", FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            Records records = layer.MRecords.records;
+            Fields fields = layer.MRecords.fields;
+            int numField = fields.Count() - 2;
+            int num = numField * 32 + 33;
+            int numRecord = records.Count();
+            bw.Write((byte)0);  //版本
+            bw.Write((byte)20); //年
+            bw.Write((byte)06); //月
+            bw.Write((byte)02); //日
+
+            bw.Write(numRecord);  //文件中的记录条数
+
+            bw.Write((Int16)num); //文件头中的字节数
+            bw.Write((Int16)10000); //一条记录中的字节长度，由于长度不好确定，随便赋个值
+            for(int i=0;i<20;i++)
+            {
+                bw.Write((byte)0); //这部分信息暂时无用
+            }
+            //写入字段信息
+            for (int i = 0; i < numField; i++)
+            {
+                string fieldName = fields.Item(i + 2).name;
+                fieldName = fieldName.PadRight(11, '\0');
+                Byte[] fieldNameAscii = System.Text.Encoding.ASCII.GetBytes(fieldName); // 将字段名称转为Ascii码
+                bw.Write(fieldNameAscii);
+                int fieldByteLen;
+                switch(fields.Item(i+2).valueType)
+                {
+                    case "int":
+                        byte[] typeIAscii = System.Text.Encoding.ASCII.GetBytes("I");
+                        bw.Write(typeIAscii);
+                        fieldByteLen = 4;
+                        break;
+
+                    case "double":
+                        byte[] typeBAscii = System.Text.Encoding.ASCII.GetBytes("B");
+                        bw.Write(typeBAscii);
+                        fieldByteLen = 8;
+                        break;
+
+                    case "string":
+                        byte[] typeCAscii = System.Text.Encoding.ASCII.GetBytes("C");
+                        bw.Write(typeCAscii);
+                        fieldByteLen = 128;
+                        break;
+
+                    default:
+                        byte[] typeAscii = System.Text.Encoding.ASCII.GetBytes("C");
+                        bw.Write(typeAscii);
+                        fieldByteLen = 128;
+                        break;
+                }
+
+                bw.Write(0);
+                bw.Write((byte)fieldByteLen);
+                for(int x=0; x<15;x++)
+                {
+                    bw.Write((byte)0);
+                }
+
+            }
+
+            bw.Write((byte)0x0D);
+
+            //写入属性信息
+            for(int i=0;i<numRecord;i++)
+            {
+                bw.Write((byte)0x20);
+                for(int j=2;j<records.Item(i).Count();j++)
+                {
+                    object value = records.Item(i).Value(j);
+                    switch(fields.Item(j).valueType)
+                    {
+                        case "int":
+                            Int32 valueInt = (Int32)value;
+                            bw.Write(valueInt);
+                            break;
+
+                        case "double":
+                            double valueDouble = (double)value;
+
+                            bw.Write(valueDouble);
+                            break;
+
+                        case "string":
+                            string valueStr = (string)value;
+                            valueStr = valueStr.PadRight(128, '\0');
+                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr));
+                            break;
+
+                        default:
+                            string valueStr2 = (string)value;
+                            valueStr = valueStr2.PadRight(128, '\0');
+                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr2));
+                            break;
+                    }
+                }
+            }
+
+            bw.Write((byte)0x1A);
+            bw.Dispose();
+            fs.Dispose();
+        }
+
+        public void SaveShapeFile(string filename, Layer layer)
+        {
+            ProjectionETC projectionETC = new ProjectionETC();
+            projectionETC.XYToLnglat(layer);
+            WriteShp(filename, layer);
+            WriteDbf(filename, layer);
+        }
+
+
+        public bool SaveToBitMap(string filename, MapControl mapControl)
+        {
+            Bitmap bmp = mapControl.GetBitmap();
+            //FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            //bmp.Save(fs, System.Drawing.Imaging.ImageFormat.Bmp);
+            bmp.Save(filename);
             return true;
         }
 

@@ -113,7 +113,7 @@ namespace shp读取
             int contentLength;  //坐标记录长度
             int shapeType;  //几何类型
             double x, y;
-            while (byteCount < fileLength)
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 recordNumber = ReverseByte(br.ReadInt32());
                 contentLength = ReverseByte(br.ReadInt32());
@@ -131,7 +131,7 @@ namespace shp读取
         FeatureClass ReadPolyLineShp(BinaryReader br)
         {
             List<PolylineFeature> polylines = new List<PolylineFeature>();
-            while (byteCount < fileLength)
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 PolylineFeature temp = new PolylineFeature(br);
                 byteCount += temp.Length;
@@ -144,7 +144,7 @@ namespace shp读取
         FeatureClass ReadPolygonShp(BinaryReader br)
         {
             List<PolygonFeature> polygons = new List<PolygonFeature>();
-            while (byteCount < fileLength)
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 PolygonFeature temp = new PolygonFeature(br);
                 byteCount += temp.ByteCount;
