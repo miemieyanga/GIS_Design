@@ -45,7 +45,7 @@ namespace ClassLibraryIofly
         public DataTable GetDataTable()
         {
             DataTable Data = new DataTable();
-            Data.Columns.Add("FID");
+            Data.Columns.Add("MYFID");
             for (int i = 2; i < fields.Count(); i++)
             {
                 Data.Columns.Add(fields.Item(i).name);
