@@ -164,7 +164,7 @@ namespace GISDesign_ZY
     /// </summary>
 
     [Serializable]
-    class ClassBreaksRenderer : Renderer
+    public class ClassBreaksRenderer : Renderer
     {
         public string Field;
         public List<string> FieldLabel;
@@ -178,6 +178,7 @@ namespace GISDesign_ZY
         }
         public List<Symbol> symbols;
         public List<double> breaks;
+        public ColorRampClass colorRamp;
 
         public ClassBreaksRenderer()
         {

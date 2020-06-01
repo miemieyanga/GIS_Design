@@ -47,6 +47,8 @@ namespace GISDesign_ZY
         private bool MapElementMove = false;   //地图要素是否可移动
         private List<Label> lblStaticNotes = new List<Label>();   //存储静态注记
         private Label ChosenLabel; //右击选中的注记
+        private List<PictureBox> pbxStaticNotes = new List<PictureBox>();   //存储静态标注
+        private PictureBox ChosenPbx;
 
         //鼠标光标
         private Cursor mCur_Cross = new Cursor(System.Reflection.Assembly.GetExecutingAssembly().
@@ -469,6 +471,26 @@ namespace GISDesign_ZY
             SetStaticNotes(label);
             label.Show();
             lblStaticNotes.Add(label);
+        }
+
+        /// <summary>
+        /// 添加标注
+        /// </summary>
+        public void AddLabels(Layer layer)
+        {
+            MapLabel mapLabel = new MapLabel(100, 50);
+            mapLabel.DrawLabelOfLayer(layer);
+            PictureBox p = new PictureBox();
+            p.ContextMenuStrip = cMSLabel;
+            p.Width = 100;
+            p.Height = 50;
+            p.Image = mapLabel.bitmap;
+            Controls.Add(p);
+            p.MouseDown += new MouseEventHandler(l_Down);
+            p.MouseMove += new MouseEventHandler(l_Move);
+            p.MouseUp += new MouseEventHandler(l_Up);
+            p.Show();
+            pbxStaticNotes.Add(p);
         }
 
         /// <summary>
@@ -1657,6 +1679,19 @@ namespace GISDesign_ZY
         private void cMSStaticNote_Opening(object sender, CancelEventArgs e)
         {
             ChosenLabel = (Label)(sender as ContextMenuStrip).SourceControl;
+        }
+
+
+        private void 删除标注ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChosenPbx.Visible = false;
+            Controls.Remove(ChosenPbx);
+            pbxStaticNotes.Remove(ChosenPbx);
+        }
+
+        private void CMSLabel_Opening_1(object sender, CancelEventArgs e)
+        {
+            ChosenPbx = (PictureBox)(sender as ContextMenuStrip).SourceControl;
         }
 
         private void 删除注记ToolStripMenuItem_Click(object sender, EventArgs e)

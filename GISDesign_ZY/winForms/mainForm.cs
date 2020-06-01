@@ -533,5 +533,10 @@ namespace GISFinal
             mcMap.SelectedLayers = new Layer[0];
             mcMap.Refresh();
         }
+
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            mcMap.AddLabels(map.GetLayerByName(layerTreeView.SelectedNode.Text));
+        }
     }
 }
