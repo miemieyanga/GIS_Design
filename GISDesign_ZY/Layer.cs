@@ -8,6 +8,7 @@ using ClassLibraryIofly;
 
 namespace GISDesign_ZY
 {
+    [Serializable]
     public class Layer
     {
         #region 字段
@@ -80,6 +81,50 @@ namespace GISDesign_ZY
             _MinX = _MinY = _MaxX = _MaxY = 0;
         }
 
+        public Layer(int mode,string name, string vType, string descript = "", string dataSource = "")
+        {
+            Name = name;
+            SetLayerFeatureType(vType);
+            Descript = descript;
+            DataSource = dataSource;
+            Visible = true;
+            Selectable = true;
+            MRenderer = new SimpleRenderer(FeatureType);
+            MRecords = new GeoRecordset(vType);
+            MGeoDataIO = new GeoDataIO();
+            MLabelRender = new LabelRenderer();
+            _MinX = _MinY = _MaxX = _MaxY = 0;
+        }
+
+
+        /// <summary>
+        /// 将图层类型字符串设置为图层要素类型
+        /// 由于两人的版本产生的问题
+        /// </summary>
+        /// <param name="curLayer"></param>
+        public void SetLayerFeatureType(string vType)
+        {
+            FeatureTypeString = vType;
+            switch (vType)
+            {
+                case "PointD":
+                    FeatureType = FeatureTypeConstant.PointD;
+                    break;
+                case "Polyline":
+                    FeatureType = FeatureTypeConstant.Polyline;
+                    break;
+                case "Polygon":
+                    FeatureType = FeatureTypeConstant.Polygon;
+                    break;
+                case "MultiPolygon":
+                    FeatureType = FeatureTypeConstant.MultiPolygon;
+                    break;
+                case "MultiPolyline":
+                    FeatureType = FeatureTypeConstant.MultiPolyline;
+                    break;
+            }
+        }
+
         /// <summary>
         /// 设置外包多边形
         /// </summary>
@@ -96,6 +141,9 @@ namespace GISDesign_ZY
         /// </summary>
         public RectangleD GetExtent()
         {
+            if (MRecords.records.Count() == 0)
+                return new RectangleD(0, 0, 0, 0);
+
             List<PointD> pointDs = new List<PointD>();
             for (int i = 0; i < MRecords.records.Count(); i++)
             {

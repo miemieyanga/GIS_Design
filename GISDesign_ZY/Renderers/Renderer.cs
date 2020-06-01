@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace GISDesign_ZY
 {
+
+    [Serializable]
     public abstract class Renderer
     {
         public RendererType Type;
@@ -16,6 +18,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 简单渲染器
     /// </summary>
+
+    [Serializable]
     public class SimpleRenderer :Renderer
     {
         public Symbol MSymbol;
@@ -23,6 +27,12 @@ namespace GISDesign_ZY
         public SimpleRenderer()
         {
             Type = RendererType.SimpleRenderer;
+        }
+
+        public SimpleRenderer(FeatureTypeConstant featureType)
+        {
+            Type = RendererType.SimpleRenderer;
+            MSymbol = SymbolFactory.CreateSymbol(featureType);
         }
 
         public override string GetString()
@@ -34,6 +44,7 @@ namespace GISDesign_ZY
     /// <summary>
     /// 唯一值渲染器
     /// </summary>
+    [Serializable]
     public class UniqueValueRenderer : Renderer
     {
         #region 属性
@@ -151,6 +162,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 分级渲染器
     /// </summary>
+
+    [Serializable]
     class ClassBreaksRenderer : Renderer
     {
         public string Field;

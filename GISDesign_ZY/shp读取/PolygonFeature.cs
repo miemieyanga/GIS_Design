@@ -8,6 +8,8 @@ using System.Drawing;
 
 namespace shp读取
 {
+
+    [Serializable]
     class PolygonFeature
     {
         BBOX bbox;

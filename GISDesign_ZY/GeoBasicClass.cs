@@ -8,6 +8,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 点
     /// </summary>
+    /// 
+    [Serializable]
     public class PointD
     {
         public double X { get; set; }
@@ -47,6 +49,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 圆
     /// </summary>
+    /// 
+    [Serializable]
     public class Circle
     {
         public PointD center { get; set; }
@@ -62,6 +66,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 矩形
     /// </summary>
+    /// 
+    [Serializable]
     public class RectangleD
     {
         public double MinX { get; set; }
@@ -99,6 +105,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 多边形
     /// </summary>
+    /// 
+    [Serializable]
     public class Polygon
     {
         public PointD[] points
@@ -293,6 +301,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 多个多边形
     /// </summary>
+    /// 
+    [Serializable]
     public class MultiPolygon
     {
         public Polygon[] polygons { get; set; }
@@ -424,6 +434,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 线
     /// </summary>
+    /// 
+    [Serializable]
     public class Polyline
     {
         public PointD[] points {
@@ -601,6 +613,8 @@ namespace ClassLibraryIofly
     /// <summary>
     /// 多条线
     /// </summary>
+    /// 
+    [Serializable]
     public class MultiPolyline
     {
         public Polyline[] polylines { get; set; }

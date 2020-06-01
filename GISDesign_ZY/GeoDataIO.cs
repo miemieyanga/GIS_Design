@@ -11,6 +11,8 @@ using GISDesign_ZY;
 
 namespace ClassLibraryIofly
 {
+
+    [Serializable]
     public class GeoDataIO
     {
         //private GeoRecordset geoRecordset = new GeoRecordset();

@@ -8,6 +8,8 @@ using System.IO;
 
 namespace GISDesign_ZY
 {
+
+    [Serializable]
     public class MapManager
     {
         #region 字段
@@ -84,6 +86,16 @@ namespace GISDesign_ZY
         }
 
         /// <summary>
+        /// 通过图层名称来删除图层
+        /// </summary>
+        public void DelLayerByName(string name)
+        {
+            Layer curLayer = GetLayerByName(name);
+            Layers.Remove(curLayer);
+        }
+
+
+        /// <summary>
         /// 打开一个图层文件
         /// </summary>
         /// <param name="path">文件路径</param>
@@ -140,89 +152,6 @@ namespace GISDesign_ZY
             tempLayer.SetExtent(mbr.MinX, mbr.MinY, mbr.MaxX, mbr.MaxY);
             tempLayer.MRenderer = RendererFactory.CreateSimpleRenderer(SymbolFactory.CreateSymbol(tempLayer.FeatureType));
             return tempLayer;
-        }
-
-        /// <summary>
-        /// 保存一个图层文件
-        /// </summary>
-        /// <param name="layer">要保存的图层</param>
-        /// <param name="path">文件路径</param>
-        public void SaveLayer(Layer layer,string path)
-        {
-
-        }
-
-        /// <summary>
-        /// 打开一个项目文件
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        public void OpenProjectFile(string path)
-        {
-            using (StreamReader sr = new StreamReader(path))
-            {
-                Layers.Clear();
-
-                string n = sr.ReadLine();
-                name = n;
-                string ct = sr.ReadLine();
-                switch (ct)
-                {
-                    case "WGS84":
-                        coordinateType = CoordinateType.WGS84;
-                        break;
-                    case "None":
-                        coordinateType = CoordinateType.None;
-                        break;
-                    default:
-                        throw new Exception("未实现的类型");
-                }
-                string pt = sr.ReadLine();
-                switch (pt)
-                {
-                    case "ETC":
-                        projectionType = ProjectionType.ETC;
-                        projection = new ProjectionETC();
-                        break;
-                    case "None":
-                        projectionType = ProjectionType.None;
-                        break;
-                    default:
-                        throw new Exception("未实现的类型");
-                }
-                int numOfLayers = Convert.ToInt16(sr.ReadLine());
-                for(int i = 0; i < numOfLayers; i++)
-                {
-                    string nameOfLayer = sr.ReadLine();
-                    string descript = sr.ReadLine();
-                    string curDatasource = sr.ReadLine();
-                    Layer curLayer = OpenLayerFile(curDatasource);
-                    curLayer.Name = nameOfLayer;
-                    curLayer.Descript = descript;
-                    Layers.Add(curLayer);
-                }
-                projection.LngLatToXY(this);
-            }
-        }
-
-        /// <summary>
-        /// 保存一个项目文件
-        /// </summary>
-        /// <param name="path">文件路径</param>
-        public void SaveProject(string path)
-        {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                sw.WriteLine(name);
-                sw.WriteLine(coordinateType);  //地理坐标系
-                sw.WriteLine(projectionType);  //投影坐标系
-                sw.WriteLine(Layers.Count);  //图层数量
-                foreach(Layer layer in Layers)
-                {
-                    sw.WriteLine(layer.Name);
-                    sw.WriteLine(layer.Descript);
-                    sw.WriteLine(layer.DataSource);
-                }
-            }
         }
 
         //获取外包矩形

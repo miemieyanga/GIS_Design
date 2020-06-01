@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace shp读取
 {
+
+    [Serializable]
     struct PointD
     {
         double x, y;
@@ -28,6 +30,8 @@ namespace shp读取
         }
     }
 
+
+    [Serializable]
     class PointFeature
     {
         static ShapeTypes shapeType = ShapeTypes.Point;

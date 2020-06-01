@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace GISDesign_ZY
 {
+
+    [Serializable]
     public abstract class Symbol
     {
         public string Label;
@@ -26,6 +28,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 简单点符号
     /// </summary>
+    /// 
+    [Serializable]
     public class SimpleMarkerSymbol :Symbol
     {
         /// <summary>
@@ -68,6 +72,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 简单线符号
     /// </summary>
+    /// 
+    [Serializable]
     public class SimpleLineSymbol : Symbol
     {
         /// <summary>
@@ -102,6 +108,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 简单填充符号
     /// </summary>
+    /// 
+    [Serializable]
     public class SimpleFillSymbol : Symbol
     {
         /// <summary>
@@ -147,6 +155,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 阴影符号
     /// </summary>
+    /// 
+    [Serializable]
     public class HatchFillSymbol : Symbol
     {
         /// <summary>

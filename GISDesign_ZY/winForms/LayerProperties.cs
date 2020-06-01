@@ -105,7 +105,8 @@ namespace GISDesign_ZY
             {
                 labelRendererValueCmb.Items.Add(curLayer.MRecords.fields.Item(i).name);
             }
-            labelRendererValueCmb.SelectedIndex = 0;
+            if(curLayer.MRecords.records.Count()!=0)
+                labelRendererValueCmb.SelectedIndex = 0;
             fontSizeTbx.Text = textSymbol.FontSize.ToString();
             fontNameCmb.Text = textSymbol.FontName;
 
@@ -129,8 +130,11 @@ namespace GISDesign_ZY
                 uniqueValueColorCmb.Items.Add(randomRampColors[i]);
             }
             uniqueValueColorCmb.DrawItem += UniqueValueColorCmb_DrawItem;
-            uniqueValueColorCmb.SelectedIndex = 0;
-            uniqueValueCmb.SelectedIndex = 0;
+            if (curLayer.MRecords.records.Count() != 0)
+            {
+                uniqueValueColorCmb.SelectedIndex = 0;
+                uniqueValueCmb.SelectedIndex = 0;
+            }
 
             //分级设色/大小
             for (int i = 0; i < curLayer.MRecords.fields.Count(); i++)
@@ -148,7 +152,8 @@ namespace GISDesign_ZY
                 classBreakRendererColorCmb.Items.Add(rampColors[i]);
             }
             classBreakRendererColorCmb.DrawItem += ClassBreakRendererColorCmb_DrawItem;
-            classBreakRendererColorCmb.SelectedIndex = 0;
+            if (curLayer.MRecords.records.Count() != 0)
+                classBreakRendererColorCmb.SelectedIndex = 0;
 
             if(classBreakRendererValueCmb.Items.Count>0)
                 classBreakRendererValueCmb.SelectedIndex = 0;
@@ -159,6 +164,8 @@ namespace GISDesign_ZY
         //绘制唯一值随机色带
         private void UniqueValueColorCmb_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index == -1)
+                return;
             RandomColorRampClass curRampColors = (RandomColorRampClass)uniqueValueColorCmb.Items[e.Index];
             curRampColors.DrawRamp(e.Graphics, e.Bounds);
         }
@@ -166,6 +173,8 @@ namespace GISDesign_ZY
         //绘制分级渐变色带
         private void ClassBreakRendererColorCmb_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index == -1)
+                return;
             ColorRampClass curRampColors = (ColorRampClass)classBreakRendererColorCmb.Items[e.Index];
             curRampColors.DrawRamp(e.Graphics, e.Bounds);
         }

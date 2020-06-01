@@ -854,6 +854,8 @@ namespace GISDesign_ZY
                                     PointD p1 = FromMapPoint(polygon.points[k]);
                                     pointFs1[k] = new PointF((float)p1.X, (float)p1.Y);
                                 }
+
+
                                 PointF points1 = _Layers[i].GetLabelPositionOfPolygon(pointFs1, labelstring);
                                 Font f2 = _Layers[i].MLabelRender.MTextSymbol.ToFont();
                                 g.DrawString(labelstring, f2,

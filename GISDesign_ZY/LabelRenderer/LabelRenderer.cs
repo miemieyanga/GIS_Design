@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace GISDesign_ZY
 {
+
+    [Serializable]
     public class LabelRenderer
     {
         /// <summary>
@@ -44,6 +46,8 @@ namespace GISDesign_ZY
     /// <summary>
     /// 注记文字符号类
     /// </summary>
+    /// 
+    [Serializable]
     public class TextSymbol
     {
         public string FontName { get; set; }
