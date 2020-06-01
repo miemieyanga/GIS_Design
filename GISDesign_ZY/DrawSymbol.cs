@@ -33,7 +33,7 @@ namespace GISDesign_ZY
             PointF r3 = Rotate(p0, new PointF(p0.X + (float)curSymbol.Size / 2, p0.Y - (float)curSymbol.Size / 2), curSymbol.Angle);
             PointF r4 = Rotate(p0, new PointF(p0.X + (float)curSymbol.Size / 2, p0.Y + (float)curSymbol.Size / 2), curSymbol.Angle);
             PointF r5 = Rotate(p0, new PointF(p0.X , p0.Y - (float)curSymbol.Size / 2), curSymbol.Angle);
-            PointF[] rectangle = { r1, r2, r3, r4 };
+            PointF[] rectangle = { r1, r2, r4, r3 };
             PointF[] triangle = { r2, r4, r5 };
             //判断点要素符号并进行绘制
             switch (curSymbol.Style)
