@@ -136,13 +136,15 @@ namespace ClassLibraryIofly
                                 case "double":
                                     string tempStr2 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
                                     //string tempStr2 = Encoding.ASCII.GetString(tempBytes).Trim();
-                                    double tempDouble =Convert.ToDouble(tempStr2);
+                                    //double tempDouble =Convert.ToDouble(tempStr2);
+                                    double tempDouble = BitConverter.ToDouble(tempBytes,0);
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
                                     //temp.Add(tempDouble);
                                     break;
                                 case "string":
-                                    string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes).Trim();
+                                    string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes);
+                                    tempStr3= tempStr3.Replace("\0", "");
                                     geoRecordset.records.Item(i).Append(tempStr3);
                                     //temp.Add(tempStr);
                                     break;
@@ -502,14 +504,22 @@ namespace ClassLibraryIofly
 
                         case "string":
                             string valueStr = (string)value;
-                            valueStr = valueStr.PadRight(128, '\0');
-                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr));
+                            //valueStr = valueStr.PadRight(128, '\0');
+                            
+                            int len = System.Text.Encoding.UTF8.GetBytes(valueStr).Length;
+                            int delta = 2 * len / 3;
+                            valueStr = valueStr.PadRight(128-delta, '\0');
+                            byte[] str = System.Text.Encoding.UTF8.GetBytes(valueStr);
+                            bw.Write(str);
                             break;
 
                         default:
                             string valueStr2 = (string)value;
-                            valueStr = valueStr2.PadRight(128, '\0');
-                            bw.Write(System.Text.Encoding.ASCII.GetBytes(valueStr2));
+                            int len2 = System.Text.Encoding.UTF8.GetBytes(valueStr2).Length;
+                            int delta2 = 2 * len2 / 3;
+                            valueStr2 = valueStr2.PadRight(128 - delta2, '\0');
+                            byte[] str2 = System.Text.Encoding.UTF8.GetBytes(valueStr2);
+                            bw.Write(str2);
                             break;
                     }
                 }
