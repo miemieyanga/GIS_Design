@@ -21,7 +21,7 @@ namespace GISFinal
         #region 字段
 
         private MapManager map;
-
+        private bool IsIdentify=false;
 
         #endregion
 
@@ -334,6 +334,13 @@ namespace GISFinal
             Layer[] sLayers = mcMap.SelectByBox(box);   //选中要素图层集合
             mcMap.SelectedLayers = sLayers;
             mcMap.Refresh();
+            if (IsIdentify == true)
+            {
+                IdentifyResultForm identifyResultForm = new IdentifyResultForm(mcMap);
+                identifyResultForm.Show();
+                IsIdentify = false;
+                mcMap.Pan();
+            }
         }
 
         //点选完成
@@ -342,6 +349,14 @@ namespace GISFinal
             Layer[] sLayers = mcMap.SelectByPoint(point);   //选中要素图层集合
             mcMap.SelectedLayers = sLayers;
             mcMap.Refresh();
+            if(IsIdentify==true)
+            {
+                IdentifyResultForm identifyResultForm = new IdentifyResultForm(mcMap);
+                identifyResultForm.Show();
+                IsIdentify = false;
+                mcMap.Pan();
+            }
+
         }
 
         //地图比例尺发生了变化
@@ -489,6 +504,19 @@ namespace GISFinal
         {
             map.DelLayerByName(layerTreeView.SelectedNode.Text);
             layerTreeView.Nodes[0].Nodes.Remove(layerTreeView.SelectedNode);
+            mcMap.Refresh();
+        }
+
+        private void 识别_Click(object sender, EventArgs e)
+        {
+            //Layer[] layers = mcMap.SelectedLayers;
+            mcMap.SelectFeature();
+            IsIdentify = true;
+        }
+
+        private void 清除所选要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mcMap.SelectedLayers = new Layer[0];
             mcMap.Refresh();
         }
     }

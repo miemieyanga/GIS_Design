@@ -25,8 +25,8 @@ namespace GISFinal
             this.dataGridView1.DataSource= layer.MRecords.GetDataTable();
             recordset = layer.MRecords;
             tempset = new GeoRecordset(recordset.fields, recordset.records);
-           if(mcMap.SelectedLayers.Count()==1)
-                selGoerecordset = mcMap.SelectedLayers[0].MRecords;
+           if(mcMap.SelectedLayers.Count()>=1)
+                selGoerecordset = mcMap.SelectedLayers.Last().MRecords;   //这里可改进
             mapControl = mcMap;
         }
 

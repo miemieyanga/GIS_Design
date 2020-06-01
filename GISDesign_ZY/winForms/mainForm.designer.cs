@@ -83,10 +83,11 @@
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openProjectFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mcMap = new GISDesign_ZY.MapControl();
-            this.删除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除所选要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -106,7 +107,7 @@
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
-            this.menuStrip.Size = new System.Drawing.Size(967, 24);
+            this.menuStrip.Size = new System.Drawing.Size(957, 24);
             this.menuStrip.TabIndex = 0;
             // 
             // 文件ToolStripMenuItem
@@ -226,7 +227,8 @@
             // 
             this.选择ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.选择要素ToolStripMenuItem,
-            this.按属性选择ToolStripMenuItem});
+            this.按属性选择ToolStripMenuItem,
+            this.清除所选要素ToolStripMenuItem});
             this.选择ToolStripMenuItem.Name = "选择ToolStripMenuItem";
             this.选择ToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
             this.选择ToolStripMenuItem.Text = "选择";
@@ -234,14 +236,14 @@
             // 选择要素ToolStripMenuItem
             // 
             this.选择要素ToolStripMenuItem.Name = "选择要素ToolStripMenuItem";
-            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.选择要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.选择要素ToolStripMenuItem.Text = "选择要素";
             this.选择要素ToolStripMenuItem.Click += new System.EventHandler(this.选择要素ToolStripMenuItem_Click);
             // 
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
@@ -414,7 +416,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip.Size = new System.Drawing.Size(967, 30);
+            this.toolStrip.Size = new System.Drawing.Size(957, 30);
             this.toolStrip.TabIndex = 4;
             this.toolStrip.Text = "工具栏";
             // 
@@ -525,6 +527,7 @@
             this.识别.Name = "识别";
             this.识别.Size = new System.Drawing.Size(36, 27);
             this.识别.Text = "识别";
+            this.识别.Click += new System.EventHandler(this.识别_Click);
             // 
             // 转到XY
             // 
@@ -549,28 +552,35 @@
             this.缩放至图层ToolStripMenuItem,
             this.删除图层ToolStripMenuItem});
             this.layerContextMenuStrip.Name = "layerContextMenuStrip";
-            this.layerContextMenuStrip.Size = new System.Drawing.Size(181, 114);
+            this.layerContextMenuStrip.Size = new System.Drawing.Size(137, 92);
             // 
             // 属性ToolStripMenuItem
             // 
             this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
-            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.属性ToolStripMenuItem.Text = "属性";
             this.属性ToolStripMenuItem.Click += new System.EventHandler(this.属性ToolStripMenuItem_Click);
             // 
             // 打开属性表ToolStripMenuItem
             // 
             this.打开属性表ToolStripMenuItem.Name = "打开属性表ToolStripMenuItem";
-            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开属性表ToolStripMenuItem.Text = "打开属性表";
             this.打开属性表ToolStripMenuItem.Click += new System.EventHandler(this.打开属性表ToolStripMenuItem_Click);
             // 
             // 缩放至图层ToolStripMenuItem
             // 
             this.缩放至图层ToolStripMenuItem.Name = "缩放至图层ToolStripMenuItem";
-            this.缩放至图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.缩放至图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.缩放至图层ToolStripMenuItem.Text = "缩放至图层";
             this.缩放至图层ToolStripMenuItem.Click += new System.EventHandler(this.缩放至图层ToolStripMenuItem_Click);
+            // 
+            // 删除图层ToolStripMenuItem
+            // 
+            this.删除图层ToolStripMenuItem.Name = "删除图层ToolStripMenuItem";
+            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.删除图层ToolStripMenuItem.Text = "移除图层";
+            this.删除图层ToolStripMenuItem.Click += new System.EventHandler(this.删除图层ToolStripMenuItem_Click);
             // 
             // saveProjectFileDialog
             // 
@@ -597,18 +607,18 @@
             this.mcMap.SelectingByPointFinished += new GISDesign_ZY.MapControl.SelectingByPointFinishedHandle(this.McMap_SelectingByPointFinished);
             this.mcMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.McMap_MouseMove);
             // 
-            // 删除图层ToolStripMenuItem
+            // 清除所选要素ToolStripMenuItem
             // 
-            this.删除图层ToolStripMenuItem.Name = "删除图层ToolStripMenuItem";
-            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.删除图层ToolStripMenuItem.Text = "移除图层";
-            this.删除图层ToolStripMenuItem.Click += new System.EventHandler(this.删除图层ToolStripMenuItem_Click);
+            this.清除所选要素ToolStripMenuItem.Name = "清除所选要素ToolStripMenuItem";
+            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除所选要素ToolStripMenuItem.Text = "清除所选要素";
+            this.清除所选要素ToolStripMenuItem.Click += new System.EventHandler(this.清除所选要素ToolStripMenuItem_Click);
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 530);
+            this.ClientSize = new System.Drawing.Size(957, 498);
             this.Controls.Add(this.mcMap);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.layerTreeView);
@@ -616,7 +626,7 @@
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
-            this.MaximumSize = new System.Drawing.Size(983, 569);
+            this.MaximumSize = new System.Drawing.Size(978, 553);
             this.Name = "mainForm";
             this.Text = "AntMap";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -691,6 +701,7 @@
         private System.Windows.Forms.ToolStripMenuItem 保存BMPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 保存ShapeFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 删除图层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 清除所选要素ToolStripMenuItem;
     }
 }
 
