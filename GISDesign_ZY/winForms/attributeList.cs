@@ -105,9 +105,13 @@ namespace GISFinal
 
         private void 撤销修改ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            recordset = historyGeorecordset.Last();
-            historyGeorecordset.RemoveAt(historyGeorecordset.Count() - 1);
-            this.dataGridView1.DataSource = recordset.GetDataTable();
+            if(historyGeorecordset.Count()>0)
+            {
+                recordset = historyGeorecordset.Last();
+                historyGeorecordset.RemoveAt(historyGeorecordset.Count() - 1);
+                this.dataGridView1.DataSource = recordset.GetDataTable();
+            }
+
         }
     }
 }
