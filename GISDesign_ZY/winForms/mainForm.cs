@@ -121,9 +121,20 @@ namespace GISFinal
 
         }
 
-        private void 平移选中要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 删除选中要素ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            /*
+            Layer[] layers = mcMap.SelectedLayers;
+            for(int i=0; i<layers.Count();i++)
+            {
+                GeoRecordset tempset = layers[i].MRecords;
+                for(int j=0;j<tempset.records.Count();j++)
+                {
+                    object tempvalue = tempset.records.Item(j).Value(1);
+                    
+                }
+            }
+            */
         }
 
         //打开一个shapefile
