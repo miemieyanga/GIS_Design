@@ -472,7 +472,15 @@ namespace ClassLibraryIofly
             //_values[index] = "";
         }
 
-
+        /// <summary>
+        /// 设置value
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="newValue"></param>
+        public void SetValue(int index, object newValue)
+        {
+            _values[index] = newValue;
+        }
 
     }
 
