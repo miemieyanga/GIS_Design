@@ -200,6 +200,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="地图\map.dbf" />
+    <None Include="地图\map.shp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon\Cross.ico" />

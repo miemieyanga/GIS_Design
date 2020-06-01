@@ -108,7 +108,7 @@ namespace ClassLibraryIofly
 
             //获取头文件的最后一个字节，值应为0D
             tempbyte = br.ReadByte();
-            if (br.BaseStream.Position < br.BaseStream.Length-2) //tempbyte == 0x0D
+            if (tempbyte == 0x0D) //tempbyte == 0x0D
             {
                 //添加表格的行及数据
                 if (RowCount > 0)
@@ -145,6 +145,7 @@ namespace ClassLibraryIofly
                                 case "string":
                                     string tempStr3 = Encoding.GetEncoding(myEncoding).GetString(tempBytes);
                                     tempStr3= tempStr3.Replace("\0", "");
+                                    tempStr3 = tempStr3.Trim();
                                     geoRecordset.records.Item(i).Append(tempStr3);
                                     //temp.Add(tempStr);
                                     break;
@@ -505,7 +506,7 @@ namespace ClassLibraryIofly
                         case "string":
                             string valueStr = (string)value;
                             //valueStr = valueStr.PadRight(128, '\0');
-                            
+                            valueStr=valueStr.Trim();
                             int len = System.Text.Encoding.UTF8.GetBytes(valueStr).Length;
                             int delta = 2 * len / 3;
                             valueStr = valueStr.PadRight(128-delta, '\0');
@@ -515,6 +516,7 @@ namespace ClassLibraryIofly
 
                         default:
                             string valueStr2 = (string)value;
+                            valueStr2 = valueStr2.Trim();
                             int len2 = System.Text.Encoding.UTF8.GetBytes(valueStr2).Length;
                             int delta2 = 2 * len2 / 3;
                             valueStr2 = valueStr2.PadRight(128 - delta2, '\0');
