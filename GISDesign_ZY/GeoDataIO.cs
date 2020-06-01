@@ -145,8 +145,24 @@ namespace ClassLibraryIofly
                                     }
                                     catch
                                     {
-                                        tempDouble = BitConverter.ToDouble(tempBytes, 0);
+                                        try
+                                        {
+                                            tempDouble = BitConverter.ToDouble(tempBytes, 0);
+                                        }
+                                        catch
+                                        {
+                                            try
+                                            {
+                                                tempDouble =(double) Convert.ToSingle(tempStr2);
+                                            }
+                                            catch
+                                            {
+                                                tempDouble =(double) BitConverter.ToSingle(tempBytes, 0);
+                                            }
+                                        }
+                                        
                                     }
+
                                     //
                                     geoRecordset.records.Item(i).Append(tempDouble);
                                     //Property.RecordList.Set_Value(i, tempDouble);
