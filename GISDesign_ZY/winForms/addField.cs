@@ -56,9 +56,6 @@ namespace GISFinal
             
         }
 
-        private void typeSelect_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
     }
 }

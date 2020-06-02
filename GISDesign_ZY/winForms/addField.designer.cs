@@ -91,7 +91,6 @@
             this.typeSelect.Name = "typeSelect";
             this.typeSelect.Size = new System.Drawing.Size(266, 39);
             this.typeSelect.TabIndex = 3;
-            this.typeSelect.SelectedIndexChanged += new System.EventHandler(this.typeSelect_SelectedIndexChanged);
             // 
             // label1
             // 

@@ -38,6 +38,7 @@
             this.已选记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.撤销修改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刷新ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -86,7 +87,8 @@
             this.所有记录ToolStripMenuItem,
             this.已选记录ToolStripMenuItem,
             this.撤销修改ToolStripMenuItem,
-            this.刷新ToolStripMenuItem});
+            this.刷新ToolStripMenuItem,
+            this.删除字段ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1600, 42);
@@ -135,6 +137,13 @@
             this.刷新ToolStripMenuItem.Text = "刷新";
             this.刷新ToolStripMenuItem.Click += new System.EventHandler(this.刷新ToolStripMenuItem_Click);
             // 
+            // 删除字段ToolStripMenuItem
+            // 
+            this.删除字段ToolStripMenuItem.Name = "删除字段ToolStripMenuItem";
+            this.删除字段ToolStripMenuItem.Size = new System.Drawing.Size(130, 38);
+            this.删除字段ToolStripMenuItem.Text = "删除字段";
+            this.删除字段ToolStripMenuItem.Click += new System.EventHandler(this.删除字段ToolStripMenuItem_Click);
+            // 
             // attributeList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -168,5 +177,6 @@
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 所有记录ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 删除字段ToolStripMenuItem;
     }
 }

@@ -32,6 +32,7 @@ namespace GISFinal
 
         private void 添加字段ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            historyGeorecordset.Add(new GeoRecordset(recordset.fields.Clone(), recordset.records.Clone()));
             addField addfield = new addField(recordset);
             addfield.Show();
         }
@@ -112,6 +113,13 @@ namespace GISFinal
                 this.dataGridView1.DataSource = recordset.GetDataTable();
             }
 
+        }
+
+        private void 删除字段ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            historyGeorecordset.Add(new GeoRecordset(recordset.fields.Clone(), recordset.records.Clone()));
+            delField del = new delField(recordset);
+            del.Show();
         }
     }
 }
