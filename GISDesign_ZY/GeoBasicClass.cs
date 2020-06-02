@@ -589,8 +589,8 @@ namespace ClassLibraryIofly
                 double dis = 0;
                 PointD p1 = _points[i];
                 PointD p2 = _points[i + 1];
-                //PointD ac = new PointD(point.X - p1.X, point.Y - p1.Y);
-                //PointD ab = new PointD(p2.X - p1.X, p2.Y - p1.Y);
+                PointD ac = new PointD(point.X - p1.X, point.Y - p1.Y);
+                PointD ab = new PointD(p2.X - p1.X, p2.Y - p1.Y);
                 double ab2 = p1.Distance(p2) * p1.Distance(p2);
                 double f = (point.X - p1.X) * (p2.X - p1.X) + (point.Y - p1.Y) * (p2.Y - p1.Y);
                 if(f<0)
@@ -598,7 +598,12 @@ namespace ClassLibraryIofly
                 else if(f>ab2)
                     dis = point.Distance(p2);
                 else
-                    dis = f / ab2;
+                {
+                    f = f / ab2;
+                    PointD d = new PointD(p1.X + (f * ab.X), p1.Y + (f * ab.Y));
+                    dis = point.Distance(d);
+                }
+                    
                 if(dis<=tolerance)
                 {
                     return true;

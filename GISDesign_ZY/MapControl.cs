@@ -349,7 +349,8 @@ namespace GISDesign_ZY
                     Layer layer = new Layer(name, _Layers[i].Descript);
                     layer.FeatureType = _Layers[i].FeatureType;
                     //存入选中要素坐标信息
-                    layer.MRecords = _Layers[i].MRecords.SelectByPoint(point, 8);
+                    
+                    layer.MRecords = _Layers[i].MRecords.SelectByPoint(point, 8*_DisplayScale);
                     sSels.Add(layer);
                 }
             }
