@@ -37,6 +37,8 @@ namespace GISDesign_ZY
         private double mOffsetX = 0D, mOffsetY = 0; //窗口左上点地图坐标
         private int mMapOpStyle = 0; //地图操作类型,0无1放大2缩小3漫游4编辑5选择6新建要素
         private Layer mTrackingLayer; //用户正在描绘的图层
+        private List<Polyline> _polylines = new List<Polyline>();
+        private List<Polygon> _polygon = new List<Polygon>();
         private Layer mEditingLayer; //用户正在编辑的图层
         private bool Editing = false;  //用户是否找到将编辑的节点
         private int[] EditIndex = new int[2];   //记录编辑节点在所属图层中序号信息 
@@ -261,15 +263,16 @@ namespace GISDesign_ZY
                 case FeatureTypeConstant.MultiPolyline:
                     {
                         objs[0] = "MultiPolyline";
-                        Polyline[] pls = new Polyline[1];
                         PointD[] pts = new PointD[TrackingFeature.Count];
                         for (int i = 0; i < TrackingFeature.Count; i++)
                         {
                             pts[i] = ToMapPoint(new PointD(TrackingFeature[i].X, TrackingFeature[i].Y));
                         }
-                        pls[0] = new Polyline(pts);
-                        objs[1] = new MultiPolyline(pls);
+                        _polylines.Add(new Polyline(pts));
+                        objs[1] = new MultiPolyline(_polylines.ToArray());
                         Record record = new Record(objs);
+                        if (_polylines.Count > 1)
+                            layer.MRecords.records.Delete(layer.MRecords.records.Count() - 1);
                         layer.MRecords.records.Append(record);
                         break;
                     }
@@ -289,15 +292,16 @@ namespace GISDesign_ZY
                 case FeatureTypeConstant.MultiPolygon:
                     {
                         objs[0] = "MultiPolygon";
-                        Polygon[] pgs = new Polygon[1];
                         PointD[] pts = new PointD[TrackingFeature.Count];
                         for (int i = 0; i < TrackingFeature.Count; i++)
                         {
                             pts[i] = ToMapPoint(new PointD(TrackingFeature[i].X, TrackingFeature[i].Y));
                         }
-                        pgs[0] = new Polygon(pts);
-                        objs[1] = new MultiPolygon(pgs);
+                        _polygon.Add(new Polygon(pts));
+                        objs[1] = new MultiPolygon(_polygon.ToArray());
                         Record record = new Record(objs);
+                        if (_polylines.Count > 1)
+                            layer.MRecords.records.Delete(layer.MRecords.records.Count() - 1);
                         layer.MRecords.records.Append(record);
                         break;
                     }
@@ -349,7 +353,6 @@ namespace GISDesign_ZY
                     Layer layer = new Layer(name, _Layers[i].Descript);
                     layer.FeatureType = _Layers[i].FeatureType;
                     //存入选中要素坐标信息
-                    
                     layer.MRecords = _Layers[i].MRecords.SelectByPoint(point, 8*_DisplayScale);
                     sSels.Add(layer);
                 }
@@ -1260,7 +1263,7 @@ namespace GISDesign_ZY
                 case 5: //选择
                     break;
                 case 6: //新建要素
-                    if (e.Button == MouseButtons.Left)  //输入多边形结束
+                    if (e.Button == MouseButtons.Left)  //输入结束
                     {
                         //根据图层类型判断是否可以结束输入
                         switch (mTrackingLayer.FeatureType)
@@ -1287,6 +1290,11 @@ namespace GISDesign_ZY
                                 break;
                         }
                         Refresh();
+                    }
+                    else
+                    {
+                        _polylines.Clear();
+                        _polygon.Clear();
                     }
                     break;
             }
