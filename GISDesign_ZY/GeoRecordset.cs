@@ -209,6 +209,7 @@ namespace ClassLibraryIofly
                         Record temprecord = records.Item(i).Clone();
                         temprecord.Append(i);
                         newRecords.Append(temprecord);
+                        break;
                     }
 
                 }
@@ -221,6 +222,7 @@ namespace ClassLibraryIofly
                         temprecord.Append(i);
                         newRecords.Append(temprecord);
                         //newRecords.Append(records.Item(i));
+                        break;
                     }
                 }
                 else if (valuetype == typeof(MultiPolygon).Name)
@@ -232,6 +234,8 @@ namespace ClassLibraryIofly
                         temprecord.Append(i);
                         newRecords.Append(temprecord);
                         //newRecords.Append(records.Item(i));
+                        break;
+
                     }
                 }
                 else if (valuetype == typeof(Polyline).Name)
@@ -243,6 +247,7 @@ namespace ClassLibraryIofly
                         temprecord.Append(i);
                         newRecords.Append(temprecord);
                         //newRecords.Append(records.Item(i));
+                        break;
                     }
                 }
                 else if(valuetype == typeof(MultiPolyline).Name)
@@ -254,6 +259,7 @@ namespace ClassLibraryIofly
                         temprecord.Append(i);
                         newRecords.Append(temprecord);
                         //newRecords.Append(records.Item(i));
+                        break;
                     }
                 }
             }
