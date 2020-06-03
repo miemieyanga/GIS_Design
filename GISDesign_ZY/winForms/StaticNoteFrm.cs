@@ -132,6 +132,7 @@ namespace GISDesign_ZY.winForms
             ShowView();
             ShowFont();
             ShowColor();
+            ShowBackColor();
         }
 
         #endregion

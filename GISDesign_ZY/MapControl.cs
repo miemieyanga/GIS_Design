@@ -225,6 +225,8 @@ namespace GISDesign_ZY
         /// </summary>
         public void TrackFeature(Layer trackLayer)
         {
+            _polygon.Clear();
+            _polylines.Clear();
             mMapOpStyle = 6; //记录操作状态
             this.Cursor = mCur_Cross; //更改光标
             mTrackingLayer = trackLayer;
@@ -300,7 +302,7 @@ namespace GISDesign_ZY
                         _polygon.Add(new Polygon(pts));
                         objs[1] = new MultiPolygon(_polygon.ToArray());
                         Record record = new Record(objs);
-                        if (_polylines.Count > 1)
+                        if (_polygon.Count > 1)
                             layer.MRecords.records.Delete(layer.MRecords.records.Count() - 1);
                         layer.MRecords.records.Append(record);
                         break;
@@ -1033,7 +1035,7 @@ namespace GISDesign_ZY
                                     mEditingLayer.MRecords.records.Append(r);
                                     //记录节点序号
                                     EditIndex[0] = j;
-                                    EditIndex[0] = k;
+                                    EditIndex[1] = k;
                                     break;
                                 }
                             }
@@ -1085,7 +1087,7 @@ namespace GISDesign_ZY
                                     mEditingLayer.MRecords.records.Append(r);
                                     //记录节点序号
                                     EditIndex[0] = j;
-                                    EditIndex[0] = k;
+                                    EditIndex[1] = k;
                                     break;
                                 }
                             }
@@ -1141,14 +1143,14 @@ namespace GISDesign_ZY
                         {
                             if (i == EditIndex[0])
                             {
-                                Polyline polyline = multipolyline.GetPolyline(i).Clone();
+                                Polyline polyline = multipolyline.GetPolyline(i);
                                 PointD[] pts = new PointD[polyline.PointCount];
                                 for (int j = 0; j < polyline.PointCount; j++)
                                 {
                                     if (j == EditIndex[1])
                                         pts[j] = MouseMapPosition;
                                     else
-                                        pts[j] = polyline.GetPointD(i);
+                                        pts[j] = polyline.GetPointD(j);
                                 }
                                 pls[i] = new Polyline(pts);
                             }
@@ -1192,14 +1194,14 @@ namespace GISDesign_ZY
                         {
                             if (i == EditIndex[0])
                             {
-                                Polygon polygon = multipolygon.GetPolygon(i).Clone();
+                                Polygon polygon = multipolygon.GetPolygon(i);
                                 PointD[] pts = new PointD[polygon.PointCount];
                                 for (int j = 0; j < polygon.PointCount; j++)
                                 {
                                     if (j == EditIndex[1])
                                         pts[j] = MouseMapPosition;
                                     else
-                                        pts[j] = polygon.GetPointD(i);
+                                        pts[j] = polygon.GetPointD(j);
                                 }
                                 pgs[i] = new Polygon(pts);
                             }
