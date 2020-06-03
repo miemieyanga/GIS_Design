@@ -332,15 +332,17 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusStrip1.AutoSize = false;
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusScale,
             this.statusPosition,
             this.statuSelected});
-            this.statusStrip1.Location = new System.Drawing.Point(124, 459);
+            this.statusStrip1.Location = new System.Drawing.Point(177, 470);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(802, 30);
+            this.statusStrip1.Size = new System.Drawing.Size(780, 30);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -352,7 +354,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.statusScale.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statusScale.Name = "statusScale";
-            this.statusScale.Size = new System.Drawing.Size(310, 25);
+            this.statusScale.Size = new System.Drawing.Size(300, 25);
             this.statusScale.Text = "1:1";
             this.statusScale.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
@@ -364,7 +366,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.statusPosition.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statusPosition.Name = "statusPosition";
-            this.statusPosition.Size = new System.Drawing.Size(310, 25);
+            this.statusPosition.Size = new System.Drawing.Size(300, 25);
             this.statusPosition.Text = "X:0.0, Y:0.0";
             // 
             // statuSelected
@@ -376,6 +378,7 @@
             this.statuSelected.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.statuSelected.Name = "statuSelected";
             this.statuSelected.Size = new System.Drawing.Size(165, 25);
+            this.statuSelected.Spring = true;
             this.statuSelected.Text = "(null)";
             // 
             // layerTreeView
@@ -386,7 +389,7 @@
             this.layerTreeView.Location = new System.Drawing.Point(0, 57);
             this.layerTreeView.Name = "layerTreeView";
             this.layerTreeView.SelectedImageIndex = 0;
-            this.layerTreeView.Size = new System.Drawing.Size(172, 432);
+            this.layerTreeView.Size = new System.Drawing.Size(172, 443);
             this.layerTreeView.TabIndex = 3;
             this.layerTreeView.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.TreeView1_DrawNode);
             this.layerTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.LayerTreeView_ItemDrag);
@@ -434,7 +437,7 @@
             this.新建.Image = ((System.Drawing.Image)(resources.GetObject("新建.Image")));
             this.新建.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.新建.Name = "新建";
-            this.新建.Size = new System.Drawing.Size(36, 27);
+            this.新建.Size = new System.Drawing.Size(36, 36);
             this.新建.Text = "新建";
             this.新建.ToolTipText = "新建";
             this.新建.Click += new System.EventHandler(this.toolStripButton1_Click_1);
@@ -445,7 +448,7 @@
             this.打开.Image = ((System.Drawing.Image)(resources.GetObject("打开.Image")));
             this.打开.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.打开.Name = "打开";
-            this.打开.Size = new System.Drawing.Size(36, 27);
+            this.打开.Size = new System.Drawing.Size(36, 36);
             this.打开.Text = "打开";
             this.打开.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -455,7 +458,7 @@
             this.保存.Image = ((System.Drawing.Image)(resources.GetObject("保存.Image")));
             this.保存.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.保存.Name = "保存";
-            this.保存.Size = new System.Drawing.Size(36, 27);
+            this.保存.Size = new System.Drawing.Size(36, 36);
             this.保存.Text = "保存";
             this.保存.Click += new System.EventHandler(this.保存_Click);
             // 
@@ -465,7 +468,7 @@
             this.添加数据.Image = ((System.Drawing.Image)(resources.GetObject("添加数据.Image")));
             this.添加数据.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.添加数据.Name = "添加数据";
-            this.添加数据.Size = new System.Drawing.Size(36, 27);
+            this.添加数据.Size = new System.Drawing.Size(36, 36);
             this.添加数据.Text = "添加数据";
             this.添加数据.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
@@ -475,7 +478,7 @@
             this.放大.Image = ((System.Drawing.Image)(resources.GetObject("放大.Image")));
             this.放大.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.放大.Name = "放大";
-            this.放大.Size = new System.Drawing.Size(36, 27);
+            this.放大.Size = new System.Drawing.Size(36, 36);
             this.放大.Text = "放大";
             this.放大.Click += new System.EventHandler(this.放大_Click);
             // 
@@ -485,7 +488,7 @@
             this.缩小.Image = ((System.Drawing.Image)(resources.GetObject("缩小.Image")));
             this.缩小.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.缩小.Name = "缩小";
-            this.缩小.Size = new System.Drawing.Size(36, 27);
+            this.缩小.Size = new System.Drawing.Size(36, 36);
             this.缩小.Text = "缩小";
             this.缩小.Click += new System.EventHandler(this.缩小_Click);
             // 
@@ -495,7 +498,7 @@
             this.平移.Image = ((System.Drawing.Image)(resources.GetObject("平移.Image")));
             this.平移.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.平移.Name = "平移";
-            this.平移.Size = new System.Drawing.Size(36, 27);
+            this.平移.Size = new System.Drawing.Size(36, 36);
             this.平移.Text = "平移";
             this.平移.Click += new System.EventHandler(this.平移_Click);
             // 
@@ -505,7 +508,7 @@
             this.固定比例放大.Image = ((System.Drawing.Image)(resources.GetObject("固定比例放大.Image")));
             this.固定比例放大.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.固定比例放大.Name = "固定比例放大";
-            this.固定比例放大.Size = new System.Drawing.Size(36, 27);
+            this.固定比例放大.Size = new System.Drawing.Size(36, 36);
             this.固定比例放大.Text = "固定比例放大";
             // 
             // 固定比例缩小
@@ -514,7 +517,7 @@
             this.固定比例缩小.Image = ((System.Drawing.Image)(resources.GetObject("固定比例缩小.Image")));
             this.固定比例缩小.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.固定比例缩小.Name = "固定比例缩小";
-            this.固定比例缩小.Size = new System.Drawing.Size(36, 27);
+            this.固定比例缩小.Size = new System.Drawing.Size(36, 36);
             this.固定比例缩小.Text = "固定比例缩小";
             // 
             // 选择要素
@@ -523,7 +526,7 @@
             this.选择要素.Image = ((System.Drawing.Image)(resources.GetObject("选择要素.Image")));
             this.选择要素.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.选择要素.Name = "选择要素";
-            this.选择要素.Size = new System.Drawing.Size(36, 27);
+            this.选择要素.Size = new System.Drawing.Size(36, 36);
             this.选择要素.Text = "选择要素";
             this.选择要素.Click += new System.EventHandler(this.选择要素_Click);
             // 
@@ -533,7 +536,7 @@
             this.识别.Image = ((System.Drawing.Image)(resources.GetObject("识别.Image")));
             this.识别.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.识别.Name = "识别";
-            this.识别.Size = new System.Drawing.Size(36, 27);
+            this.识别.Size = new System.Drawing.Size(36, 36);
             this.识别.Text = "识别";
             this.识别.Click += new System.EventHandler(this.识别_Click);
             // 
@@ -543,7 +546,7 @@
             this.转到XY.Image = ((System.Drawing.Image)(resources.GetObject("转到XY.Image")));
             this.转到XY.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.转到XY.Name = "转到XY";
-            this.转到XY.Size = new System.Drawing.Size(36, 27);
+            this.转到XY.Size = new System.Drawing.Size(36, 36);
             this.转到XY.Text = "转到XY";
             // 
             // openShapefileDialog
@@ -561,40 +564,40 @@
             this.删除图层ToolStripMenuItem,
             this.toolStripMenuItem1});
             this.layerContextMenuStrip.Name = "layerContextMenuStrip";
-            this.layerContextMenuStrip.Size = new System.Drawing.Size(181, 136);
+            this.layerContextMenuStrip.Size = new System.Drawing.Size(137, 114);
             // 
             // 属性ToolStripMenuItem
             // 
             this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
-            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.属性ToolStripMenuItem.Text = "属性";
             this.属性ToolStripMenuItem.Click += new System.EventHandler(this.属性ToolStripMenuItem_Click);
             // 
             // 打开属性表ToolStripMenuItem
             // 
             this.打开属性表ToolStripMenuItem.Name = "打开属性表ToolStripMenuItem";
-            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开属性表ToolStripMenuItem.Text = "打开属性表";
             this.打开属性表ToolStripMenuItem.Click += new System.EventHandler(this.打开属性表ToolStripMenuItem_Click);
             // 
             // 缩放至图层ToolStripMenuItem
             // 
             this.缩放至图层ToolStripMenuItem.Name = "缩放至图层ToolStripMenuItem";
-            this.缩放至图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.缩放至图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.缩放至图层ToolStripMenuItem.Text = "缩放至图层";
             this.缩放至图层ToolStripMenuItem.Click += new System.EventHandler(this.缩放至图层ToolStripMenuItem_Click);
             // 
             // 删除图层ToolStripMenuItem
             // 
             this.删除图层ToolStripMenuItem.Name = "删除图层ToolStripMenuItem";
-            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.删除图层ToolStripMenuItem.Text = "移除图层";
             this.删除图层ToolStripMenuItem.Click += new System.EventHandler(this.删除图层ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
             this.toolStripMenuItem1.Text = "添加标注";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
@@ -612,11 +615,11 @@
             this.mcMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.mcMap.Layers = new GISDesign_ZY.Layer[0];
             this.mcMap.Location = new System.Drawing.Point(177, 57);
-            this.mcMap.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.mcMap.Margin = new System.Windows.Forms.Padding(2);
             this.mcMap.Name = "mcMap";
             this.mcMap.SelectedLayers = new GISDesign_ZY.Layer[0];
             this.mcMap.SelfMouseWheel = true;
-            this.mcMap.Size = new System.Drawing.Size(780, 400);
+            this.mcMap.Size = new System.Drawing.Size(780, 411);
             this.mcMap.TabIndex = 5;
             this.mcMap.DisplayScaleChanged += new GISDesign_ZY.MapControl.DisplayScaleChangedHandle(this.McMap_DisplayScaleChanged);
             this.mcMap.SelectingByBoxFinished += new GISDesign_ZY.MapControl.SelectingByBoxFinishedHandle(this.McMap_SelectingByBoxFinished);

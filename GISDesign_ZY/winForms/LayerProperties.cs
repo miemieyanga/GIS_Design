@@ -110,6 +110,7 @@ namespace GISDesign_ZY
                 labelRendererValueCmb.SelectedIndex = 0;
             fontSizeTbx.Text = textSymbol.FontSize.ToString();
             fontNameCmb.Text = textSymbol.FontName;
+            labelValidBtn.Checked = curLayer.MLabelRender.Used;
 
             //TODO:简单渲染按钮设计
             Bitmap symbolBitmap = new Bitmap(symbolBtn.Width, symbolBtn.Height);

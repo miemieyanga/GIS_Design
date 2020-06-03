@@ -110,45 +110,8 @@ namespace GISDesign_ZY
 
             tempLayer.FeatureTypeString = tempLayer.MRecords.valueType;
             int cntOfRecords = tempLayer.MRecords.records.Count();
-            List<PointD> points = new List<PointD>();
-            switch (tempLayer.MRecords.valueType)
-            {
-                case "PointD":
-                    tempLayer.FeatureType = FeatureTypeConstant.PointD;
-
-                    for(int i=0;i< cntOfRecords; i++)
-                    {
-                        PointD curPointD = (PointD)tempLayer.MRecords.records.Item(i).Value(1);
-                        points.Add(curPointD);
-                    }
-                    break;
-                case "Polyline":
-                    tempLayer.FeatureType = FeatureTypeConstant.Polyline;
-
-                    for (int i = 0; i < cntOfRecords; i++)
-                    {
-                        Polyline curPolyline = (Polyline)tempLayer.MRecords.records.Item(i).Value(1);
-                        points.AddRange(curPolyline.points.ToList());
-                    }
-                    break;
-                case "Polygon":
-                    tempLayer.FeatureType = FeatureTypeConstant.Polygon;
-
-                    for (int i = 0; i < cntOfRecords; i++)
-                    {
-                        Polygon curPolyline = (Polygon)tempLayer.MRecords.records.Item(i).Value(1);
-                        points.AddRange(curPolyline.points.ToList());
-                    }
-                    break;
-                case "MultiPolygon":
-                    tempLayer.FeatureType = FeatureTypeConstant.MultiPolygon;
-                    break;
-                case "MultiPolyline":
-                    tempLayer.FeatureType = FeatureTypeConstant.MultiPolyline;
-                    break;
-            }
-
-            RectangleD mbr = GetMBR(points.ToArray());
+            tempLayer.SetLayerFeatureType(tempLayer.FeatureTypeString);
+            RectangleD mbr = tempLayer.GetExtent();
             tempLayer.SetExtent(mbr.MinX, mbr.MinY, mbr.MaxX, mbr.MaxY);
             tempLayer.MRenderer = RendererFactory.CreateSimpleRenderer(SymbolFactory.CreateSymbol(tempLayer.FeatureType));
             return tempLayer;

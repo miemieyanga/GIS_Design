@@ -162,6 +162,20 @@ namespace GISDesign_ZY
                         Polygon polygon = (Polygon)feature;
                         pointDs.AddRange(polygon.points);
                         break;
+                    case FeatureTypeConstant.MultiPolyline:
+                        MultiPolyline multiPolyline = (MultiPolyline)feature;
+                        foreach(Polyline pl in multiPolyline.polylines)
+                        {
+                            pointDs.AddRange(pl.points);
+                        }
+                        break;
+                    case FeatureTypeConstant.MultiPolygon:
+                        MultiPolygon multiPolygon = (MultiPolygon)feature;
+                        foreach (Polygon pg in multiPolygon.polygons)
+                        {
+                            pointDs.AddRange(pg.points);
+                        }
+                        break;
                 }
             }
             return GetMBR(pointDs.ToArray());
