@@ -79,6 +79,7 @@
             this.选择要素 = new System.Windows.Forms.ToolStripButton();
             this.识别 = new System.Windows.Forms.ToolStripButton();
             this.转到XY = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.openShapefileDialog = new System.Windows.Forms.OpenFileDialog();
             this.layerContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -423,7 +424,8 @@
             this.固定比例缩小,
             this.选择要素,
             this.识别,
-            this.转到XY});
+            this.转到XY,
+            this.toolStripButton1});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -437,7 +439,7 @@
             this.新建.Image = ((System.Drawing.Image)(resources.GetObject("新建.Image")));
             this.新建.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.新建.Name = "新建";
-            this.新建.Size = new System.Drawing.Size(36, 36);
+            this.新建.Size = new System.Drawing.Size(36, 27);
             this.新建.Text = "新建";
             this.新建.ToolTipText = "新建";
             this.新建.Click += new System.EventHandler(this.toolStripButton1_Click_1);
@@ -448,7 +450,7 @@
             this.打开.Image = ((System.Drawing.Image)(resources.GetObject("打开.Image")));
             this.打开.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.打开.Name = "打开";
-            this.打开.Size = new System.Drawing.Size(36, 36);
+            this.打开.Size = new System.Drawing.Size(36, 27);
             this.打开.Text = "打开";
             this.打开.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -458,7 +460,7 @@
             this.保存.Image = ((System.Drawing.Image)(resources.GetObject("保存.Image")));
             this.保存.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.保存.Name = "保存";
-            this.保存.Size = new System.Drawing.Size(36, 36);
+            this.保存.Size = new System.Drawing.Size(36, 27);
             this.保存.Text = "保存";
             this.保存.Click += new System.EventHandler(this.保存_Click);
             // 
@@ -468,7 +470,7 @@
             this.添加数据.Image = ((System.Drawing.Image)(resources.GetObject("添加数据.Image")));
             this.添加数据.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.添加数据.Name = "添加数据";
-            this.添加数据.Size = new System.Drawing.Size(36, 36);
+            this.添加数据.Size = new System.Drawing.Size(36, 27);
             this.添加数据.Text = "添加数据";
             this.添加数据.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
@@ -478,7 +480,7 @@
             this.放大.Image = ((System.Drawing.Image)(resources.GetObject("放大.Image")));
             this.放大.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.放大.Name = "放大";
-            this.放大.Size = new System.Drawing.Size(36, 36);
+            this.放大.Size = new System.Drawing.Size(36, 27);
             this.放大.Text = "放大";
             this.放大.Click += new System.EventHandler(this.放大_Click);
             // 
@@ -488,7 +490,7 @@
             this.缩小.Image = ((System.Drawing.Image)(resources.GetObject("缩小.Image")));
             this.缩小.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.缩小.Name = "缩小";
-            this.缩小.Size = new System.Drawing.Size(36, 36);
+            this.缩小.Size = new System.Drawing.Size(36, 27);
             this.缩小.Text = "缩小";
             this.缩小.Click += new System.EventHandler(this.缩小_Click);
             // 
@@ -498,7 +500,7 @@
             this.平移.Image = ((System.Drawing.Image)(resources.GetObject("平移.Image")));
             this.平移.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.平移.Name = "平移";
-            this.平移.Size = new System.Drawing.Size(36, 36);
+            this.平移.Size = new System.Drawing.Size(36, 27);
             this.平移.Text = "平移";
             this.平移.Click += new System.EventHandler(this.平移_Click);
             // 
@@ -508,7 +510,7 @@
             this.固定比例放大.Image = ((System.Drawing.Image)(resources.GetObject("固定比例放大.Image")));
             this.固定比例放大.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.固定比例放大.Name = "固定比例放大";
-            this.固定比例放大.Size = new System.Drawing.Size(36, 36);
+            this.固定比例放大.Size = new System.Drawing.Size(36, 27);
             this.固定比例放大.Text = "固定比例放大";
             // 
             // 固定比例缩小
@@ -517,7 +519,7 @@
             this.固定比例缩小.Image = ((System.Drawing.Image)(resources.GetObject("固定比例缩小.Image")));
             this.固定比例缩小.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.固定比例缩小.Name = "固定比例缩小";
-            this.固定比例缩小.Size = new System.Drawing.Size(36, 36);
+            this.固定比例缩小.Size = new System.Drawing.Size(36, 27);
             this.固定比例缩小.Text = "固定比例缩小";
             // 
             // 选择要素
@@ -526,7 +528,7 @@
             this.选择要素.Image = ((System.Drawing.Image)(resources.GetObject("选择要素.Image")));
             this.选择要素.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.选择要素.Name = "选择要素";
-            this.选择要素.Size = new System.Drawing.Size(36, 36);
+            this.选择要素.Size = new System.Drawing.Size(36, 27);
             this.选择要素.Text = "选择要素";
             this.选择要素.Click += new System.EventHandler(this.选择要素_Click);
             // 
@@ -536,7 +538,7 @@
             this.识别.Image = ((System.Drawing.Image)(resources.GetObject("识别.Image")));
             this.识别.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.识别.Name = "识别";
-            this.识别.Size = new System.Drawing.Size(36, 36);
+            this.识别.Size = new System.Drawing.Size(36, 27);
             this.识别.Text = "识别";
             this.识别.Click += new System.EventHandler(this.识别_Click);
             // 
@@ -546,8 +548,18 @@
             this.转到XY.Image = ((System.Drawing.Image)(resources.GetObject("转到XY.Image")));
             this.转到XY.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.转到XY.Name = "转到XY";
-            this.转到XY.Size = new System.Drawing.Size(36, 36);
+            this.转到XY.Size = new System.Drawing.Size(36, 27);
             this.转到XY.Text = "转到XY";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::GISDesign_ZY.Properties.Resources.cancel;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(36, 27);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click_2);
             // 
             // openShapefileDialog
             // 
@@ -640,6 +652,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximumSize = new System.Drawing.Size(973, 537);
             this.Name = "mainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AntMap";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip.ResumeLayout(false);
@@ -715,6 +728,7 @@
         private System.Windows.Forms.ToolStripMenuItem 删除图层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 清除所选要素ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

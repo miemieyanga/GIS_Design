@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Recall\RecallClass.cs" />
     <Compile Include="DrawSymbol.cs" />
     <Compile Include="enum.cs" />
     <Compile Include="GeoBasicClass.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="LabelRenderer\LabelRenderer.cs" />
     <Compile Include="Label\Label.cs" />
     <Compile Include="Layer.cs" />
-    <Compile Include="ObjToString.cs" />
+    <Compile Include="Recall\ObjToString.cs" />
     <Compile Include="winForms\AddFeatureFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +234,7 @@
     <None Include="地图\map.shp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="icon\cancel.jpg" />
     <Content Include="icon\Cross.ico" />
     <Content Include="icon\cross.png" />
     <Content Include="icon\Dot.png" />

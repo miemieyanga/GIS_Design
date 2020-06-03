@@ -22,6 +22,7 @@ namespace GISFinal
 
         private MapManager map;
         private bool IsIdentify=false;
+        private RecallClass recall;
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace GISFinal
         {
             map = new MapManager();
             mcMap._Layers = map.Layers;
+            recall = new RecallClass();
             ShowScale();
         }
 
@@ -102,6 +104,7 @@ namespace GISFinal
                 Layer cl = map.Layers[map.Layers.Count - 1];
                 map.projection.LngLatToXY(cl);
                 mcMap.Extent(map.Layers[map.Layers.Count - 1]);
+                recall.Regist(map);
             }
         }
 
@@ -239,11 +242,13 @@ namespace GISFinal
         private void DrawText(object sender)
         {
             mcMap.Refresh();
+            recall.Regist(map);
         }
 
         private void drawForTest(object s)
         {
             mcMap.Extent(map.GetLayerByName(layerTreeView.SelectedNode.Text));
+            recall.Regist(map);
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -537,6 +542,19 @@ namespace GISFinal
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             mcMap.AddLabels(map.GetLayerByName(layerTreeView.SelectedNode.Text));
+        }
+
+        private void ToolStripButton1_Click_2(object sender, EventArgs e)
+        {
+            if (!recall.IsValid())
+            {
+                return;
+            }
+
+            map = recall.ReturnToLastState();
+            AddMapToTreeView(map);
+            mcMap._Layers = map.Layers;
+            mcMap.Extent(map.GetExtent());
         }
     }
 }

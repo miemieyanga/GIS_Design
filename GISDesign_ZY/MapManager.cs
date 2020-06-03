@@ -57,13 +57,13 @@ namespace GISDesign_ZY
             {
                 RectangleD rectangleD = layer.GetExtent();
                 if (rectangleD.MinX < minX)
-                    minX = layer.MinX;
+                    minX = rectangleD.MinX;
                 if (rectangleD.MaxX > maxX)
-                    maxX = layer.MaxX;
+                    maxX = rectangleD.MaxX;
                 if (rectangleD.MinY < minY)
-                    minY = layer.MinY;
+                    minY = rectangleD.MinY;
                 if (rectangleD.MaxY > maxY)
-                    maxY = layer.MaxY;
+                    maxY = rectangleD.MaxY;
             }
             return new RectangleD(minX, minY, maxX, maxY);
         }

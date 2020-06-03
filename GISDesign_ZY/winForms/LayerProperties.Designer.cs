@@ -920,7 +920,7 @@
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.Name = "LayerProperties";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LayerProperties";
             this.Load += new System.EventHandler(this.LayerProperties_Load);
             this.tabControl1.ResumeLayout(false);

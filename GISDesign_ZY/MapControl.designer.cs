@@ -56,7 +56,7 @@
             this.picBCompass.ContextMenuStrip = this.cMSCompass;
             this.picBCompass.Image = global::GISDesign_ZY.Properties.Resources.zhibeizhen;
             this.picBCompass.Location = new System.Drawing.Point(13, 21);
-            this.picBCompass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBCompass.Margin = new System.Windows.Forms.Padding(2);
             this.picBCompass.Name = "picBCompass";
             this.picBCompass.Size = new System.Drawing.Size(48, 48);
             this.picBCompass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -157,13 +157,13 @@
             this.cMSLabel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.删除标注ToolStripMenuItem});
             this.cMSLabel.Name = "cMSLabel";
-            this.cMSLabel.Size = new System.Drawing.Size(181, 48);
+            this.cMSLabel.Size = new System.Drawing.Size(125, 26);
             this.cMSLabel.Opening += new System.ComponentModel.CancelEventHandler(this.CMSLabel_Opening_1);
             // 
             // 删除标注ToolStripMenuItem
             // 
             this.删除标注ToolStripMenuItem.Name = "删除标注ToolStripMenuItem";
-            this.删除标注ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.删除标注ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.删除标注ToolStripMenuItem.Text = "删除标注";
             this.删除标注ToolStripMenuItem.Click += new System.EventHandler(this.删除标注ToolStripMenuItem_Click);
             // 
@@ -176,7 +176,7 @@
             this.Controls.Add(this.lblScale);
             this.Controls.Add(this.picBCompass);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MapControl";
             this.Size = new System.Drawing.Size(73, 73);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MapControl_Paint);
