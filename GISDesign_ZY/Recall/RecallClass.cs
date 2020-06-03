@@ -55,16 +55,6 @@ namespace GISDesign_ZY
             {
                 sw.Write(objString);
             }
-        }
-
-        /// <summary>
-        /// 返回上一状态
-        /// </summary>
-        /// <returns></returns>
-        public MapManager ReturnToLastState()
-        {
-            if (StateID <= 0)
-                throw new Exception("没有上一状态");
 
             //删除10次操作前的文件
             if (StateID > 10)
@@ -75,6 +65,16 @@ namespace GISDesign_ZY
                     File.Delete(curPath);//直接删除其中的文件 
                 }
             }
+        }
+
+        /// <summary>
+        /// 返回上一状态
+        /// </summary>
+        /// <returns></returns>
+        public MapManager ReturnToLastState()
+        {
+            if (StateID <= 0)
+                throw new Exception("没有上一状态");
 
             //返回上一状态
             StateID -= 1;
@@ -94,7 +94,7 @@ namespace GISDesign_ZY
 
         public bool IsValid()
         {
-            string curPath = tempFilePath + "/" + tempFilePath.ToString() + ".atp";
+            string curPath = tempFilePath + "/" + (StateID-1).ToString() + ".atp";
             return File.Exists(curPath);
         }
     }
