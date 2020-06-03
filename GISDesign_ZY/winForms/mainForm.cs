@@ -524,6 +524,7 @@ namespace GISFinal
             map.DelLayerByName(layerTreeView.SelectedNode.Text);
             layerTreeView.Nodes[0].Nodes.Remove(layerTreeView.SelectedNode);
             mcMap.Refresh();
+            recall.Regist(map);
         }
 
         private void 识别_Click(object sender, EventArgs e)

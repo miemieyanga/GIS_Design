@@ -21,23 +21,35 @@ namespace GISDesign_ZY
         /// </summary>
         public static int StateID = -1;
 
-        public RecallClass(string path = "./temp")
+        public Dictionary<int, string> States;
+
+        public string mode;
+
+        public RecallClass(string path = "./temp", string m = "neicun")
         {
-            tempFilePath = path;
-            if (!Directory.Exists(path))
+            mode = m;
+            if (m == "neicun")
             {
-                Directory.CreateDirectory(path);
+                States = new Dictionary<int, string>();
             }
             else
             {
-                foreach (string d in Directory.GetFileSystemEntries(path))
+                tempFilePath = path;
+                if (!Directory.Exists(path))
                 {
-                    if (File.Exists(d))
+                    Directory.CreateDirectory(path);
+                }
+                else
+                {
+                    foreach (string d in Directory.GetFileSystemEntries(path))
                     {
-                        FileInfo fi = new FileInfo(d);
-                        if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
-                            fi.Attributes = FileAttributes.Normal;
-                        File.Delete(d);//直接删除其中的文件 
+                        if (File.Exists(d))
+                        {
+                            FileInfo fi = new FileInfo(d);
+                            if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
+                                fi.Attributes = FileAttributes.Normal;
+                            File.Delete(d);//直接删除其中的文件 
+                        }
                     }
                 }
             }
@@ -51,18 +63,36 @@ namespace GISDesign_ZY
         {
             StateID += 1;
             string objString = ObjToString.ObjectToString(map);
-            using(StreamWriter sw = new StreamWriter(tempFilePath+"/"+StateID.ToString()+".atp"))
+            if (mode == "neicun")
             {
-                sw.Write(objString);
-            }
+                if (States.ContainsKey(StateID))
+                    States[StateID] = objString;
+                else
+                    States.Add(StateID, objString);
 
-            //删除10次操作前的文件
-            if (StateID > 10)
-            {
-                for (int i = 0; i < StateID - 10; i++)
+                if (States.Count > 10)
                 {
-                    string curPath = tempFilePath + "/" + i.ToString() + ".atp";
-                    File.Delete(curPath);//直接删除其中的文件 
+                    for (int i = 0; i < StateID - 10; i++)
+                    {
+                        States.Remove(i);
+                    }
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter(tempFilePath + "/" + StateID.ToString() + ".atp"))
+                {
+                    sw.Write(objString);
+                }
+
+                //删除10次操作前的文件
+                if (StateID > 10)
+                {
+                    for (int i = 0; i < StateID - 10; i++)
+                    {
+                        string curPath = tempFilePath + "/" + i.ToString() + ".atp";
+                        File.Delete(curPath);//直接删除其中的文件 
+                    }
                 }
             }
         }
@@ -79,10 +109,17 @@ namespace GISDesign_ZY
             //返回上一状态
             StateID -= 1;
             MapManager map = new MapManager();
-            using (StreamReader sr = new StreamReader(tempFilePath + "/" + StateID.ToString() + ".atp"))
+            if (mode == "neicun")
             {
-                string objString = sr.ReadToEnd();
-                map = ObjToString.StringToObject<MapManager>(objString);
+                map = ObjToString.StringToObject<MapManager>(States[StateID]);
+            }
+            else
+            {
+                using (StreamReader sr = new StreamReader(tempFilePath + "/" + StateID.ToString() + ".atp"))
+                {
+                    string objString = sr.ReadToEnd();
+                    map = ObjToString.StringToObject<MapManager>(objString);
+                }
             }
             return map;
         }
@@ -94,8 +131,15 @@ namespace GISDesign_ZY
 
         public bool IsValid()
         {
-            string curPath = tempFilePath + "/" + (StateID-1).ToString() + ".atp";
-            return File.Exists(curPath);
+            if (mode == "neicun")
+            {
+                return States.ContainsKey(StateID-1);
+            }
+            else
+            {
+                string curPath = tempFilePath + "/" + (StateID-1).ToString() + ".atp";
+                return File.Exists(curPath);
+            }
         }
     }
 }
